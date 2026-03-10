@@ -19,7 +19,7 @@ services:
       MYSQL_DATABASE: ieb_database
       MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - ieb-network
 
