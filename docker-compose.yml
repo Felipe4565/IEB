@@ -1,0 +1,28 @@
+services:
+  # Serveur Web avec PHP
+  php-apache:
+    image: php:8.2-apache
+    container_name: ieb_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - ieb-network
+
+  # Base de données MySQL
+  db:
+    image: mysql:8.0
+    container_name: ieb_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ieb_database
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+    networks:
+      - ieb-network
+
+networks:
+  ieb-network:
+    driver: bridge

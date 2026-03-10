@@ -1,0 +1,11 @@
+# Docker & OS
+.DS_Store
+Thumbs.db
+docker-compose.override.yml
+
+# Données de la base de données (si tu crées un volume local)
+mysql_data/
+
+# Logs et temporaires
+*.log
+.vscode/
