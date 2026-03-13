@@ -1,172 +1,122 @@
 /* =========================================
-   VARIABLES & RESET
+   1. POLICES & VARIABLES
    ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+
 :root {
-    --dark-wood: #1a1c14;    /* Fond très sombre de ton image */
-    --olive-grey: #4a4d41;   /* Ton vert/gris secondaire */
-    --light-beige: #f4f1ea;  /* Texte et contrastes clairs */
-    --gold-accent: #c5a67c;  /* Couleur dorée du logo et survol */
-    --footer-bg: #3b3e34;    /* Fond du footer */
+    --dark-wood: #4a4d41;      
+    --olive-darker: #3b3e34;   
+    --light-beige: #f4f1ea;    
+    --gold-accent: #c5a67c;    
+    --footer-bg: #23261a;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* =========================================
+   2. RESET & BASE
+   ========================================= */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: var(--dark-wood);
     color: var(--light-beige);
+    -webkit-font-smoothing: antialiased;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .container { 
-    width: 95%; 
+    width: 90%; 
     max-width: 1400px; 
     margin: 0 auto; 
 }
 
 /* =========================================
-   HEADER (Style de ton image de référence)
+   3. HEADER 
    ========================================= */
 .main-header {
-    background-color: var(--dark-wood);
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: var(--dark-wood); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(197, 166, 124, 0.15); 
     position: sticky;
     top: 0;
     z-index: 1000;
+    height: 120px; 
+    display: flex;
+    align-items: center;
 }
 
 .main-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 /* Bloc Logo */
 .logo {
-    display: flex;
-    flex-direction: column;
+    flex: 0 0 300px;
 }
 
-.logo a {
-    text-decoration: none;
-    color: var(--gold-accent);
+.logo img {
+    height: 95px;
+    width: auto;     
+    display: block;
+    mix-blend-mode: lighten; 
+    filter: brightness(1.1);
+    transition: var(--transition);
 }
 
-.logo .brand { 
-    font-size: 1.8rem; 
-    font-weight: bold; 
-    display: block; 
-    letter-spacing: 4px; 
-    line-height: 1;
+.logo img:hover {
+    transform: scale(1.02);
 }
 
-.logo .sub-brand { 
-    font-size: 0.6rem; 
-    text-transform: uppercase; 
-    letter-spacing: 1px;
-    margin-top: 4px;
-    color: var(--gold-accent);
-    opacity: 0.9;
+/* Menu de Navigation */
+.nav-menu {
+    flex: 2;
 }
 
-/* Menu de Navigation Central */
 .nav-menu ul {
     list-style: none;
     display: flex;
-    margin: 0;
-    padding: 0;
+    justify-content: center;
     align-items: center;
 }
 
-.nav-menu li {
-    display: flex;
-    align-items: center;
-}
-
-/* Séparateurs verticaux "|" */
 .nav-menu li:not(:last-child)::after {
     content: "|";
-    color: rgba(255, 255, 255, 0.2);
-    margin: 0 15px;
-    font-size: 0.8rem;
+    color: var(--gold-accent);
+    opacity: 0.3;
+    margin: 0 20px;
+    font-size: 0.7rem;
 }
 
 .nav-menu a {
     color: var(--light-beige);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.75rem; 
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s ease;
+    letter-spacing: 3px; 
+    font-weight: 500;
+    position: relative;
+    padding: 8px 0;
+    transition: var(--transition);
+    opacity: 0.85;
 }
 
 .nav-menu a:hover {
     color: var(--gold-accent);
+    opacity: 1;
+    letter-spacing: 3.3px;
 }
 
-/* Bouton Contact (Style Pilule Blanche) */
-.btn-contact-pill {
-    background-color: #ffffff;
-    color: #1a1c14;
-    padding: 10px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    border: 1px solid white;
-}
-
-.btn-contact-pill:hover {
-    background-color: transparent;
-    color: white;
-}
-
-/* =========================================
-   FOOTER
-   ========================================= */
-.main-footer {
-    background: var(--footer-bg);
-    padding: 60px 0 30px;
-    margin-top: 80px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-/* =========================================
-   RESPONSIVE (Mobile)
-   ========================================= */
-@media (max-width: 992px) {
-    .nav-menu {
-        display: none; /* Cache le menu sur mobile (à remplacer par un burger plus tard) */
-    }
-}
-
-.nav-menu a {
-    position: relative;
-    padding-bottom: 5px;
-}
-
-.nav-menu a::before {
+.nav-menu a::after {
     content: "";
     position: absolute;
     width: 0;
@@ -174,9 +124,97 @@ body {
     bottom: 0;
     left: 0;
     background-color: var(--gold-accent);
-    transition: width 0.3s ease;
+    transition: var(--transition);
 }
 
-.nav-menu a:hover::before {
+.nav-menu a:hover::after {
     width: 100%;
+}
+
+/* Bloc Bouton */
+.header-actions {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-contact-pill {
+    background-color: var(--light-beige);
+    color: #1a1c14;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    border: 1px solid var(--light-beige);
+}
+
+.btn-contact-pill:hover {
+    background-color: transparent;
+    color: var(--light-beige);
+    border-color: var(--gold-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   4. CONTENU PRINCIPAL (Hero Section)
+   ========================================= */
+.hero {
+    padding: 100px 0;
+    text-align: left;
+}
+
+.hero-subtitle {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-accent);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    max-width: 800px;
+}
+
+/* =========================================
+   5. FOOTER
+   ========================================= */
+.main-footer {
+    background-color: var(--footer-bg);
+    padding: 80px 0 40px;
+    margin-top: 100px;
+    border-top: 1px solid rgba(197, 166, 124, 0.1);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* =========================================
+   6. RESPONSIVE
+   ========================================= */
+@media (max-width: 1100px) {
+    .nav-menu { display: none; }
+    .main-header .container { justify-content: space-between; height: 90px; }
+    .logo, .header-actions { flex: 0 0 auto; }
 }
