@@ -161,17 +161,18 @@ body {
 }
 
 /* =========================================
-   4. CONTENU PRINCIPAL (Hero Section)
+   4. CONTENU PRINCIPAL 
    ========================================= */
 .hero-premium {
     position: relative;
     width: 100%;
     height: 65vh; 
-    min-height: 500px; 
+    min-height: 550px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    background-color: #1a1c14;
 }
 
 .video-bg-wrapper {
@@ -187,7 +188,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.7); 
+    filter: brightness(0.5) contrast(1.1); 
 }
 
 .video-overlay-dark {
@@ -196,7 +197,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+    background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
     z-index: 2;
 }
 
@@ -204,73 +205,93 @@ body {
     position: relative;
     z-index: 3;
     width: 100%;
-    text-align: center; 
+    text-align: center;
+    padding: 0 20px;
 }
 
 .top-announcement {
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
 .top-announcement p {
     text-transform: uppercase;
-    letter-spacing: 5px;
-    font-size: 0.75rem;
-    color: var(--light-beige);
-    opacity: 0.9;
+    letter-spacing: 6px;
+    font-size: 0.7rem;
+    color: var(--gold-accent); 
+    font-weight: 500;
 }
 
 .main-hero-text h1 {
-    font-size: 3.8rem; 
+    font-size: clamp(2.5rem, 5vw, 4rem); 
     line-height: 1.1;
     font-weight: 700;
     margin-bottom: 20px;
     color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
 .main-hero-text .subtitle {
-    color: var(--gold-accent);
+    color: var(--light-beige);
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     font-size: 0.8rem;
     display: block;
     margin-bottom: 10px;
+    opacity: 0.8;
 }
 
 .main-hero-text .description {
     font-size: 1.1rem;
-    max-width: 700px;
-    margin: 0 auto 35px;
+    max-width: 600px;
+    margin: 0 auto 40px;
     color: var(--light-beige);
     opacity: 0.9;
+    line-height: 1.8;
 }
 
 .hero-btns {
     display: flex;
     gap: 30px;
-    justify-content: center; 
-}
-
-.btn-link-gold, .btn-link-white {
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    padding: 10px 0;
-    transition: var(--transition);
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-link-gold { 
     color: var(--gold-accent); 
-    border-bottom: 2px solid var(--gold-accent); 
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--gold-accent);
+    padding-bottom: 5px;
+    transition: var(--transition);
 }
 
-.btn-link-white { 
-    color: #ffffff; 
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3); 
+.btn-devis-solid { 
+    background-color: var(--light-beige);
+    color: #1a1c14;
+    padding: 15px 35px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    border: 1px solid var(--light-beige);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-.btn-link-gold:hover, .btn-link-white:hover {
+.btn-devis-solid:hover {
+    background-color: transparent;
+    color: var(--light-beige);
+    border-color: var(--gold-accent);
+    transform: translateY(-3px);
+}
+
+.btn-link-gold:hover {
     opacity: 0.7;
-    border-bottom-color: transparent;
+    padding-left: 10px; 
 }
 /* =========================================
    5. FOOTER
