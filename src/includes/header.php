@@ -12,7 +12,7 @@
         <div class="container">
             <div class="logo">
                 <a href="index.php">
-                    <img src="assets/img/logo_ieb.png" alt="IEB - Intérieur Extérieur Bois">
+                    <img src="assets/img/logo_ieb.jpg" alt="IEB - Intérieur Extérieur Bois">
                 </a>
             </div>
 

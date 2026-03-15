@@ -65,10 +65,10 @@ body {
 }
 
 .logo img {
-    height: 95px;
+    height: 105px;
     width: auto;     
     display: block;
-    mix-blend-mode: lighten; 
+    /* mix-blend-mode: lighten; */
     filter: brightness(1.1);
     transition: var(--transition);
 }
