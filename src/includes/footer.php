@@ -1,20 +1,35 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <footer class="main-footer">
-    <div class="container">
-        <div class="footer-top-logo">
-            <img src="assets/img/logo_ieb.jpg" alt="Logo IEB" class="footer-logo-main">
+    <div class="footer-container">
+        
+        <div class="brand-identity">
+            <div class="brand-flex">
+                <img src="assets/img/logo_ieb.jpg" alt="Logo IEB" class="footer-logo">
+                <div class="vertical-divider"></div>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
         </div>
 
-        <div class="footer-content">
+        <div class="footer-main-grid">
+            
             <div class="footer-col">
-                <h3>Infos Entreprise</h3>
-                <p>Adresse :<br>4 RUE SAINT CLAUDE, 77340 PONTAULT-COMBAULT</p>
-                <p>Horaires d'ouverture :<br>Lun - Ven : 8h à 20h</p>
-                <a href="#" class="btn-footer-pill">Prendre un RDV</a>
+                <h4 class="col-title">Infos Entreprise</h4>
+                <div class="col-content">
+                    <p class="address">4 RUE SAINT CLAUDE<br>77340 PONTAULT-COMBAULT</p>
+                    <p class="schedule">Lun - Ven : 8h à 20h</p>
+                    <div class="btn-alignment">
+                        <a href="#" class="btn-gold-pill">Prendre un RDV</a>
+                    </div>
+                </div>
             </div>
 
             <div class="footer-col">
-                <h3>Nos Réalisations</h3>
-                <ul>
+                <h4 class="col-title">Nos Réalisations</h4>
+                <ul class="clean-list">
                     <li><a href="#">Intérieur</a></li>
                     <li><a href="#">Extérieur</a></li>
                     <li><a href="#">Nos meubles</a></li>
@@ -23,14 +38,14 @@
             </div>
 
             <div class="footer-col">
-                <h3>Service Clients & Infos</h3>
-                <div class="footer-double-list">
-                    <ul>
+                <h4 class="col-title">Service Clients</h4>
+                <div class="sub-grid-lists">
+                    <ul class="clean-list">
                         <li><a href="#">Nous contacter</a></li>
                         <li><a href="#">FAQ</a></li>
-                        <li><a href="#">S'identifier / S'inscrire</a></li>
+                        <li><a href="#">S'identifier</a></li>
                     </ul>
-                    <ul>
+                    <ul class="clean-list">
                         <li><a href="#">Livraison & Pose</a></li>
                         <li><a href="#">Devis gratuit</a></li>
                         <li><a href="#">Mentions Légales</a></li>
@@ -38,21 +53,21 @@
                     </ul>
                 </div>
             </div>
+
         </div>
 
-        <div class="footer-contact-bar">
-            <span>06 21 08 06 22</span>
-            <span>interieurexterieurbois@orange.fr</span>
-            <div class="footer-socials">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-pinterest"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
+        <div class="footer-bottom-bar">
+            <div class="legal-flex">
+                <div class="contact-details">
+                    <a href="tel:0621080622">06 21 08 06 22</a>
+                    <span class="dot-sep"></span>
+                    <a href="mailto:interieurexterieurbois@orange.fr">interieurexterieurbois@orange.fr</a>
+                </div>
+                <div class="payment-icons">
+                    <img src="assets/img/visa-mastercard.jpg" alt="Paiement sécurisé" class="img-pay">
+                </div>
             </div>
-            <img src="assets/img/visa-mastercard.jpg" alt="Paiement" class="footer-payment-icon">
-        </div>
-
-        <div class="footer-copyright">
-            <p>&copy; 2026 INTÉRIEUR EXTÉRIEUR BOIS | CRÉATION SIGNÉE PAR FELIPE ALVARIZA (F-express)</p>
+            <p class="copyright">&copy; 2026 INTÉRIEUR EXTÉRIEUR BOIS | CRÉATION FELIPE ALVARIZA</p>
         </div>
     </div>
 </footer>
