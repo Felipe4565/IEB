@@ -71,3 +71,31 @@
         </div>
     </div>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const triggers = document.querySelectorAll('.drawer-trigger');
+    const factContents = document.querySelectorAll('.fact-content');
+    const mainImg = document.getElementById('main-furniture');
+
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const targetFact = this.getAttribute('data-fact');
+
+            // 1. Désactiver tous les textes
+            factContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 2. Activer le texte correspondant
+            const activeContent = document.getElementById(targetFact);
+            if(activeContent) {
+                activeContent.classList.add('active');
+            }
+
+            this.style.fill = "rgba(197, 166, 124, 0.4)";
+            setTimeout(() => { this.style.fill = "transparent"; }, 300);
+        });
+    });
+});
+</script>

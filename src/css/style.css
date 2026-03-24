@@ -1,15 +1,15 @@
 /* =========================================
    1. POLICES & VARIABLES
    ========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
 
 :root {
-    --dark-wood: #4a4d41;      
-    --olive-darker: #3b3e34;   
+    --dark-wood: #1a1c14;     
+    --olive-darker: #151710;   
     --light-beige: #f4f1ea;    
     --gold-accent: #c5a67c;    
-    --footer-bg: #23261a;
-    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --footer-bg: #080806;
+    --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 /* =========================================
@@ -28,6 +28,12 @@ body {
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+/* On force les titres en police Serif pour le contraste luxe */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
 }
 
 .container { 
@@ -100,14 +106,14 @@ body {
 .nav-menu a {
     color: var(--light-beige);
     text-decoration: none;
-    font-size: 0.75rem; 
+    font-size: 0.7rem; 
     text-transform: uppercase;
-    letter-spacing: 3px; 
-    font-weight: 500;
+    letter-spacing: 4.5px; 
+    font-weight: 400;
     position: relative;
     padding: 8px 0;
     transition: var(--transition);
-    opacity: 0.85;
+    opacity: 0.7;
 }
 
 .nav-menu a:hover {
@@ -139,17 +145,17 @@ body {
 }
 
 .btn-contact-pill {
-    background-color: var(--light-beige);
-    color: #1a1c14;
-    padding: 15px 40px;
-    border-radius: 50px;
+    background-color: transparent; /* Fond transparent pour plus de finesse */
+    color: var(--gold-accent);
+    padding: 12px 35px;
+    border-radius: 4px; /* Carré adouci, plus artisanal que le rond */
     text-decoration: none;
-    font-weight: 700;
-    font-size: 0.75rem;
+    font-weight: 600;
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     transition: var(--transition);
-    border: 1px solid var(--light-beige);
+    border: 1px solid var(--gold-accent);
 }
 
 .btn-contact-pill:hover {
@@ -293,8 +299,170 @@ body {
     opacity: 0.7;
     padding-left: 10px; 
 }
+
 /* =========================================
-   5. FOOTER
+   5. SECTION GALERIE (FOND VERT)
+   ========================================= */
+
+.section-gallery {
+    /* Dégradé qui part du centre pour éclairer tes créations */
+    background: radial-gradient(circle at center, #23261a 0%, #1a1c14 100%);
+    padding: 120px 0;
+    text-align: center;
+    color: #ffffff;
+}
+
+.gallery-intro {
+    margin-bottom: 80px;
+}
+
+.gallery-intro h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem); 
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.gallery-intro .gold-subtitle {
+    color: var(--gold-accent);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+/* Grille des 3 blocs */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Cadre doré avec effet de survol */
+.image-box {
+    position: relative;
+    border: 1px solid var(--gold-accent);
+    padding: 12px;
+    margin-bottom: 30px;
+    overflow: hidden; /* Important pour le zoom de l'image */
+    transition: all 0.4s ease;
+}
+
+.image-box img {
+    width: 100%;
+    height: 400px; /* Hauteur ajustée pour un look plus élancé */
+    object-fit: cover;
+    filter: brightness(0.85);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease;
+}
+
+/* Effets au survol du bloc */
+.gallery-item:hover .image-box {
+    border-color: #ffffff; /* Le cadre passe en blanc ou or brillant au survol */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.gallery-item:hover .image-box img {
+    transform: scale(1.08); /* Zoom subtil et élégant */
+    filter: brightness(1.05);
+}
+
+/* Typographie des blocs */
+.gallery-item h3 {
+    color: var(--gold-accent);
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    letter-spacing: 2.5px;
+    margin-bottom: 12px;
+    transition: 0.3s;
+}
+
+.gallery-item p {
+    color: var(--light-beige);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    opacity: 0.9; /* Plus lisible que la version précédente */
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* =========================================
+   5.1 Meuble interactif
+   ========================================= */
+.furniture-experience {
+    background-color: #1a1c14;
+    padding: 100px 0;
+    color: #ffffff;
+}
+
+.interactive-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-top: 50px;
+}
+
+.furniture-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.furniture-wrapper img {
+    width: 100%;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+}
+
+.interaction-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.drawer-trigger {
+    fill: transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.drawer-trigger:hover {
+    fill: rgba(197, 166, 124, 0.2); /* Reflet doré au survol */
+}
+
+.fact-panel {
+    flex: 0 0 380px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px); /* Flou d'arrière-plan premium */
+    border: 1px solid rgba(197, 166, 124, 0.1);
+    border-left: 4px solid var(--gold-accent);
+    padding: 40px;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.3);
+}
+
+.fact-content {
+    display: none;
+    animation: fadeIn 0.5s forwards;
+}
+
+.fact-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+/* =========================================
+   6. FOOTER
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -464,7 +632,7 @@ body {
 }
 
 /* =========================================
-   6. RESPONSIVE
+   7. RESPONSIVE
    ========================================= */
 @media (max-width: 1100px) {
     .nav-menu { display: none; }
