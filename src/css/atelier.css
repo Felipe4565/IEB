@@ -1,0 +1,11 @@
+/* Hero spécifique */
+.hero-entreprise {
+    background-image: url('/images/entreprise/hero.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Galerie entreprise */
+.entreprise-gallery .gallery-item h3 {
+    color: #c5a67c; /* accent doré pour cette page */
+}
