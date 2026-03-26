@@ -76,24 +76,38 @@
 document.addEventListener('DOMContentLoaded', function() {
     const triggers = document.querySelectorAll('.drawer-trigger');
     const factContents = document.querySelectorAll('.fact-content');
+    const defaultFact = document.getElementById('default-fact');
     const mainImg = document.getElementById('main-furniture');
+    
+    let currentOpenDrawer = null;
 
     triggers.forEach(trigger => {
         trigger.addEventListener('click', function() {
-            const targetFact = this.getAttribute('data-fact');
+            const targetFactId = this.getAttribute('data-fact');
+            const drawerNumber = targetFactId.replace('fact', '');
 
-            // 1. Désactiver tous les textes
-            factContents.forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // 2. Activer le texte correspondant
-            const activeContent = document.getElementById(targetFact);
-            if(activeContent) {
-                activeContent.classList.add('active');
+            // Si on clique sur le tiroir déjà ouvert -> on ferme tout
+            if (currentOpenDrawer === drawerNumber) {
+                mainImg.src = 'assets/img/meuble_close.png';
+                factContents.forEach(c => c.classList.remove('active'));
+                if(defaultFact) defaultFact.classList.add('active');
+                currentOpenDrawer = null;
+            } 
+            // Sinon -> on ouvre le nouveau tiroir
+            else {
+                mainImg.src = 'assets/img/meuble_open' + drawerNumber + '.png';
+                
+                factContents.forEach(c => c.classList.remove('active'));
+                const activeContent = document.getElementById(targetFactId);
+                if(activeContent) {
+                    activeContent.classList.add('active');
+                }
+                
+                currentOpenDrawer = drawerNumber;
             }
 
-            this.style.fill = "rgba(197, 166, 124, 0.4)";
+            // Effet visuel de clic
+            this.style.fill = "rgba(197, 166, 124, 0.3)";
             setTimeout(() => { this.style.fill = "transparent"; }, 300);
         });
     });

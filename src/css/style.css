@@ -4,12 +4,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
 
 :root {
-    --dark-wood: #1a1c14;     
-    --olive-darker: #151710;   
+    --dark-wood: #0d0e0a;      /* Un noir plus profond et luxueux */
+    --bg-light: #161811;       /* Une nuance pour les sections en alternance */
     --light-beige: #f4f1ea;    
     --gold-accent: #c5a67c;    
-    --footer-bg: #080806;
-    --transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    --gold-glow: rgba(197, 166, 124, 0.3);
+    --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Transition plus "soyeuse" */
+}
+
+.card-premium {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(197,166,124,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 }
 
 /* =========================================
@@ -23,7 +29,13 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--dark-wood);
+    background: linear-gradient(
+        to bottom,
+        #0d0e0a 0%,
+        #141610 30%,
+        #161811 60%,
+        #1a1c14 100%
+    );
     color: var(--light-beige);
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
@@ -181,6 +193,16 @@ h1, h2, h3 {
     background-color: #1a1c14;
 }
 
+.hero-premium::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, #141610);
+    z-index: 2;
+}
+
 .video-bg-wrapper {
     position: absolute;
     top: 0;
@@ -299,6 +321,11 @@ h1, h2, h3 {
     opacity: 0.7;
     padding-left: 10px; 
 }
+/* Transition fluide entre sections */
+section {
+    position: relative;
+    overflow: hidden;
+}
 
 /* =========================================
    5. SECTION GALERIE (FOND VERT)
@@ -306,10 +333,13 @@ h1, h2, h3 {
 
 .section-gallery {
     /* Dégradé qui part du centre pour éclairer tes créations */
-    background: radial-gradient(circle at center, #23261a 0%, #1a1c14 100%);
-    padding: 120px 0;
+    background: transparent;
+    padding: 100px 0 80px;
     text-align: center;
     color: #ffffff;
+    margin-top: -60px;
+    position: relative;
+    z-index: 5;
 }
 
 .gallery-intro {
@@ -368,8 +398,8 @@ h1, h2, h3 {
 }
 
 .gallery-item:hover .image-box img {
-    transform: scale(1.08); /* Zoom subtil et élégant */
-    filter: brightness(1.05);
+    transform: scale(1.08);
+    filter: brightness(1.1) contrast(1.05);
 }
 
 /* Typographie des blocs */
@@ -392,75 +422,261 @@ h1, h2, h3 {
 }
 
 /* =========================================
-   5.1 Meuble interactif
+   5.1 Meuble Interactif - VERSION MAGNIFIQUE
    ========================================= */
+
 .furniture-experience {
-    background-color: #1a1c14;
-    padding: 100px 0;
+    background-color: var(--dark-wood);
+    padding: 80px 0 60px;
     color: #ffffff;
+    position: relative;
+    overflow: visible; /* Permet aux ombres de déborder proprement */
+}
+
+/* --- EFFET STUDIO (Lumière derrière le meuble) --- */
+.furniture-experience::before {
+    content: "";
+    position: absolute;
+    top: 55%;
+    left: 35%;
+    width: 650px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(197, 166, 124, 0.12) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .interactive-container {
     display: flex;
     align-items: center;
-    gap: 50px;
+    justify-content: center;
+    gap: 0; /* On gère l'espace par marges pour la superposition */
     margin-top: 50px;
+    position: relative;
+    z-index: 2;
 }
 
+/* --- LE MEUBLE --- */
 .furniture-wrapper {
     position: relative;
-    flex: 1;
+    flex: 1.3; /* Le meuble prend plus de place */
+    line-height: 0;
+    display: flex;
+    align-items: flex-end;
+    margin-right: -60px; /* SUPERPOSITION : Le meuble glisse sous le panneau */
 }
 
 .furniture-wrapper img {
     width: 100%;
-    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+    height: auto;
+    display: block;
+    filter: drop-shadow(0px 30px 50px rgba(0,0,0,0.9)); /* Ombre portée au sol */
+    transition: var(--transition);
 }
 
 .interaction-layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 10;
 }
 
+/* --- ZONES DE CLIC --- */
 .drawer-trigger {
     fill: transparent;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.4s ease;
+    pointer-events: all;
 }
 
 .drawer-trigger:hover {
-    fill: rgba(197, 166, 124, 0.2); /* Reflet doré au survol */
+    fill: rgba(255, 255, 255, 0.05); /* Halo interne discret sur le tiroir */
 }
 
+/* --- PANNEAU GLASSMORPHISM (L'effet "Verre") --- */
 .fact-panel {
-    flex: 0 0 380px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px); /* Flou d'arrière-plan premium */
-    border: 1px solid rgba(197, 166, 124, 0.1);
+    flex: 0 0 420px;
+    background: rgba(255, 255, 255, 0.03); /* Transparence */
+    backdrop-filter: blur(20px); /* Flou artistique intense */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(197, 166, 124, 0.15); /* Bordure or fine */
     border-left: 4px solid var(--gold-accent);
-    padding: 40px;
-    min-height: 250px;
+    padding: 50px;
+    min-height: 350px;
     display: flex;
-    align-items: center;
-    box-shadow: 20px 20px 60px rgba(0,0,0,0.3);
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border-radius: 2px;
 }
 
+/* --- TYPOGRAPHIE & ANIMATIONS --- */
 .fact-content {
     display: none;
-    animation: fadeIn 0.5s forwards;
+    opacity: 0;
 }
 
 .fact-content.active {
     display: block;
+    animation: fadeInSlidePremium 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+@keyframes fadeInSlidePremium {
+    from { 
+        opacity: 0; 
+        transform: translateX(30px) scale(0.98); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0) scale(1); 
+    }
 }
+
+.fact-content h3 {
+    color: var(--gold-accent);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+}
+
+.fact-content p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(244, 241, 234, 0.8);
+}
+
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+    .interactive-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+    .furniture-wrapper {
+        margin-right: 0;
+        width: 100%;
+    }
+    .fact-panel {
+        flex: none;
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
+
+/* --- Section Contact --- */
+
+/* --- La Section Parent --- */
+.contact-split-container {
+    background-color: transparent;
+    padding: 100px 0 120px;   
+    display: flex;
+    justify-content: center;
+}
+
+.container-contact-wrapper {
+    display: flex;
+    width: 90%;
+    max-width: 1300px;
+    gap: 40px; /* Espace entre le formulaire et la carte */
+    align-items: stretch;
+}
+
+/* --- Colonne Formulaire --- */
+.contact-column-form {
+    flex: 1; /* Prend 50% */
+    display: flex;
+    justify-content: flex-end; /* Pousse vers le milieu */
+}
+
+.floating-contact-card {
+    background: rgba(255,255,255,0.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    padding: 60px;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid rgba(197, 166, 124, 0.1);
+    border-radius: 2px;
+}
+
+/* --- Colonne Carte --- */
+.contact-column-map {
+    flex: 1; /* Prend 50% */
+}
+
+.map-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 550px;
+    border: 1px solid rgba(197, 166, 124, 0.1);
+    overflow: hidden;
+}
+
+.map-inner iframe {
+    width: 100%;
+    height: 100%;
+    filter: grayscale(1) invert(0.9) contrast(1.2) opacity(0.7);
+}
+
+/* Dégradé pour intégrer la carte au fond noir sur les bords */
+.map-overlay-gradient {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 40%, #1a1c14 110%);
+    pointer-events: none;
+}
+
+/* --- Détails Formulaire --- */
+.gold-line {
+    width: 40px;
+    height: 2px;
+    background: #c5a67c;
+    margin: 15px 0 35px 0;
+}
+
+.premium-dark-form input, 
+.premium-dark-form textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 18px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(197, 166, 124, 0.15);
+    color: white;
+    font-size: 0.95rem;
+}
+
+.btn-gold {
+    width: 100%;
+    padding: 20px;
+    background: #c5a67c;
+    color: #141610;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.btn-gold:hover {
+    background: #fff;
+    transform: translateY(-5px);
+}
+
+/* --- Mobile --- */
+@media (max-width: 992px) {
+    .container-contact-wrapper {
+        flex-direction: column;
+    }
+    .contact-column-map {
+        order: -1; /* Carte au-dessus sur mobile */
+    }
+    .map-inner { min-height: 350px; }
+}
+
+
 /* =========================================
    6. FOOTER
    ========================================= */
@@ -638,4 +854,21 @@ h1, h2, h3 {
     .nav-menu { display: none; }
     .main-header .container { justify-content: space-between; height: 90px; }
     .logo, .header-actions { flex: 0 0 auto; }
+}
+
+/* --- LA TOUCHE FINALE --- */
+
+/* Lissage du scroll pour l'élégance */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Amélioration du contraste typographique */
+h1, h2 {
+    letter-spacing: -0.02em; /* Pour un look plus éditorial/magazine */
+}
+
+/* Suppression des bordures trop nettes */
+.image-box, .floating-contact-card, .map-inner {
+    border: 1px solid rgba(197, 166, 124, 0.08) !important;
 }
