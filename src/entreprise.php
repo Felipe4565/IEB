@@ -53,9 +53,23 @@ include('includes/header.php');
 
     <section class="entreprise-labels container">
         <div class="labels-wrapper">
-            <div class="label-box"><span>PEFC</span><p>Gestion Durable</p></div>
-            <div class="label-box"><span>Artisan d'Art</span><p>Reconnaissance</p></div>
-            <div class="label-box"><span>Made in IDF</span><p>Circuit Court</p></div>
+        <div class="label-box">
+            <img src="assets/img/icon_exp.png" alt="Expérience">
+            <span>+20 ans d'expérience</span>
+            <p>Savoir-faire</p>
+        </div>
+
+        <div class="label-box">
+            <img src="assets/img/icon_qualite.png" alt="Sur mesure">
+            <span>Fabrication sur mesure</span>
+            <p>Qualité</p>
+        </div>
+
+        <div class="label-box">
+            <img src="assets/img/icon_prox.png" alt="Île-de-France">
+            <span>Intervention en Île-de-France et en France</span>
+            <p>Proximité</p>
+        </div>
         </div>
     </section>
 </main>
