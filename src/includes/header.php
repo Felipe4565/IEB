@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IEB - Intérieur Extérieur Bois</title>
+    <title><?php echo isset($page_title) ? $page_title : 'IEB - Intérieur Extérieur Bois'; ?></title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/style.css">
+    
+    <?php if (isset($page_css)): ?>
+        <link rel="stylesheet" href="<?php echo $page_css; ?>">
+    <?php endif; ?>
 </head>
 <body>
     <header class="main-header">
