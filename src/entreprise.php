@@ -33,20 +33,23 @@ include('includes/header.php');
         <div class="container">
             <h2 class="center-title">Les mains de l'expertise</h2>
             <div class="team-grid">
-                <div class="team-item">
-                    <div class="image-box">
-                        <img src="assets/img/Alvariza.jpg" alt="Leonardo Freddy Alvariza">
-                    </div>
-                    <h3>Leonardo Freddy Alvariza</h3>
-                    <p>Menuisier et gérant d'intérieur extérieur bois</p>
+            <div class="team-item">
+                <div class="image-box">
+                    <img src="assets/img/Alvariza.jpg" alt="Leonardo Freddy Alvariza">
+                    <a href="personne_page.php?id=leonardo" class="btn-more">En savoir plus</a>
                 </div>
-                <div class="team-item">
-                    <div class="image-box">
-                        <img src="assets/img/employé_type.jpg" alt="Salarié type">
-                    </div>
-                    <h3>Julian Alvariza</h3>
-                    <p>Menuisier et salarié de l'entreprise intérieur extérieur bois</p>
+                <h3>Leonardo Freddy Alvariza</h3>
+                <p>Menuisier et gérant d'intérieur extérieur bois</p>
+            </div>
+
+            <div class="team-item">
+                <div class="image-box">
+                    <img src="assets/img/employé_type.jpg" alt="Julian Alvariza">
+                    <a href="personne_page.php?id=julian" class="btn-more">En savoir plus</a>
                 </div>
+                <h3>Julian Alvariza</h3>
+                <p>Menuisier et salarié de l'entreprise intérieur extérieur bois</p>
+            </div>
             </div>
         </div>
     </section>

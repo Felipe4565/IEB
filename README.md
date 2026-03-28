@@ -62,6 +62,7 @@ src/
 ├── css/
 │   └── style.css
 │   └── atelier.css
+│   └── personne_page.css
 │
 ├── js/
 │   └── script.js
@@ -76,6 +77,8 @@ src/
 ├── entreprise.php
 ├── contact.php
 └── avis.php
+└── personne_page.php
+
 
 # Organisation du code
 
