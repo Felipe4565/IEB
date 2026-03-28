@@ -1,3 +1,4 @@
+/* --- CONFIGURATION GÉNÉRALE --- */
 .team-member-page {
     background-color: #fdfbf9;
     color: #1a1c14;
@@ -9,6 +10,7 @@
     padding: 60px 20px;
 }
 
+/* --- BOUTON DE RETOUR --- */
 .back-button {
     display: inline-block;
     margin-bottom: 30px;
@@ -27,6 +29,7 @@
     box-shadow: 0 6px 12px rgba(0,0,0,0.25);
 }
 
+/* --- CONTENEUR PRINCIPAL --- */
 .member-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -49,6 +52,7 @@
     box-shadow: 10px 15px 40px rgba(0,0,0,0.2);
 }
 
+/* --- INFO DU MEMBRE --- */
 .member-info h1 {
     font-size: 2.5rem;
     color: #c5a67c;
@@ -61,12 +65,13 @@
     color: #1a1c14;
 }
 
-.member-info p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #1a1c14;
+.member-info p.member-bio {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
 }
 
+/* --- MINI-CARTES SUPPLÉMENTAIRES --- */
 .member-cards {
     display: flex;
     gap: 20px;
@@ -101,6 +106,19 @@
     color: #1a1c14;
 }
 
+/* --- DIFFÉRENCIATION GÉRANT / EMPLOYÉ --- */
+.team-member-page.leonardo .member-card {
+    border-color: #c5a67c;
+    background-color: #fff8f0;
+}
+
+.team-member-page.julian .member-card {
+    border-color: #aaa;
+    background-color: #f9f9f9;
+    font-style: italic;
+}
+
+/* --- RESPONSIVE --- */
 @media (max-width: 900px) {
     .member-container {
         grid-template-columns: 1fr;
@@ -109,5 +127,13 @@
 
     .member-image img {
         max-width: 100%;
+    }
+
+    .member-info h1, .member-info h2 {
+        text-align: center;
+    }
+
+    .member-cards {
+        justify-content: center;
     }
 }
