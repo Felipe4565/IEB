@@ -1,139 +1,162 @@
-/* --- CONFIGURATION GÉNÉRALE --- */
+/* --- CONFIGURATION GÉNÉRALE SOMBRE --- */
 .team-member-page {
-    background-color: #fdfbf9;
-    color: #1a1c14;
+    background-color: #0d0e0a !important; /* Dark Wood */
+    color: #f4f1ea !important; /* Beige Luxueux */
     min-height: 100vh;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Plus moderne qu'Arial */
 }
 
 .section-padding {
-    padding: 60px 20px;
+    padding: 80px 20px;
 }
 
-/* --- BOUTON DE RETOUR --- */
+/* --- BOUTON DE RETOUR (Style Minimaliste) --- */
 .back-button {
     display: inline-block;
-    margin-bottom: 30px;
-    padding: 10px 20px;
-    background-color: #c5a67c;
-    color: #1a1c14;
-    font-weight: bold;
+    margin-bottom: 40px;
+    padding: 12px 25px;
+    background-color: transparent;
+    color: #c5a67c;
+    font-weight: 500;
     text-decoration: none;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(197, 166, 124, 0.3);
+    transition: all 0.4s ease;
 }
 
 .back-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    border-color: #c5a67c;
+    background-color: rgba(197, 166, 124, 0.05);
+    transform: translateX(-5px); /* Petit effet de glisse vers la gauche */
 }
 
 /* --- CONTENEUR PRINCIPAL --- */
 .member-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
+    grid-template-columns: 1fr 1.2fr; /* On donne un peu plus de place au texte */
+    gap: 80px;
+    align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* --- IMAGE (Style Portrait d'Art) --- */
+.member-image {
+    position: relative;
 }
 
 .member-image img {
     width: 100%;
     max-width: 450px;
-    border-radius: 10px;
-    box-shadow: 10px 10px 30px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 2px; /* Carré presque parfait pour le luxe */
+    filter: grayscale(0.2); /* Léger effet artistique */
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    transition: var(--transition);
+    border: 1px solid rgba(197, 166, 124, 0.1);
 }
 
-.member-image img:hover {
-    transform: scale(1.03);
-    box-shadow: 10px 15px 40px rgba(0,0,0,0.2);
+/* On réutilise le cadre doré de la page Atelier pour la cohérence */
+.member-image::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: -30px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #c5a67c;
+    z-index: -1;
+    opacity: 0.5;
 }
 
 /* --- INFO DU MEMBRE --- */
 .member-info h1 {
-    font-size: 2.5rem;
-    color: #c5a67c;
-    margin-bottom: 15px;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: #ffffff;
+    margin-bottom: 10px;
 }
 
 .member-info h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: #1a1c14;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    color: #c5a67c; /* Le titre du poste passe en Or */
 }
 
 .member-info p.member-bio {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    margin-bottom: 25px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 35px;
+    color: rgba(244, 241, 234, 0.8); /* Beige légèrement transparent pour le corps de texte */
 }
 
-/* --- MINI-CARTES SUPPLÉMENTAIRES --- */
+/* --- MINI-CARTES (Style Glassmorphism) --- */
 .member-cards {
     display: flex;
     gap: 20px;
-    margin-top: 30px;
-    flex-wrap: wrap;
+    margin-top: 40px;
 }
 
 .member-card {
     flex: 1;
-    min-width: 200px;
-    background-color: #fff;
-    border: 2px solid #c5a67c;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 4px 4px 20px rgba(0,0,0,0.1);
-    transition: 0.3s ease;
-    text-align: center;
+    background: rgba(255, 255, 255, 0.03); /* Effet verre fumé */
+    border: 1px solid rgba(197, 166, 124, 0.15);
+    border-radius: 2px;
+    padding: 25px;
+    transition: all 0.4s ease;
 }
 
 .member-card:hover {
+    background: rgba(197, 166, 124, 0.05);
+    border-color: #c5a67c;
     transform: translateY(-5px);
-    box-shadow: 6px 6px 25px rgba(0,0,0,0.15);
 }
 
 .member-card h3 {
     color: #c5a67c;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     margin-bottom: 10px;
 }
 
 .member-card p {
-    font-size: 0.95rem;
-    color: #1a1c14;
+    font-size: 0.9rem;
+    color: #ffffff;
 }
 
 /* --- DIFFÉRENCIATION GÉRANT / EMPLOYÉ --- */
+/* Pour le gérant (Leonardo), on ajoute une lueur dorée */
 .team-member-page.leonardo .member-card {
-    border-color: #c5a67c;
-    background-color: #fff8f0;
+    border-color: rgba(197, 166, 124, 0.4);
+    box-shadow: 0 10px 30px rgba(197, 166, 124, 0.05);
 }
 
+/* Pour Julian, on reste sur quelque chose de très sobre */
 .team-member-page.julian .member-card {
-    border-color: #aaa;
-    background-color: #f9f9f9;
-    font-style: italic;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* --- RESPONSIVE --- */
 @media (max-width: 900px) {
     .member-container {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 50px;
+        text-align: center;
     }
 
     .member-image img {
         max-width: 100%;
     }
 
-    .member-info h1, .member-info h2 {
-        text-align: center;
+    .member-image::after {
+        display: none; /* On retire le cadre sur mobile pour éviter les bugs de largeur */
     }
 
     .member-cards {
-        justify-content: center;
+        flex-direction: column;
     }
 }
