@@ -1,10 +1,11 @@
 /* --- Variables & Base --- */
+/* --- Variables & Base --- */
 :root {
     --gold: #c5a67c;
-    --dark-bg: #121212;
-    --card-bg: #1a1a1a;
-    --text-light: #f4f4f4;
-    --text-muted: #a0a0a0;
+    --dark-bg: #1b201d;    
+    --card-bg: #242a26;    
+    --text-light: #f4f1ea; 
+    --text-muted: #a0a8a3; 
 }
 
 .services-page {
@@ -42,10 +43,11 @@ h2 { font-size: 2.5rem; margin-bottom: 30px; }
     text-align: center;
     
     /* Image de fond avec overlay plus profond pour le contraste */
-    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
+background: linear-gradient(rgba(27, 32, 29, 0.8), rgba(27, 32, 29, 0.8)), 
                 url('../assets/img/showroom.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: scroll;
+    background-attachment: fixed; /* Crée l'effet de profondeur */
+    background-position: center;
 }
 
 /* On remplace showroom-grid par showroom-content pour casser la grille */
@@ -97,7 +99,7 @@ h2 { font-size: 2.5rem; margin-bottom: 30px; }
 /* --- Redesign de la Section ADN (Haut de Gamme) --- */
 .adn-redesign {
     padding: 140px 0;
-    background-color: #0d0d0d; /* Noir profond */
+    background-color: var(--dark-bg); /* Noir profond */
     color: #ffffff;
 }
 
@@ -273,11 +275,23 @@ h2 { font-size: 2.5rem; margin-bottom: 30px; }
 /* --- SECTION EXPERTISE : Fond Vert & Accordéon --- */
 
 .expertise-ieb {
+    position: relative;
     padding: 140px 0;
     /* On force la couleur verte ici */
     background-color: #2a312c !important; 
     color: #ffffff;
     overflow: hidden;
+}
+/* Ajoute un halo lumineux en haut de la section pour la transition */
+.expertise-ieb::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, var(--dark-bg), transparent);
+    pointer-events: none;
 }
 
 .center-ieb { text-align: center; display: block; }
@@ -368,20 +382,76 @@ h2 { font-size: 2.5rem; margin-bottom: 30px; }
     opacity: 0.7;
 }
 
-/* --- Services Complémentaires --- */
-.complementary-services { padding: 100px 0; text-align: center; }
+/* --- SECTION ACCOMPAGNEMENT (RETOUR AU SOMBRE) --- */
+.complementary-services {
+    padding: 120px 0;
+    background-color: var(--dark-bg); /* Retour au noir-vert sombre */
+    text-align: center;
+}
+
 .services-icons-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 50px;
+    gap: 40px;
+    margin-top: 60px;
 }
-.s-icon-card img { height: 60px; filter: sepia(1) saturate(0.5) brightness(1.2); margin-bottom: 20px; }
-.s-icon-card h4 { color: var(--gold); margin-bottom: 10px; }
-.s-icon-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+.s-icon-card {
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.03); /* Fond ultra-léger pour donner du relief */
+    border: 1px solid rgba(197, 166, 124, 0.1); /* Bordure or très fine */
+    border-radius: 4px;
+    transition: all 0.4s ease;
+}
+
+.s-icon-card:hover {
+    transform: translateY(-10px);
+    background: rgba(42, 49, 44, 0.4); /* Rappel du vert forêt au survol */
+    border-color: var(--gold);
+}
+
+.icon-wrapper {
+    margin-bottom: 25px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.s-icon-card img {
+    height: 100%;
+    width: auto;
+    /* Filtre pour transformer tes icônes en Or IEB */
+    filter: invert(80%) sepia(28%) saturate(600%) hue-rotate(335deg) brightness(100%) contrast(100%);
+}
+
+.s-icon-card h4 {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.s-icon-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 900px) {
+    .services-icons-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
 
 /* --- Mobile --- */
 @media (max-width: 900px) {
     .showroom-grid, .adn-grid, .services-icons-grid { grid-template-columns: 1fr; }
     .expertise-block { min-width: 100%; }
 }
+

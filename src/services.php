@@ -122,28 +122,38 @@ include('includes/header.php');
     </div>
 </section>
 
-    <section class="complementary-services">
-        <div class="container">
-            <h2 class="center-title">Un Accompagnement Complet</h2>
-            <div class="services-icons-grid">
-                <div class="s-icon-card">
-                    <img src="assets/img/icons/icon-conseil.png" alt="Conseil">
-                    <h4>Conseil & Étude</h4>
-                    <p>Analyse personnalisée et choix des essences.</p>
+<section class="complementary-services">
+    <div class="container">
+        <span class="subtitle-ieb center-ieb">Processus IEB</span>
+        <h2 class="title-ieb center-ieb">Un Accompagnement Complet</h2>
+        
+        <div class="services-icons-grid">
+            <div class="s-icon-card">
+                <div class="icon-wrapper">
+                    <img src="assets/img/stylo_icon.png" alt="Conseil">
                 </div>
-                <div class="s-icon-card">
-                    <img src="assets/img/icons/icon-pose.png" alt="Installation">
-                    <h4>Installation Expertise</h4>
-                    <p>Pose millimétrée par nos équipes qualifiées.</p>
+                <h4>Conseil & Étude</h4>
+                <p>Analyse personnalisée et choix des essences pour un projet qui vous ressemble.</p>
+            </div>
+
+            <div class="s-icon-card">
+                <div class="icon-wrapper">
+                    <img src="assets/img/maillet_icon.png" alt="Installation">
                 </div>
-                <div class="s-icon-card">
-                    <img src="assets/img/icons/icon-entretien.png" alt="Entretien">
-                    <h4>Entretien & Suivi</h4>
-                    <p>Suivi durable pour la longévité de vos ouvrages.</p>
+                <h4>Installation Expertise</h4>
+                <p>Pose millimétrée par nos équipes qualifiées, dans le respect des règles de l'art.</p>
+            </div>
+
+            <div class="s-icon-card">
+                <div class="icon-wrapper">
+                    <img src="assets/img/bouclier_icon.png" alt="Entretien">
                 </div>
+                <h4>Entretien & Suivi</h4>
+                <p>Suivi durable pour garantir la longévité et l'éclat de vos ouvrages en bois.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 </main>
 
 <?php include('includes/footer.php'); ?>
