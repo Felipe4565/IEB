@@ -1,0 +1,317 @@
+/* --- Variables & Base --- */
+:root {
+    --gold: #c5a67c;
+    --dark-bg: #121212;
+    --card-bg: #1a1a1a;
+    --text-light: #f4f4f4;
+    --text-muted: #a0a0a0;
+}
+
+.services-page {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Subtitles & Titles --- */
+.subtitle, .center-subtitle {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 10px;
+}
+.center-subtitle, .center-title { text-align: center; }
+h2 { font-size: 2.5rem; margin-bottom: 30px; }
+
+/* --- Section Showroom --- */
+.showroom-banner {
+    position: relative;
+    padding: 120px 0;
+    min-height: 65vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    /* Image de fond avec overlay plus profond pour le contraste */
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
+                url('../assets/img/showroom.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll;
+}
+
+/* On remplace showroom-grid par showroom-content pour casser la grille */
+.showroom-content {
+    max-width: 750px; /* Empêche le texte et le bouton de trop s'étaler */
+    margin: 0 auto;
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.showroom-text h2 {
+    font-size: 3rem; 
+    color: #ffffff;
+    margin: 20px 0;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.showroom-text p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* --- Bouton Or (Correction taille et centrage) --- */
+.btn-gold {
+    display: inline-block; /* Crucial pour que le bouton ne fasse pas 100% de large */
+    width: auto;           /* Sécurité supplémentaire */
+    padding: 16px 45px;
+    border: 2px solid var(--gold);
+    background: transparent;
+    color: var(--gold) !important;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.btn-gold:hover { 
+    background: var(--gold); 
+    color: #121212 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    transform: translateY(-3px);
+}
+
+/* --- Redesign de la Section ADN (Haut de Gamme) --- */
+.adn-redesign {
+    padding: 140px 0;
+    background-color: #0d0d0d; /* Noir profond */
+    color: #ffffff;
+}
+
+/* Grille principale (Images vs Texte) */
+.adn-grid-main {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* 60% images, 40% texte */
+    gap: 80px; /* Espace entre les deux grandes colonnes */
+    align-items: center;
+}
+
+/* --- COLONNE GAUCHE : Grille d'images (2x2) --- */
+.adn-visuals {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes d'images */
+    grid-template-rows: 1fr 1fr; /* Deux lignes d'images */
+    gap: 20px; /* Espace entre les images */
+    width: 100%;
+}
+
+.adn-image-wrapper {
+    position: relative;
+    width: 100%;
+    /* Utilisation du ratio aspect-ratio pour garantir que les images restent carrées et alignées */
+    aspect-ratio: 1 / 1; 
+    overflow: hidden;
+    /* La bordure subtile visible sur ton image */
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    border-radius: 4px; /* Un très léger arrondi */
+    background: #151515; /* Fond en cas de chargement lent */
+}
+
+.adn-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Remplit tout l'espace sans se déformer */
+    display: block;
+    transition: transform 0.8s ease, filter 0.5s ease;
+    filter: brightness(0.9); /* Un peu plus sombre par défaut */
+}
+
+/* Effet de survol sur la grille d'images */
+.adn-image-wrapper:hover img {
+    transform: scale(1.08); /* Petit zoom */
+    filter: brightness(1.1); /* Plus lumineux au survol */
+}
+
+/* --- COLONNE DROITE : Texte et Icônes --- */
+.adn-content-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement le texte par rapport aux photos */
+    height: 100%;
+}
+
+.title-ieb {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 15px 0 50px 0;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: 3px; /* Augmenté pour le côté luxe */
+    line-height: 1.1;
+    color: #ffffff;
+}
+
+.subtitle-ieb {
+    color: var(--gold);
+    letter-spacing: 5px; /* Très aéré pour le prestige */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.adn-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.adn-list-item {
+    display: grid;
+    grid-template-columns: 50px 1fr; /* Un peu plus serré pour l'équilibre */
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.adn-list-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4px; /* Alignement optique parfait avec la première ligne du H3 */
+}
+
+.adn-list-icon img {
+    height: 55px;
+    width: auto;
+    /* Ce combo de filtres transforme une icône noire en doré lumineux */
+    filter: invert(80%) sepia(28%) saturate(600%) hue-rotate(335deg) brightness(100%) contrast(100%);
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+.adn-list-item:hover .adn-list-icon img {
+    transform: scale(1.1);
+    opacity: 1;
+    /* Effet brillant au survol */
+    filter: invert(85%) sepia(30%) saturate(800%) hue-rotate(335deg) brightness(110%) contrast(110%);
+}
+
+.adn-list-text h3 {
+    color: var(--gold);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.adn-list-text p {
+    color: var(--text-muted);
+    line-height: 1.8; /* Plus d'espace entre les lignes pour la lisibilité */
+    font-size: 0.95rem;
+    letter-spacing: 0.5px; /* Plus d'air entre les lettres */
+    margin: 0;
+}
+
+/* --- ANIMATION DES PHOTOS (Fade-in décalé) --- */
+.adn-image-wrapper {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: revealImages 0.8s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+/* Délais d'apparition pour l'effet "un par un" */
+.adn-image-wrapper:nth-child(1) { animation-delay: 0.1s; }
+.adn-image-wrapper:nth-child(2) { animation-delay: 0.25s; }
+.adn-image-wrapper:nth-child(3) { animation-delay: 0.4s; }
+.adn-image-wrapper:nth-child(4) { animation-delay: 0.55s; }
+
+@keyframes revealImages {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Mobile / Tablette --- */
+@media (max-width: 1024px) {
+    .adn-grid-main {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        text-align: center;
+    }
+    
+    .adn-visuals {
+        max-width: 550px;
+        margin: 0 auto;
+    }
+
+    .adn-list-item {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .title-ieb { font-size: 2rem; }
+    .adn-redesign { padding: 80px 0; }
+}
+
+/* --- Section Expertise (Les deux blocs) --- */
+.expertise-container { display: flex; flex-wrap: wrap; }
+.expertise-block {
+    flex: 1;
+    min-width: 500px;
+    min-height: 500px;
+    padding: 80px 5%;
+    display: flex;
+    align-items: flex-end;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+.expertise-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+}
+.exterior { background-image: url('../assets/img/exterieur.jpg'); }
+.interior { background-image: url('../assets/img/interieur.jpg'); }
+
+.expertise-content { position: relative; z-index: 2; width: 100%; }
+.expertise-lists { display: flex; gap: 40px; margin-top: 20px; }
+.expertise-lists ul { list-style: none; padding: 0; }
+.expertise-lists li { color: var(--text-muted); margin-bottom: 8px; }
+.expertise-lists li strong { color: var(--gold); display: block; margin-bottom: 5px; }
+
+/* --- Services Complémentaires --- */
+.complementary-services { padding: 100px 0; text-align: center; }
+.services-icons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
+.s-icon-card img { height: 60px; filter: sepia(1) saturate(0.5) brightness(1.2); margin-bottom: 20px; }
+.s-icon-card h4 { color: var(--gold); margin-bottom: 10px; }
+.s-icon-card p { color: var(--text-muted); font-size: 0.9rem; }
+
+/* --- Mobile --- */
+@media (max-width: 900px) {
+    .showroom-grid, .adn-grid, .services-icons-grid { grid-template-columns: 1fr; }
+    .expertise-block { min-width: 100%; }
+}
