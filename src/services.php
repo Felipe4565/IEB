@@ -65,47 +65,62 @@ include('includes/header.php');
         </div>
     </section>
 
-    <section class="expertise-container">
-        <div class="expertise-block exterior">
-            <div class="expertise-content">
-                <h2>Menuiserie Extérieure</h2>
-                <div class="expertise-lists">
-                    <ul>
-                        <li><strong>OUVERTURES</strong></li>
-                        <li>Portes d'entrée</li>
-                        <li>Châssis</li>
-                        <li>Fenêtres Haute Performance</li>
-                    </ul>
-                    <ul>
-                        <li><strong>AMÉNAGEMENTS</strong></li>
-                        <li>Terrasses</li>
-                        <li>Bardages</li>
-                        <li>Portails & Garde-corps</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+<section class="expertise-ieb expertise-redesign expertise-interactive">
+    <div class="container">
+        
+        <span class="subtitle-ieb subtitle-expertise center-ieb">NOS DOMAINES D'EXCELLENCE</span>
+        <h2 class="title-ieb title-expertise center-ieb">Une Expertise Complète</h2>
 
-        <div class="expertise-block interior">
-            <div class="expertise-content">
-                <h2>Menuiserie Intérieure</h2>
-                <div class="expertise-lists">
-                    <ul>
-                        <li><strong>AGENCEMENT</strong></li>
-                        <li>Escaliers</li>
-                        <li>Cloisons & Portes</li>
-                        <li>Rangements optimisés</li>
-                    </ul>
-                    <ul>
-                        <li><strong>MOBILIER SIGNATURE</strong></li>
-                        <li>Tables de réception</li>
-                        <li>Consoles</li>
-                        <li>Plans de travail</li>
-                    </ul>
+        <div class="expertise-flex-container">
+            
+            <div class="expertise-card">
+                <div class="expertise-image">
+                    <img src="assets/img/exterieur.jpg" alt="Menuiserie Extérieure">
+                </div>
+                <div class="expertise-content">
+                    <h3>MENUISERIE EXTÉRIEURE</h3>
+                    <div class="expertise-lists">
+                        <ul>
+                            <li><strong>OUVERTURES</strong></li>
+                            <li>Portes d'entrée</li>
+                            <li>Châssis</li>
+                            <li>Fenêtres Performantes</li>
+                        </ul>
+                        <ul>
+                            <li><strong>AMÉNAGEMENTS</strong></li>
+                            <li>Terrasses</li>
+                            <li>Bardages</li>
+                            <li>Portails & Garde-corps</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expertise-card">
+                <div class="expertise-image">
+                    <img src="assets/img/interieur.jpg" alt="Menuiserie Intérieure">
+                </div>
+                <div class="expertise-content">
+                    <h3>MENUISERIE INTÉRIEURE</h3>
+                    <div class="expertise-lists">
+                        <ul>
+                            <li><strong>AMÉNAGEMENTS</strong></li>
+                            <li>Escaliers</li>
+                            <li>Cloisons & Portes</li>
+                            <li>Rangements</li>
+                        </ul>
+                        <ul>
+                            <li><strong>MOBILIER SIGNATURE</strong></li>
+                            <li>Tables & Consoles</li>
+                            <li>Plans de travail</li>
+                            <li>Bibliothèques</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <section class="complementary-services">
         <div class="container">
