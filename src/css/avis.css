@@ -1,0 +1,236 @@
+/* --- VARIABLES --- */
+:root {
+    --gold: #C5A059;
+    --dark-bg: #0A0A0A;
+    --green-bg: #0E1A11;
+    --text-light: #E5E5E5;
+}
+
+.page-avis {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* --- SECTION 1 : HERO (CORRECTION LOGO & ESPACEMENT) --- */
+.hero-score {
+    position: relative;
+    padding: 180px 0 120px;
+    text-align: center;
+    background: 
+        linear-gradient(to bottom, rgba(10, 10, 10, 0.4) 0%, #0A0A0A 100%), 
+        url('../assets/img/matiere.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(7rem, 12vw, 10rem);
+    font-weight: 700;
+    line-height: 0.8; /* On réduit la boîte pour libérer de l'espace */
+    margin: 0;
+    background: linear-gradient(180deg, #FFFFFF 30%, #C5A059 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8));
+}
+
+.stars-row.unifie {
+    display: block;
+    color: #C5A059;
+    font-size: 1.1rem; 
+    letter-spacing: 25px; 
+    margin-top: 50px; /* Écart net avec le chiffre 5.0 */
+    margin-bottom: 80px; 
+    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.4));
+}
+
+/* --- LE BADGE ET SON LOGO --- */
+.google-badge-link {
+    text-decoration: none !important;
+    display: inline-flex;
+    transition: transform 0.4s ease;
+}
+
+.google-badge {
+    position: relative;
+    overflow: hidden; 
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 25px;
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 50px;
+    background: rgba(10, 10, 10, 0.5);
+    backdrop-filter: blur(15px);
+}
+
+/* PROTECTION LOGO GOOGLE : On force la taille ici */
+.google-badge img { 
+    width: 20px !important;  /* Taille fixe */
+    height: 20px !important; /* Taille fixe */
+    object-fit: contain;     /* Garde les proportions */
+    flex-shrink: 0;         /* Empêche le logo de s'écraser ou grandir */
+    filter: brightness(1.1);
+}
+
+.google-badge span {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #E5E5E5 !important;
+    white-space: nowrap; /* Empêche le texte de sauter à la ligne */
+}
+
+.google-badge strong {
+    color: #C5A059 !important;
+    text-transform: uppercase;
+}
+
+/* Reflet interactif */
+.google-badge::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-25deg);
+    transition: 0.6s;
+}
+
+.google-badge-link:hover .google-badge::after {
+    left: 150%;
+}
+
+/* --- SECTION AVANT/APRÈS --- */
+.section-transformation { padding: 100px 0; background: var(--green-bg); }
+
+.title-label {
+    text-align: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 50px;
+}
+
+.comparison-card {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0; /* On colle l'image au texte pour l'aspect bloc */
+    background: #000;
+    border: 1px solid rgba(197, 160, 89, 0.1);
+}
+
+.comparison-slider {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+}
+
+.img-before, .img-after {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+}
+
+.img-before { width: 50%; border-right: 1px solid var(--gold); }
+
+/* Le curseur invisible qui capte le mouvement */
+.slider-handle {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: col-resize; z-index: 10;
+}
+
+.slider-line {
+    position: absolute;
+    top: 0; left: 50%; height: 100%; width: 2px;
+    background: var(--gold); transform: translateX(-50%);
+    pointer-events: none; z-index: 5;
+}
+
+.label-before, .label-after {
+    position: absolute; bottom: 20px;
+    background: rgba(0,0,0,0.6); padding: 5px 15px;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+}
+.label-before { left: 20px; }
+.label-after { right: 20px; }
+
+.transformation-text {
+    padding: 60px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gold-corner {
+    position: absolute; top: 30px; right: 30px;
+    width: 60px; height: 60px;
+    border-top: 2px solid var(--gold); border-right: 2px solid var(--gold);
+}
+
+.main-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-style: italic;
+    margin: 30px 0;
+}
+
+/* --- TOUS LES AVIS --- */
+.all-reviews { padding: 100px 0; }
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.btn-gold-outline {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 12px 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.btn-gold-outline:hover { background: var(--gold); color: #000; }
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.review-card {
+    background: rgba(255,255,255,0.03);
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.review-card .stars { color: var(--gold); margin-bottom: 20px; }
+
+.review-author {
+    display: block;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .comparison-card { grid-template-columns: 1fr; }
+    .transformation-text { padding: 40px 20px; }
+    .reviews-header { flex-direction: column; gap: 30px; text-align: center; }
+}
