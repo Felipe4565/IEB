@@ -71,10 +71,16 @@
             </div>
 
             <div class="reviews-grid">
-                <div class="review-card">
+                <div class="review-card has-images">
                     <div class="stars">★★★★★</div>
-                    <p class="review-content">"Une équipe à l'écoute et un savoir-faire artisanal qu'on ne trouve plus ailleurs. Ma terrasse est superbe."</p>
+                    <p class="review-content">
+                        "Une équipe à l'écoute et un savoir-faire artisanal qu'on ne trouve plus ailleurs. Ma terrasse est superbe."
+                    </p>
                     <span class="review-author">Marc-Antoine P.</span>
+
+                    <a href="review-marc-antoine.php" class="btn-gold-outline btn-small">
+                        Voir plus
+                    </a>
                 </div>
                 <div class="review-card">
                     <div class="stars">★★★★★</div>

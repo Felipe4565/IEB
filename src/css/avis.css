@@ -357,6 +357,23 @@
     color: var(--gold);
 }
 
+
+.btn-small {
+    padding: 8px 18px;
+    font-size: 0.65rem;
+    margin-top: 20px;
+    display: inline-block;
+    opacity: 0.8;
+}
+
+.btn-small:hover {
+    opacity: 1;
+}
+
+.review-card:not(.has-images) .btn-small {
+    display: none;
+}
+
 /* RESPONSIVE */
 @media (max-width: 992px) {
     .comparison-card { grid-template-columns: 1fr; }
