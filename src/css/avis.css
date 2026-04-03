@@ -14,10 +14,10 @@
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* --- SECTION 1 : HERO (CORRECTION LOGO & ESPACEMENT) --- */
+/* --- SECTION 1 : HERO (VERSION STABLE & AFFICHAGE COMPLET) --- */
 .hero-score {
     position: relative;
-    padding: 180px 0 120px;
+    padding: 160px 0 100px; 
     text-align: center;
     background: 
         linear-gradient(to bottom, rgba(10, 10, 10, 0.4) 0%, #0A0A0A 100%), 
@@ -25,35 +25,73 @@
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    overflow: hidden;
 }
 
+.hero-score .container {
+    position: relative;
+    z-index: 2;
+    animation: fadeInLuxeSimple 1.2s ease-out forwards;
+}
+
+.serif-gold {
+    font-family: 'Playfair Display', serif;
+    color: #C5A059;
+    
+    font-size: clamp(2rem, 3.5vw, 2.5rem); /* Au lieu de (1.6rem, 3vw, 2.2rem) */
+    
+    letter-spacing: 5px; /* Au lieu de 7px */
+    
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 0 auto 30px; 
+    display: block;
+    text-rendering: optimizeLegibility;
+    
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+/* LE CHIFFRE 5.0 - CORRIGÉ POUR ÉVITER LA COUPURE */
 .score-number {
     font-family: 'Playfair Display', serif;
     font-size: clamp(7rem, 12vw, 10rem);
     font-weight: 700;
-    line-height: 0.8; /* On réduit la boîte pour libérer de l'espace */
+    /* On augmente le line-height pour ne pas couper le haut/bas des chiffres */
+    line-height: 1.1; 
     margin: 0;
+    /* On ajoute un léger padding vertical pour laisser de la place au dégradé */
+    padding: 10px 0;
+    
     background: linear-gradient(180deg, #FFFFFF 30%, #C5A059 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    
+    /* On utilise drop-shadow sur le parent ou on réduit l'intensité pour éviter les artefacts */
     filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8));
+    display: inline-block; /* Crucial pour que le padding et le clip fonctionnent ensemble */
 }
 
+/* Étoiles : On ajuste la marge haute puisque le line-height du chiffre a augmenté */
 .stars-row.unifie {
     display: block;
     color: #C5A059;
     font-size: 1.1rem; 
     letter-spacing: 25px; 
-    margin-top: 50px; /* Écart net avec le chiffre 5.0 */
+    margin-top: 30px; /* Réduit car le line-height du chiffre est plus grand */
     margin-bottom: 80px; 
     filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.4));
 }
 
-/* --- LE BADGE ET SON LOGO --- */
+/* --- LE BADGE GOOGLE (STABLE) --- */
 .google-badge-link {
     text-decoration: none !important;
     display: inline-flex;
     transition: transform 0.4s ease;
+    outline: none;
+}
+
+.google-badge-link:hover {
+    transform: translateY(-5px);
 }
 
 .google-badge {
@@ -69,12 +107,11 @@
     backdrop-filter: blur(15px);
 }
 
-/* PROTECTION LOGO GOOGLE : On force la taille ici */
 .google-badge img { 
-    width: 20px !important;  /* Taille fixe */
-    height: 20px !important; /* Taille fixe */
-    object-fit: contain;     /* Garde les proportions */
-    flex-shrink: 0;         /* Empêche le logo de s'écraser ou grandir */
+    width: 20px !important;  
+    height: 20px !important; 
+    object-fit: contain;     
+    flex-shrink: 0;         
     filter: brightness(1.1);
 }
 
@@ -82,7 +119,7 @@
     font-size: 0.8rem;
     letter-spacing: 1px;
     color: #E5E5E5 !important;
-    white-space: nowrap; /* Empêche le texte de sauter à la ligne */
+    white-space: nowrap;
 }
 
 .google-badge strong {
@@ -90,7 +127,6 @@
     text-transform: uppercase;
 }
 
-/* Reflet interactif */
 .google-badge::after {
     content: "";
     position: absolute;
@@ -103,6 +139,11 @@
 
 .google-badge-link:hover .google-badge::after {
     left: 150%;
+}
+
+@keyframes fadeInLuxeSimple {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* --- SECTION AVANT/APRÈS (VERSION FINALE & RÉPARÉE) --- */
