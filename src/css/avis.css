@@ -105,82 +105,170 @@
     left: 150%;
 }
 
-/* --- SECTION AVANT/APRÈS --- */
-.section-transformation { padding: 100px 0; background: var(--green-bg); }
-
-.title-label {
-    text-align: center;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    color: var(--gold);
-    margin-bottom: 50px;
+/* --- SECTION AVANT/APRÈS (VERSION FINALE & RÉPARÉE) --- */
+.section-transformation {
+    padding: 100px 0;
+    background: #0E1A11; /* Ton vert signature sombre */
 }
 
+/* Le titre de la section en haut */
+.serif-gold {
+    font-family: 'Playfair Display', serif;
+    color: #C5A059;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+/* LA CARTE : On ramène le cadre et l'ombre profonde */
 .comparison-card {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 0; /* On colle l'image au texte pour l'aspect bloc */
     background: #000;
-    border: 1px solid rgba(197, 160, 89, 0.1);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    overflow: hidden; /* Important pour que les images ne débordent pas */
 }
 
+/* LE SLIDER : Force une hauteur fixe pour afficher les images en fond */
 .comparison-slider {
     position: relative;
-    height: 500px;
+    width: 100%;
+    height: 550px; /* HAUTEUR CRITIQUE POUR VOIR LES IMAGES */
     overflow: hidden;
+    cursor: col-resize;
 }
 
 .img-before, .img-after {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-size: cover; background-position: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover; /* L'image remplit tout le bloc */
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.img-before { width: 50%; border-right: 1px solid var(--gold); }
-
-/* Le curseur invisible qui capte le mouvement */
-.slider-handle {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    opacity: 0; cursor: col-resize; z-index: 10;
+/* L'image "Avant" est par-dessus */
+.img-before {
+    width: 50%; 
+    z-index: 2;
 }
 
+.img-after {
+    z-index: 1; /* L'image après est toujours en fond */
+}
+
+/* Le curseur visible (ligne dorée + bouton) */
 .slider-line {
     position: absolute;
-    top: 0; left: 50%; height: 100%; width: 2px;
-    background: var(--gold); transform: translateX(-50%);
-    pointer-events: none; z-index: 5;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 2px;
+    background: #C5A059;
+    z-index: 5;
+    pointer-events: none;
+    transform: translateX(-50%);
 }
 
+.slider-line::after {
+    content: "⟷";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    background: #C5A059;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.5);
+}
+
+/* Le curseur invisible par-dessus pour capter le clic */
+.slider-handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: col-resize;
+    z-index: 10;
+    margin: 0;
+}
+
+/* Labels Avant/Après */
 .label-before, .label-after {
     position: absolute; bottom: 20px;
-    background: rgba(0,0,0,0.6); padding: 5px 15px;
+    background: rgba(0,0,0,0.6);
+    padding: 5px 15px;
     font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px;
+    color: #C5A059;
+    z-index: 4;
 }
 .label-before { left: 20px; }
 .label-after { right: 20px; }
 
+/* LE BLOC DE TEXTE (AÉRÉ ET STRUCTURÉ) */
 .transformation-text {
-    padding: 60px;
-    position: relative;
+    padding: 60px; /* Plus d'espace pour respirer */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
 }
 
-.gold-corner {
-    position: absolute; top: 30px; right: 30px;
-    width: 60px; height: 60px;
-    border-top: 2px solid var(--gold); border-right: 2px solid var(--gold);
+.transformation-header {
+    margin-bottom: 40px;
 }
 
+.title-section-unifie {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: #C5A059;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.client-name {
+    font-size: 1.8rem;
+    color: #FFF;
+    font-weight: 600;
+}
+
+.client-project {
+    font-size: 0.8rem;
+    color: rgba(229, 229, 229, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* La citation avec la barre verticale dorée */
 .main-quote {
     font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    line-height: 1.6;
+    font-size: 1.3rem;
+    line-height: 1.7;
     font-style: italic;
-    margin: 30px 0;
+    color: #E5E5E5;
+    padding-left: 25px;
+    border-left: 1px solid #C5A059;
+    margin: 0 0 30px 0;
+}
+
+.signature-client {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #C5A059;
+    font-weight: 600;
 }
 
 /* --- TOUS LES AVIS --- */

@@ -26,32 +26,42 @@
     </div>
 </section>
 
-    <section class="section-transformation">
-        <div class="container">
-            <h2 class="title-label">Étude de cas : La métamorphose</h2>
+<section class="section-transformation">
+    <div class="container">
+        <h1 class="serif-gold">Étude de cas : La métamorphose</h1>
+        
+        <div class="comparison-card">
             
-            <div class="comparison-card">
-                <div class="comparison-slider">
-                    <div class="img-after" style="background-image: url('assets/img/apres.jpg');"></div>
-                    <div class="img-before" style="background-image: url('assets/img/avant.jpg');"></div>
-                    <input type="range" min="0" max="100" value="50" class="slider-handle" id="compare-slider">
-                    <div class="slider-line"></div>
-                    <div class="label-before">Avant</div>
-                    <div class="label-after">Après</div>
-                </div>
+            <div class="comparison-slider">
+                <div class="img-after" style="background-image: url('assets/img/apres.png');"></div>
+                <div class="img-before" style="background-image: url('assets/img/avant.png');"></div>
+                
+                <input type="range" min="0" max="100" value="50" class="slider-handle" id="compare-slider">
+                <div class="slider-line" id="slider-line"></div>
+                
+                <div class="label-before">Avant</div>
+                <div class="label-after">Après</div>
+            </div>
 
-                <div class="transformation-text">
-                    <span class="gold-corner"></span>
+            <div class="transformation-text">
+                <div class="transformation-header">
+                    <h2 class="title-section-unifie">Rénovation Salon & Bibliothèque</h2>
                     <h3 class="client-name">Maison Haussmannienne</h3>
-                    <p class="project-type">Rénovation complète - Salon & Bibliothèque</p>
+                    <p class="client-project">Paris VII</p>
+                </div>
+                
+                <div class="quote-wrapper">
                     <blockquote class="main-quote">
                         "Nous avions un espace sombre et mal optimisé. L'équipe IEB a su redonner vie à notre pièce avec un travail du bois d'une finesse rare. Le résultat dépasse nos espérances."
                     </blockquote>
-                    <p class="signature-client">— Famille de V., Paris VII</p>
                 </div>
+                
+                <p class="signature-client">— Famille de V.</p>
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <section class="all-reviews">
         <div class="container">
@@ -83,16 +93,15 @@
 </main>
 
 <script>
-    // Script simple pour le curseur Avant/Après
     const slider = document.getElementById('compare-slider');
     const beforeImg = document.querySelector('.img-before');
-    const sliderLine = document.querySelector('.slider-line');
+    const sliderLine = document.getElementById('slider-line');
 
     slider.addEventListener('input', (e) => {
-        let value = e.target.value;
+        const value = e.target.value;
         beforeImg.style.width = value + "%";
-        sliderLine.style.left = value + "%";
+        sliderLine.style.left = value + "%"; // La ligne suit le mouvement
     });
-</script>
+</script>   
 
 <?php include('includes/footer.php'); ?>
