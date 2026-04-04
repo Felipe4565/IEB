@@ -67,7 +67,7 @@
         <div class="container">
             <div class="reviews-header">
                 <h2 class="serif-gold">Derniers Témoignages</h2>
-                <a href="https://g.page/r/votre-lien-google/review" target="_blank" class="btn-gold-outline">Laisser un avis</a>
+                <a href="laisser_avis.php" class="btn-gold-outline">Laisser un avis</a>
             </div>
 
             <div class="reviews-grid">
