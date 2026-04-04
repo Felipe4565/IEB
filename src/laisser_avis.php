@@ -1,6 +1,8 @@
 <?php include('includes/header.php'); ?>
 <link rel="stylesheet" href="css/laisser_avis.css">
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
 <section class="section-form-avis">
     <div class="container">
         
@@ -31,11 +33,11 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" name="nom" placeholder="Votre Nom Complet" required>
+                    <input type="text" name="nom" placeholder="Votre Nom Complet" required autocomplete="off">
                 </div>
 
-                <div class="input-group" style="z-index: 10;">
-                    <span class="label-gold" style="text-align: left; font-size: 0.75rem; margin-bottom: 10px;">Type de réalisation</span>
+                <div class="input-group">
+                    <span class="label-gold" style="text-align: left; font-size: 0.75rem; margin-bottom: 15px;">Type de réalisation</span>
                     <div class="project-tags" id="project-tags">
                         <div class="tag" data-value="Terrasse">Terrasse</div>
                         <div class="tag" data-value="Cuisine">Cuisine</div>
@@ -49,14 +51,18 @@
                 </div>
 
                 <div class="input-group">
-                    <textarea name="message" rows="6" placeholder="Racontez-nous votre projet..." required></textarea>
+                    <textarea name="message" rows="5" placeholder="Racontez-nous votre projet..." required></textarea>
                 </div>
 
-                <div class="file-upload">
+                <div class="file-upload" id="drop-zone">
                     <label for="photo-chantier" class="file-label">
-                        <span class="text" id="file-label-text">Ajouter une photo de la réalisation</span>
+                        <div class="upload-icon">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <span class="text" id="file-label-text">Cliquez ou glissez une photo de la réalisation</span>
                     </label>
                     <input type="file" id="photo-chantier" name="photo" accept="image/*">
+                    
                     <div id="image-preview-container" style="display: none;">
                         <img id="image-preview" src="#" alt="Aperçu">
                         <span id="file-name-display"></span>
@@ -71,22 +77,23 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // SÉLECTION DES TAGS
+    // SÉLECTION DES TAGS AVEC MICRO-INTERACTION
     const tags = document.querySelectorAll('.tag');
     const hiddenInput = document.getElementById('projet-selected');
 
     tags.forEach(tag => {
-        tag.onclick = function() {
-            // Nettoyage
-            tags.forEach(t => t.classList.remove('active'));
-            // Activation
+        tag.addEventListener('click', function() {
+            tags.forEach(t => {
+                t.classList.remove('active');
+                t.style.transform = "scale(1)";
+            });
             this.classList.add('active');
-            // Valeur
+            this.style.transform = "scale(1.05)";
             hiddenInput.value = this.getAttribute('data-value');
-        };
+        });
     });
 
-    // NOTE ÉTOILES
+    // NOTE ÉTOILES - CHANGEMENT DE TEXTE DYNAMIQUE
     const stars = document.querySelectorAll('.stars-input input');
     const ratingDesc = document.getElementById('rating-desc');
     const labels = {'5':'Excellent','4':'Très bien','3':'Bien','2':'Moyen','1':'Insatisfaisant'};
@@ -95,21 +102,42 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('change', (e) => {
             ratingDesc.innerText = labels[e.target.value];
             ratingDesc.style.color = "#C5A059";
+            ratingDesc.style.fontWeight = "bold";
+            ratingDesc.style.letterSpacing = "2px";
         });
     });
 
-    // PREVIEW IMAGE
+    // PRÉVIEW IMAGE & DRAG N DROP VISUEL
     const fileInput = document.getElementById('photo-chantier');
-    fileInput.addEventListener('change', function() {
+    const dropZone = document.getElementById('drop-zone');
+
+    fileInput.addEventListener('change', handleFiles);
+
+    function handleFiles() {
         if (this.files && this.files[0]) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 document.getElementById('image-preview').src = e.target.result;
                 document.getElementById('image-preview-container').style.display = 'block';
                 document.getElementById('file-name-display').innerText = this.files[0].name;
+                document.getElementById('file-label-text').innerText = "Changer la photo";
             };
             reader.readAsDataURL(this.files[0]);
         }
+    }
+
+    // Effet visuel lors du survol de fichier
+    ['dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, e => {
+            e.preventDefault();
+            if (eventName === 'dragover') {
+                dropZone.style.borderColor = "#C5A059";
+                dropZone.style.background = "rgba(197, 160, 89, 0.1)";
+            } else {
+                dropZone.style.borderColor = "rgba(197, 160, 89, 0.3)";
+                dropZone.style.background = "rgba(197, 160, 89, 0.02)";
+            }
+        });
     });
 });
 </script>
