@@ -1,76 +1,46 @@
 /* ============================================================
-   SECTION FORMULAIRE AVIS - ATELIER IEB (VERSION PREMIUM)
+   SECTION FORMULAIRE AVIS - ATELIER IEB 
+   Correctif : Centrage du formulaire sans impacter le Header
    ============================================================ */
 
 :root {
     --gold: #C5A059;
     --gold-light: rgba(197, 160, 89, 0.2);
     --gold-glow: rgba(197, 160, 89, 0.4);
-    --dark-bg: #0E1A11; /* Vert sombre signature */
-    --form-bg: rgba(0, 0, 0, 0.85);
-    --white-soft: rgba(255, 255, 255, 0.7);
+    --dark-ieb: #0E1A11; 
+    --form-bg-ieb: rgba(0, 0, 0, 0.85);
 }
 
+/* Fond de la section */
 .section-form-avis {
     padding: 100px 20px;
-    background: var(--dark-bg);
+    background: var(--dark-ieb);
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: center; /* Centrage vertical */
+    justify-content: center; /* Centrage horizontal */
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* --- CONTENEUR PRINCIPAL (EFFET VERRE FUMÉ) --- */
-.form-wrapper {
-    max-width: 750px;
+/* C'est ce bloc qui remet le formulaire au milieu */
+.section-form-avis .container {
     width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Aligne le contenu (nav + wrapper) au centre */
     margin: 0 auto;
-    background: var(--form-bg);
-    backdrop-filter: blur(15px); /* Effet de flou luxueux */
-    padding: 60px;
-    border: 1px solid var(--gold-light);
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-    position: relative;
-    border-radius: 4px;
-}
-
-/* Ligne de lumière dorée sur le dessus */
-.form-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
-.form-header { 
-    text-align: center; 
-    margin-bottom: 50px; 
-}
-
-.form-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.form-subtitle {
-    color: var(--white-soft);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 0.75rem;
 }
 
 /* --- NAVIGATION RETOUR --- */
-.form-navigation {
-    max-width: 750px;
+.section-form-avis .form-navigation {
     width: 100%;
+    max-width: 750px; /* Aligné sur la largeur du formulaire */
     margin-bottom: 25px;
+    text-align: left;
 }
 
-.btn-back {
+.section-form-avis .btn-back {
     display: inline-flex;
     align-items: center;
     color: rgba(255, 255, 255, 0.4);
@@ -81,26 +51,66 @@
     transition: 0.4s ease;
 }
 
-.btn-back:hover {
+.section-form-avis .btn-back:hover { color: var(--gold); }
+.section-form-avis .btn-back .icon { margin-right: 12px; transition: transform 0.3s; }
+.section-form-avis .btn-back:hover .icon { transform: translateX(-8px); }
+
+/* --- CONTENEUR FORMULAIRE (GLASSMORPHISM) --- */
+.section-form-avis .form-wrapper {
+    max-width: 750px;
+    width: 100%;
+    background: var(--form-bg-ieb);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 60px;
+    border: 1px solid var(--gold-light);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+    position: relative;
+    border-radius: 4px;
+}
+
+.section-form-avis .form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* --- TYPOGRAPHIE --- */
+.section-form-avis .form-header { text-align: center; margin-bottom: 50px; }
+.section-form-avis .serif-gold { 
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; 
+    color: #FFF; 
+    margin-bottom: 10px; 
+}
+.section-form-avis .form-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.75rem;
+}
+
+/* --- NOTES & ÉTOILES --- */
+.section-form-avis .rating-select { text-align: center; margin-bottom: 40px; }
+.section-form-avis .label-gold {
+    display: block;
     color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
 }
 
-.btn-back .icon {
-    margin-right: 12px;
-    transition: transform 0.3s ease;
+.section-form-avis .rating-text {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
 }
 
-.btn-back:hover .icon {
-    transform: translateX(-8px);
-}
-
-/* --- SYSTÈME DE NOTES (ÉTOILES) --- */
-.rating-select {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.stars-input {
+.section-form-avis .stars-input {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -108,141 +118,93 @@
     font-size: 2.5rem;
 }
 
-.stars-input input { display: none; }
-.stars-input label { 
+.section-form-avis .stars-input input { display: none; }
+.section-form-avis .stars-input label { 
     color: rgba(255, 255, 255, 0.05); 
     cursor: pointer; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    transition: 0.3s; 
 }
 
-.stars-input label:hover,
-.stars-input label:hover ~ label,
-.stars-input input:checked ~ label { 
+.section-form-avis .stars-input label:hover,
+.section-form-avis .stars-input label:hover ~ label,
+.section-form-avis .stars-input input:checked ~ label { 
     color: var(--gold); 
     text-shadow: 0 0 20px var(--gold-glow);
-    transform: scale(1.1);
 }
 
-/* --- TAGS DE PROJET --- */
-.project-tags {
+/* --- TAGS --- */
+.section-form-avis .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     margin: 20px 0 40px;
 }
 
-.tag {
+.section-form-avis .tag {
     padding: 10px 20px;
     border: 1px solid rgba(197, 160, 89, 0.3);
-    color: var(--white-soft);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: 0.4s;
     background: rgba(255, 255, 255, 0.02);
-    border-radius: 50px; /* Plus moderne */
+    border-radius: 50px;
 }
 
-.tag:hover {
+.section-form-avis .tag:hover, .section-form-avis .tag.active { 
     border-color: var(--gold);
     color: #FFF;
-    background: rgba(197, 160, 89, 0.1);
 }
 
-.tag.active {
-    background: var(--gold);
-    color: #000;
-    border-color: var(--gold);
-    font-weight: 700;
-    box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3);
+.section-form-avis .tag.active { 
+    background: var(--gold); 
+    color: #000; 
+    font-weight: 700; 
 }
 
-/* --- CHAMPS DE SAISIE --- */
-.input-group { 
-    margin-bottom: 45px; 
-    position: relative; 
-}
+/* --- INPUTS --- */
+.section-form-avis .input-group { margin-bottom: 45px; position: relative; }
 
-.avis-form input[type="text"], 
-.avis-form textarea {
+.section-form-avis .avis-form input[type="text"], 
+.section-form-avis .avis-form textarea {
     width: 100%;
     background: transparent;
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 15px 0;
     color: #FFF;
-    font-family: 'Montserrat', sans-serif;
+    font-family: inherit;
     font-size: 1rem;
-    font-weight: 300;
     outline: none;
     transition: 0.4s;
 }
 
-.input-group::after {
+.section-form-avis .input-group::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 1px;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
     background: var(--gold);
-    transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: 0.5s ease;
 }
 
-.input-group:focus-within::after {
-    width: 100%;
-    left: 0;
-}
+.section-form-avis .input-group:focus-within::after { width: 100%; }
 
-.avis-form input:focus::placeholder {
-    transform: translateY(-10px);
-    opacity: 0;
-    transition: 0.3s;
-}
-
-/* --- UPLOAD ZONE --- */
-.file-upload {
+/* --- UPLOAD --- */
+.section-form-avis .file-upload {
     margin: 40px 0;
     border: 1px dashed var(--gold-light);
     padding: 40px 20px;
     text-align: center;
-    transition: all 0.4s ease;
     border-radius: 8px;
-    background: rgba(197, 160, 89, 0.02);
 }
 
-.file-upload:hover { 
-    border-color: var(--gold);
-    background: rgba(197, 160, 89, 0.05);
-}
+.section-form-avis .file-label { cursor: pointer; color: var(--gold); }
 
-.file-label { 
-    cursor: pointer; 
-    color: var(--gold); 
-}
-
-.file-label .text {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 0.95rem;
-}
-
-#image-preview-container {
-    margin-top: 25px;
-    animation: fadeIn 0.5s ease;
-}
-
-#image-preview {
-    max-width: 200px;
-    border: 1px solid var(--gold);
-    padding: 5px;
-    background: #000;
-    margin-bottom: 10px;
-}
-
-/* --- BOUTON DE SOUMISSION --- */
-.btn-submit-gold {
+/* --- BOUTON SUBMIT --- */
+.section-form-avis .btn-submit-gold {
     width: 100%;
     background: var(--gold);
     color: #000;
@@ -251,45 +213,33 @@
     text-transform: uppercase;
     letter-spacing: 5px;
     font-weight: 700;
-    font-size: 0.85rem;
     cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: 0.6s;
     position: relative;
-    overflow: hidden;
 }
 
-/* Effet de brillance au survol */
-.btn-submit-gold::before {
-    content: '';
+.section-form-avis .btn-submit-gold:hover { background: #FFF; letter-spacing: 7px; }
+
+/* Animation loading */
+.section-form-avis .btn-submit-gold.sending {
+    pointer-events: none;
+    color: transparent;
+}
+.section-form-avis .btn-submit-gold.sending::after {
+    content: "Envoi...";
     position: absolute;
-    top: -50%;
-    left: -100%;
-    width: 50%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(30deg);
-    transition: 0s;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+    animation: fadeInOut 1.5s infinite;
 }
 
-.btn-submit-gold:hover {
-    background: #FFF;
-    letter-spacing: 7px;
+@keyframes fadeInOut {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
-.btn-submit-gold:hover::before {
-    left: 150%;
-    transition: 0.8s;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    .form-wrapper { padding: 40px 25px; }
-    .form-header h1 { font-size: 1.8rem; }
-    .stars-input { font-size: 2rem; gap: 10px; }
-    .project-tags { justify-content: center; }
+    .section-form-avis .form-wrapper { padding: 40px 25px; }
+    .section-form-avis .serif-gold { font-size: 1.8rem; }
 }

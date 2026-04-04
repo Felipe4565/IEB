@@ -15,16 +15,16 @@
         <div class="form-wrapper">
             <div class="form-header">
                 <h1 class="serif-gold">Votre Témoignage</h1>
-                <p class="form-subtitle">Partagez votre expérience avec l'Atelier IEB</p>
+                <p class="form-subtitle">L'excellence au service de votre projet</p>
             </div>
 
-            <form action="traitement-avis.php" method="POST" enctype="multipart/form-data" class="avis-form">
+            <form action="traitement-avis.php" method="POST" enctype="multipart/form-data" class="avis-form" id="avisForm" novalidate>
                 
                 <div class="rating-select">
-                    <span class="label-gold">Votre Note</span>
-                    <div class="rating-text" id="rating-desc">Sélectionnez votre note</div>
-                    <div class="stars-input">
-                        <input type="radio" name="rating" value="5" id="star5" required><label for="star5">★</label>
+                    <span class="label-gold">Notez votre expérience</span>
+                    <div class="rating-text" id="rating-desc">Sélectionnez vos étoiles</div>
+                    <div class="stars-input" id="stars-container">
+                        <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
                         <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
                         <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
                         <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" name="nom" placeholder="Votre Nom Complet" required autocomplete="off">
+                    <input type="text" name="nom" id="nom-input" placeholder="Sous quel nom signer ce témoignage ?" autocomplete="off">
                 </div>
 
                 <div class="input-group">
@@ -47,11 +47,11 @@
                         <div class="tag" data-value="Intérieur">Intérieur</div>
                         <div class="tag" data-value="Extérieur">Extérieur</div>
                     </div>
-                    <input type="hidden" name="projet" id="projet-selected" required>
+                    <input type="hidden" name="projet" id="projet-selected">
                 </div>
 
                 <div class="input-group">
-                    <textarea name="message" rows="5" placeholder="Racontez-nous votre projet..." required></textarea>
+                    <textarea name="message" id="message-input" rows="5" placeholder="Racontez-nous l'essence de votre projet..." spellcheck="false"></textarea>
                 </div>
 
                 <div class="file-upload" id="drop-zone">
@@ -59,17 +59,17 @@
                         <div class="upload-icon">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         </div>
-                        <span class="text" id="file-label-text">Cliquez ou glissez une photo de la réalisation</span>
+                        <span class="text" id="file-label-text">Cliquez ou glissez une photo du projet terminé</span>
                     </label>
                     <input type="file" id="photo-chantier" name="photo" accept="image/*">
                     
-                    <div id="image-preview-container" style="display: none;">
-                        <img id="image-preview" src="#" alt="Aperçu">
-                        <span id="file-name-display"></span>
+                    <div id="image-preview-container" style="display: none; margin-top: 20px;">
+                        <img id="image-preview" src="#" alt="Aperçu" style="max-width: 150px; border: 1px solid var(--gold); padding: 5px;">
+                        <p id="file-name-display" style="font-size: 10px; color: var(--gold); margin-top: 5px;"></p>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit-gold">Publier mon avis</button>
+                <button type="submit" class="btn-submit-gold" id="submit-btn">Publier mon avis</button>
             </form>
         </div>
     </div>
@@ -77,65 +77,129 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // SÉLECTION DES TAGS AVEC MICRO-INTERACTION
+    const form = document.getElementById('avisForm');
+    const wrapper = document.querySelector('.form-wrapper');
+    const submitBtn = document.getElementById('submit-btn');
+    
     const tags = document.querySelectorAll('.tag');
+    const tagsContainer = document.getElementById('project-tags');
     const hiddenInput = document.getElementById('projet-selected');
+    
+    const starsContainer = document.getElementById('stars-container');
+    const stars = document.querySelectorAll('.stars-input input');
+    const ratingDesc = document.getElementById('rating-desc');
+    
+    const nomInput = document.getElementById('nom-input');
+    const messageInput = document.getElementById('message-input');
+    
+    const fileInput = document.getElementById('photo-chantier');
+    const dropZone = document.getElementById('drop-zone');
 
+    const labels = {'5':'Excellent','4':'Très bien','3':'Bien','2':'Moyen','1':'Insatisfaisant'};
+
+    // 1. EFFET PARALLAXE SOURIS
+    document.addEventListener('mousemove', (e) => {
+        let xAxis = (window.innerWidth / 2 - e.pageX) / 100;
+        let yAxis = (window.innerHeight / 2 - e.pageY) / 100;
+        wrapper.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+    // 2. GESTION DES TAGS
     tags.forEach(tag => {
         tag.addEventListener('click', function() {
-            tags.forEach(t => {
-                t.classList.remove('active');
-                t.style.transform = "scale(1)";
-            });
+            tags.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
-            this.style.transform = "scale(1.05)";
             hiddenInput.value = this.getAttribute('data-value');
+            tagsContainer.style.boxShadow = "none"; 
         });
     });
 
-    // NOTE ÉTOILES - CHANGEMENT DE TEXTE DYNAMIQUE
-    const stars = document.querySelectorAll('.stars-input input');
-    const ratingDesc = document.getElementById('rating-desc');
-    const labels = {'5':'Excellent','4':'Très bien','3':'Bien','2':'Moyen','1':'Insatisfaisant'};
-
+    // 3. GESTION DES ÉTOILES
     stars.forEach(star => {
         star.addEventListener('change', (e) => {
             ratingDesc.innerText = labels[e.target.value];
             ratingDesc.style.color = "#C5A059";
-            ratingDesc.style.fontWeight = "bold";
-            ratingDesc.style.letterSpacing = "2px";
+            starsContainer.style.filter = "none";
         });
     });
 
-    // PRÉVIEW IMAGE & DRAG N DROP VISUEL
-    const fileInput = document.getElementById('photo-chantier');
-    const dropZone = document.getElementById('drop-zone');
-
-    fileInput.addEventListener('change', handleFiles);
-
-    function handleFiles() {
+    // 4. APERÇU IMAGE
+    fileInput.addEventListener('change', function() {
         if (this.files && this.files[0]) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 document.getElementById('image-preview').src = e.target.result;
                 document.getElementById('image-preview-container').style.display = 'block';
                 document.getElementById('file-name-display').innerText = this.files[0].name;
-                document.getElementById('file-label-text').innerText = "Changer la photo";
             };
             reader.readAsDataURL(this.files[0]);
         }
-    }
+    });
 
-    // Effet visuel lors du survol de fichier
+    // 5. VALIDATION FINALE AU SUBMIT
+    form.addEventListener('submit', function(e) {
+        let errors = [];
+
+        // Check Étoiles
+        const starChecked = document.querySelector('input[name="rating"]:checked');
+        if (!starChecked) {
+            errors.push("Note (étoiles)");
+            starsContainer.style.filter = "drop-shadow(0 0 8px #ff4d4d)";
+            ratingDesc.innerText = "⚠️ Note obligatoire";
+            ratingDesc.style.color = "#ff4d4d";
+        }
+
+        // Check Nom
+        if (nomInput.value.trim() === "") {
+            errors.push("Votre nom");
+            nomInput.style.borderBottomColor = "#ff4d4d";
+        } else {
+            nomInput.style.borderBottomColor = "";
+        }
+
+        // Check Tags
+        if (!hiddenInput.value) {
+            errors.push("Type de réalisation");
+            tagsContainer.style.boxShadow = "0 0 10px rgba(255, 77, 77, 0.5)";
+        }
+
+        // Check Message
+        if (messageInput.value.trim() === "") {
+            errors.push("Votre message");
+            messageInput.style.borderBottomColor = "#ff4d4d";
+        } else {
+            messageInput.style.borderBottomColor = "";
+        }
+
+        if (errors.length > 0) {
+            e.preventDefault(); 
+            
+            alert("Veuillez remplir les champs suivants : \n- " + errors.join("\n- "));
+
+            // Vibration du formulaire
+            wrapper.animate([
+                { transform: 'translateX(-5px) rotateX(0) rotateY(0)' },
+                { transform: 'translateX(5px) rotateX(0) rotateY(0)' },
+                { transform: 'translateX(-5px) rotateX(0) rotateY(0)' },
+                { transform: 'translateX(0) rotateX(0) rotateY(0)' }
+            ], { duration: 300 });
+
+            return false;
+        }
+
+        // Si tout est valide
+        submitBtn.classList.add('sending');
+        submitBtn.innerText = "Envoi en cours...";
+    });
+
+    // 6. DRAG & DROP VISUEL
     ['dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, e => {
             e.preventDefault();
             if (eventName === 'dragover') {
-                dropZone.style.borderColor = "#C5A059";
                 dropZone.style.background = "rgba(197, 160, 89, 0.1)";
             } else {
-                dropZone.style.borderColor = "rgba(197, 160, 89, 0.3)";
-                dropZone.style.background = "rgba(197, 160, 89, 0.02)";
+                dropZone.style.background = "transparent";
             }
         });
     });
