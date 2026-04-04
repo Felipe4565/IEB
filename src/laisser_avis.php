@@ -51,7 +51,10 @@
                 </div>
 
                 <div class="input-group">
-                    <textarea name="message" id="message-input" rows="5" placeholder="Racontez-nous l'essence de votre projet..." spellcheck="false"></textarea>
+                    <textarea name="message" id="message-input" rows="5" placeholder="Racontez-nous l'essence de votre projet..." maxlength="750" spellcheck="false"></textarea>
+                    <div id="char-count" style="text-align: right; font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 5px;">
+                        0 / 750 caractères
+                    </div>
                 </div>
 
                 <div class="file-upload" id="drop-zone">
@@ -97,6 +100,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const labels = {'5':'Excellent','4':'Très bien','3':'Bien','2':'Moyen','1':'Insatisfaisant'};
 
+    const charCount = document.getElementById('char-count');
+    const MAX_CHARS = 750;
+
     // 1. EFFET PARALLAXE SOURIS
     document.addEventListener('mousemove', (e) => {
         let xAxis = (window.innerWidth / 2 - e.pageX) / 100;
@@ -121,6 +127,21 @@ document.addEventListener('DOMContentLoaded', function() {
             ratingDesc.style.color = "#C5A059";
             starsContainer.style.filter = "none";
         });
+    });
+
+    // --- COMPTEUR DE CARACTÈRES ---
+    messageInput.addEventListener('input', function() {
+        const length = this.value.length;
+        charCount.innerText = `${length} / ${MAX_CHARS} caractères`;
+        
+        // Changement de couleur quand on approche de la limite
+        if (length >= MAX_CHARS * 0.9) {
+            charCount.style.color = "var(--gold)";
+            charCount.style.fontWeight = "bold";
+        } else {
+            charCount.style.color = "rgba(255,255,255,0.4)";
+            charCount.style.fontWeight = "normal";
+        }
     });
 
     // 4. APERÇU IMAGE
