@@ -77,37 +77,37 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. DÉCLARATION DES VARIABLES (UNE SEULE FOIS)
     const form = document.getElementById('avisForm');
     const wrapper = document.querySelector('.form-wrapper');
     const submitBtn = document.getElementById('submit-btn');
-    
     const tags = document.querySelectorAll('.tag');
     const tagsContainer = document.getElementById('project-tags');
     const hiddenInput = document.getElementById('projet-selected');
-    
     const starsContainer = document.getElementById('stars-container');
     const stars = document.querySelectorAll('.stars-input input');
     const ratingDesc = document.getElementById('rating-desc');
-    
     const nomInput = document.getElementById('nom-input');
     const messageInput = document.getElementById('message-input');
-    
     const fileInput = document.getElementById('photo-chantier');
     const dropZone = document.getElementById('drop-zone');
-
-    const labels = {'5':'Excellent','4':'Très bien','3':'Bien','2':'Moyen','1':'Insatisfaisant'};
-
+    const thumbnailsContainer = document.getElementById('thumbnails-container');
     const charCount = document.getElementById('char-count');
+    
     const MAX_CHARS = 750;
+    const labels = {'5':'Excellent','4':'Très bien','3':'Bien','2':'Moyen','1':'Insatisfaisant'};
+    
+    // Conteneur pour le cumul des fichiers
+    let allFiles = new DataTransfer();
 
-    // 1. EFFET PARALLAXE SOURIS
+    // 2. EFFET PARALLAXE SOURIS
     document.addEventListener('mousemove', (e) => {
         let xAxis = (window.innerWidth / 2 - e.pageX) / 100;
         let yAxis = (window.innerHeight / 2 - e.pageY) / 100;
         wrapper.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
     });
 
-    // 2. GESTION DES TAGS
+    // 3. GESTION DES TAGS
     tags.forEach(tag => {
         tag.addEventListener('click', function() {
             tags.forEach(t => t.classList.remove('active'));
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 3. GESTION DES ÉTOILES
+    // 4. GESTION DES ÉTOILES
     stars.forEach(star => {
         star.addEventListener('change', (e) => {
             ratingDesc.innerText = labels[e.target.value];
@@ -126,128 +126,91 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- COMPTEUR DE CARACTÈRES ---
+    // 5. COMPTEUR DE CARACTÈRES
     messageInput.addEventListener('input', function() {
         const length = this.value.length;
         charCount.innerText = `${length} / ${MAX_CHARS} caractères`;
-        
-        // Changement de couleur quand on approche de la limite
-        if (length >= MAX_CHARS * 0.9) {
-            charCount.style.color = "var(--gold)";
-            charCount.style.fontWeight = "bold";
-        } else {
-            charCount.style.color = "rgba(255,255,255,0.4)";
-            charCount.style.fontWeight = "normal";
-        }
+        charCount.style.color = (length >= MAX_CHARS * 0.9) ? "var(--gold)" : "rgba(255,255,255,0.4)";
     });
 
-    // 4. APERÇU IMAGE
-const thumbnailsContainer = document.getElementById('thumbnails-container');
-
+    // 6. GESTION DES PHOTOS (CUMUL ET APERÇU)
     fileInput.addEventListener('change', function() {
-        // On vide le container à chaque nouvelle sélection (ou on ajoute, selon ta préférence)
-        thumbnailsContainer.innerHTML = ""; 
+        const selectedFiles = Array.from(this.files);
         
-        const files = Array.from(this.files);
-        
-        if (files.length > 0) {
-            document.getElementById('file-label-text').innerText = `${files.length} photo(s) sélectionnée(s)`;
-        }
+        selectedFiles.forEach((file) => {
+            if (allFiles.items.length >= 10) return; // Limite 10 photos
 
-        files.forEach((file) => {
+            // On ajoute au panier global
+            allFiles.items.add(file);
+
             const reader = new FileReader();
             reader.onload = (e) => {
-                // Création de la vignette
                 const div = document.createElement('div');
                 div.className = 'thumbnail-item';
-                div.style.position = 'relative';
+                div.setAttribute('data-name', file.name);
                 
                 div.innerHTML = `
                     <div class="remove-thumbnail">×</div>
                     <img src="${e.target.result}" alt="Aperçu">
                 `;
 
-                // Logique de suppression individuelle au clic sur la croix
+                // Suppression
                 div.querySelector('.remove-thumbnail').addEventListener('click', () => {
+                    removeFileFromFileList(file.name);
                     div.remove();
-                    // Si on a tout supprimé, on reset le texte
-                    if (thumbnailsContainer.childElementCount === 0) {
-                        fileInput.value = "";
-                        document.getElementById('file-label-text').innerText = "Cliquez ou glissez une photo du projet terminé";
-                    }
+                    updateLabel();
                 });
 
                 thumbnailsContainer.appendChild(div);
             };
             reader.readAsDataURL(file);
         });
+
+        // On synchronise l'input avec le panier global
+        this.files = allFiles.files;
+        updateLabel();
     });
 
-    // 5. VALIDATION FINALE AU SUBMIT
+    function removeFileFromFileList(name) {
+        const updatedFiles = new DataTransfer();
+        for (let i = 0; i < allFiles.files.length; i++) {
+            if (allFiles.files[i].name !== name) {
+                updatedFiles.items.add(allFiles.files[i]);
+            }
+        }
+        allFiles = updatedFiles;
+        fileInput.files = allFiles.files;
+    }
+
+    function updateLabel() {
+        const count = allFiles.items.length;
+        const labelText = document.getElementById('file-label-text');
+        labelText.innerText = count > 0 ? `${count} photo(s) prête(s) (Ajouter +)` : "Ajoutez une ou plusieurs photos";
+    }
+
+    // 7. VALIDATION FINALE
     form.addEventListener('submit', function(e) {
         let errors = [];
-
-        // Check Étoiles
-        const starChecked = document.querySelector('input[name="rating"]:checked');
-        if (!starChecked) {
-            errors.push("Note (étoiles)");
-            starsContainer.style.filter = "drop-shadow(0 0 8px #ff4d4d)";
-            ratingDesc.innerText = "⚠️ Note obligatoire";
-            ratingDesc.style.color = "#ff4d4d";
-        }
-
-        // Check Nom
-        if (nomInput.value.trim() === "") {
-            errors.push("Votre nom");
-            nomInput.style.borderBottomColor = "#ff4d4d";
-        } else {
-            nomInput.style.borderBottomColor = "";
-        }
-
-        // Check Tags
-        if (!hiddenInput.value) {
-            errors.push("Type de réalisation");
-            tagsContainer.style.boxShadow = "0 0 10px rgba(255, 77, 77, 0.5)";
-        }
-
-        // Check Message
-        if (messageInput.value.trim() === "") {
-            errors.push("Votre message");
-            messageInput.style.borderBottomColor = "#ff4d4d";
-        } else {
-            messageInput.style.borderBottomColor = "";
-        }
+        if (!document.querySelector('input[name="rating"]:checked')) errors.push("Note");
+        if (nomInput.value.trim() === "") errors.push("Nom");
+        if (!hiddenInput.value) errors.push("Réalisation");
+        if (messageInput.value.trim() === "") errors.push("Message");
 
         if (errors.length > 0) {
-            e.preventDefault(); 
-            
-            alert("Veuillez remplir les champs suivants : \n- " + errors.join("\n- "));
-
-            // Vibration du formulaire
-            wrapper.animate([
-                { transform: 'translateX(-5px) rotateX(0) rotateY(0)' },
-                { transform: 'translateX(5px) rotateX(0) rotateY(0)' },
-                { transform: 'translateX(-5px) rotateX(0) rotateY(0)' },
-                { transform: 'translateX(0) rotateX(0) rotateY(0)' }
-            ], { duration: 300 });
-
+            e.preventDefault();
+            alert("Champs manquants : " + errors.join(", "));
             return false;
         }
 
-        // Si tout est valide
         submitBtn.classList.add('sending');
         submitBtn.innerText = "Envoi en cours...";
     });
 
-    // 6. DRAG & DROP VISUEL
+    // 8. DRAG & DROP
     ['dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, e => {
             e.preventDefault();
-            if (eventName === 'dragover') {
-                dropZone.style.background = "rgba(197, 160, 89, 0.1)";
-            } else {
-                dropZone.style.background = "transparent";
-            }
+            dropZone.style.background = (eventName === 'dragover') ? "rgba(197, 160, 89, 0.1)" : "transparent";
         });
     });
 });
