@@ -179,6 +179,7 @@
     font-size: 1rem;
     outline: none;
     transition: 0.4s;
+    resize: none; /* Empeche de redimensionner manuellement */
 }
 
 .section-form-avis .input-group::after {
@@ -237,6 +238,83 @@
 @keyframes fadeInOut {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+}
+
+/* --- NOUVEAU SYSTÈME DE MINIATURES MULTIPLES --- */
+
+/* Conteneur des vignettes */
+#thumbnails-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: center;
+}
+
+/* Chaque bloc photo */
+.thumbnail-item {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    animation: fadeIn thumbnailScale 0.4s ease-out forwards;
+}
+
+.thumbnail-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recadre l'image proprement en carré */
+    border: 1px solid var(--gold-light);
+    border-radius: 4px;
+    padding: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: border-color 0.3s;
+}
+
+.thumbnail-item:hover img {
+    border-color: var(--gold);
+}
+
+/* La petite croix rouge de suppression */
+.remove-thumbnail {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff4d4d;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+}
+
+.remove-thumbnail:hover {
+    background: #cc0000;
+    transform: scale(1.2);
+}
+
+/* Animation d'apparition des photos */
+@keyframes thumbnailScale {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- COMPTEUR DE CARACTÈRES (Pour la sécurité) --- */
+#char-count {
+    text-align: right;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
 }
 
 @media (max-width: 768px) {

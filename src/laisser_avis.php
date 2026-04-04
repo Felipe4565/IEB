@@ -62,14 +62,11 @@
                         <div class="upload-icon">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         </div>
-                        <span class="text" id="file-label-text">Cliquez ou glissez une photo du projet terminé</span>
+                        <span class="text" id="file-label-text">Ajoutez une ou plusieurs photos de votre projet</span>
                     </label>
-                    <input type="file" id="photo-chantier" name="photo" accept="image/*">
+                    <input type="file" id="photo-chantier" name="photos[]" accept="image/*" multiple style="display:none;">
                     
-                    <div id="image-preview-container" style="display: none; margin-top: 20px;">
-                        <img id="image-preview" src="#" alt="Aperçu" style="max-width: 150px; border: 1px solid var(--gold); padding: 5px;">
-                        <p id="file-name-display" style="font-size: 10px; color: var(--gold); margin-top: 5px;"></p>
-                    </div>
+                    <div id="thumbnails-container" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; justify-content: center;"></div>
                 </div>
 
                 <button type="submit" class="btn-submit-gold" id="submit-btn">Publier mon avis</button>
@@ -145,16 +142,45 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 4. APERÇU IMAGE
+const thumbnailsContainer = document.getElementById('thumbnails-container');
+
     fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
+        // On vide le container à chaque nouvelle sélection (ou on ajoute, selon ta préférence)
+        thumbnailsContainer.innerHTML = ""; 
+        
+        const files = Array.from(this.files);
+        
+        if (files.length > 0) {
+            document.getElementById('file-label-text').innerText = `${files.length} photo(s) sélectionnée(s)`;
+        }
+
+        files.forEach((file) => {
             const reader = new FileReader();
             reader.onload = (e) => {
-                document.getElementById('image-preview').src = e.target.result;
-                document.getElementById('image-preview-container').style.display = 'block';
-                document.getElementById('file-name-display').innerText = this.files[0].name;
+                // Création de la vignette
+                const div = document.createElement('div');
+                div.className = 'thumbnail-item';
+                div.style.position = 'relative';
+                
+                div.innerHTML = `
+                    <div class="remove-thumbnail">×</div>
+                    <img src="${e.target.result}" alt="Aperçu">
+                `;
+
+                // Logique de suppression individuelle au clic sur la croix
+                div.querySelector('.remove-thumbnail').addEventListener('click', () => {
+                    div.remove();
+                    // Si on a tout supprimé, on reset le texte
+                    if (thumbnailsContainer.childElementCount === 0) {
+                        fileInput.value = "";
+                        document.getElementById('file-label-text').innerText = "Cliquez ou glissez une photo du projet terminé";
+                    }
+                });
+
+                thumbnailsContainer.appendChild(div);
             };
-            reader.readAsDataURL(this.files[0]);
-        }
+            reader.readAsDataURL(file);
+        });
     });
 
     // 5. VALIDATION FINALE AU SUBMIT
