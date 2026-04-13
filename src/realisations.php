@@ -107,7 +107,13 @@ include 'includes/header.php';
             </div>
         </div>
 
-    </section>
+        <div id="no-results" class="hide" style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
+            <p style="color: var(--text-gold); font-family: 'Playfair Display', serif; font-size: 20px;">
+                Aucune réalisation ne correspond à votre recherche.
+            </p>
+        </div>
+
+</section>
 </main>
 
 <script>
@@ -115,11 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.search-bar input');
     const filterButtons = document.querySelectorAll('.filters button');
     const cards = document.querySelectorAll('.card');
+    const noResults = document.getElementById('no-results'); // On récupère le message
 
     function filterEverything() {
         const text = searchInput.value.toLowerCase().trim();
         const activeBtn = document.querySelector('.filters button.active');
         const filter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+        
+        let visibleCount = 0; // Compteur pour savoir si des cartes sont affichées
 
         cards.forEach(card => {
             const title = card.querySelector('h3').innerText.toLowerCase();
@@ -130,13 +139,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (matchText && matchFilter) {
                 card.classList.remove('hide');
+                visibleCount++; // On incrémente si la carte est visible
             } else {
                 card.classList.add('hide');
             }
         });
+
+        // Afficher ou cacher le message "Aucun résultat"
+        if (visibleCount === 0) {
+            noResults.classList.remove('hide');
+        } else {
+            noResults.classList.add('hide');
+        }
     }
 
-    // On utilise 'input' pour une réaction immédiate
     searchInput.addEventListener('input', filterEverything);
 
     filterButtons.forEach(btn => {

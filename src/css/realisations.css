@@ -226,3 +226,11 @@ body {
 .card.hide {
     display: none !important;
 }
+
+#no-results {
+    transition: opacity 0.3s ease;
+}
+
+#no-results.hide {
+    display: none !important; /* Pour la logique JS */
+}
