@@ -22,16 +22,16 @@ include('includes/header.php');
             
             <div class="adn-visuals">
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/precision.jpg" alt="Tracé de précision">
+                    <img src="assets/img/services/precision.jpg" alt="Tracé de précision">
                 </div>
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/geste.jpg" alt="Assemblage à tenon mortaise">
+                    <img src="assets/img/services/geste.jpg" alt="Assemblage à tenon mortaise">
                 </div>
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/technologie.jpg" alt="Usinage de précision">
+                    <img src="assets/img/services/technologie.jpg" alt="Usinage de précision">
                 </div>
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/matiere.jpg" alt="Finition artisanale">
+                    <img src="assets/img/services/matiere.jpg" alt="Finition artisanale">
                 </div>
             </div>
 
@@ -42,17 +42,17 @@ include('includes/header.php');
                 <div class="adn-list-container">
                     <div class="adn-list-item">
                         <div class="adn-list-icon">
-                            <img src="assets/img/compas_icon.png" alt="Transformation">
+                            <img src="assets/img/services/compas_icon.png" alt="Transformation">
                         </div>
                         <div class="adn-list-text">
                             <h3>TRANSFORMATION</h3>
-                            <p>Nous adaptons l’existant et concevons des structures sans limites, du traçage préliminaire à la concrétisation du projet.</p>
+                            <p>Nous adaptons l'existant et concevons des structures sans limites, du traçage préliminaire à la concrétisation du projet.</p>
                         </div>
                     </div>
 
                     <div class="adn-list-item">
                         <div class="adn-list-icon">
-                            <img src="assets/img/equerre_icon.png" alt="Fabrication">
+                            <img src="assets/img/services/equerre_icon.png" alt="Fabrication">
                         </div>
                         <div class="adn-list-text">
                             <h3>FABRICATION SUR MESURE</h3>
@@ -75,7 +75,7 @@ include('includes/header.php');
             
             <div class="expertise-card">
                 <div class="expertise-image">
-                    <img src="assets/img/exterieur.jpg" alt="Menuiserie Extérieure">
+                    <img src="assets/img/services/exterieur.jpg" alt="Menuiserie Extérieure">
                 </div>
                 <div class="expertise-content">
                     <h3>MENUISERIE EXTÉRIEURE</h3>
@@ -98,7 +98,7 @@ include('includes/header.php');
 
             <div class="expertise-card">
                 <div class="expertise-image">
-                    <img src="assets/img/interieur.jpg" alt="Menuiserie Intérieure">
+                    <img src="assets/img/services/interieur.jpg" alt="Menuiserie Intérieure">
                 </div>
                 <div class="expertise-content">
                     <h3>MENUISERIE INTÉRIEURE</h3>
@@ -130,7 +130,7 @@ include('includes/header.php');
         <div class="services-icons-grid">
             <div class="s-icon-card">
                 <div class="icon-wrapper">
-                    <img src="assets/img/stylo_icon.png" alt="Conseil">
+                    <img src="assets/img/services/stylo_icon.png" alt="Conseil">
                 </div>
                 <h4>Conseil & Étude</h4>
                 <p>Analyse personnalisée et choix des essences pour un projet qui vous ressemble.</p>
@@ -138,7 +138,7 @@ include('includes/header.php');
 
             <div class="s-icon-card">
                 <div class="icon-wrapper">
-                    <img src="assets/img/maillet_icon.png" alt="Installation">
+                    <img src="assets/img/services/maillet_icon.png" alt="Installation">
                 </div>
                 <h4>Installation Expertise</h4>
                 <p>Pose millimétrée par nos équipes qualifiées, dans le respect des règles de l'art.</p>
@@ -146,7 +146,7 @@ include('includes/header.php');
 
             <div class="s-icon-card">
                 <div class="icon-wrapper">
-                    <img src="assets/img/bouclier_icon.png" alt="Entretien">
+                    <img src="assets/img/services/bouclier_icon.png" alt="Entretien">
                 </div>
                 <h4>Entretien & Suivi</h4>
                 <p>Suivi durable pour garantir la longévité et l'éclat de vos ouvrages en bois.</p>

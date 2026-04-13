@@ -6,7 +6,7 @@ include('includes/header.php');
 ?>
 
 <main class="atelier-page">
-    <section class="hero-premium hero-entreprise" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/img/fond_atelier.jpg');">
+    <section class="hero-premium hero-entreprise" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/img/atelier/fond_atelier.jpg');">
         <div class="hero-content-overlay">
             <span class="gold-subtitle">Depuis 2001</span>
             <h1>L'Atelier IEB</h1>
@@ -23,7 +23,7 @@ include('includes/header.php');
             </div>
             <div class="intro-featured-img">
                 <div class="image-frame">
-                    <img src="assets/img/heritage_meuble.jpg" alt="Détail technique Héritage">
+                    <img src="assets/img/atelier/heritage_meuble.jpg" alt="Détail technique Héritage">
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@ include('includes/header.php');
             <div class="team-grid">
             <div class="team-item">
                 <div class="image-box">
-                    <img src="assets/img/Alvariza.jpg" alt="Leonardo Freddy Alvariza">
+                    <img src="assets/img/atelier/Alvariza.jpg" alt="Leonardo Freddy Alvariza">
                     <a href="personne_page.php?id=leonardo" class="btn-more">En savoir plus</a>
                 </div>
                 <h3>Leonardo Freddy Alvariza</h3>
@@ -44,7 +44,7 @@ include('includes/header.php');
 
             <div class="team-item">
                 <div class="image-box">
-                    <img src="assets/img/employé_type.jpg" alt="Julian Alvariza">
+                    <img src="assets/img/atelier/employé_type.jpg" alt="Julian Alvariza">
                     <a href="personne_page.php?id=julian" class="btn-more">En savoir plus</a>
                 </div>
                 <h3>Julian Alvariza</h3>
@@ -57,19 +57,19 @@ include('includes/header.php');
     <section class="entreprise-labels container">
         <div class="labels-wrapper">
         <div class="label-box">
-            <img src="assets/img/icon_exp.png" alt="Expérience">
+            <img src="assets/img/atelier/icon_exp.png" alt="Expérience">
             <span>+20 ans d'expérience</span>
             <p>Savoir-faire</p>
         </div>
 
         <div class="label-box">
-            <img src="assets/img/icon_qualite.png" alt="Sur mesure">
+            <img src="assets/img/atelier/icon_qualite.png" alt="Sur mesure">
             <span>Fabrication sur mesure</span>
             <p>Qualité</p>
         </div>
 
         <div class="label-box">
-            <img src="assets/img/icon_prox.png" alt="Île-de-France">
+            <img src="assets/img/atelier/icon_prox.png" alt="Île-de-France">
             <span>Intervention en Île-de-France et en France</span>
             <p>Proximité</p>
         </div>

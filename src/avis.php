@@ -17,7 +17,7 @@
                rel="noopener noreferrer" 
                class="google-badge-link">
                 <div class="google-badge">
-                    <img src="assets/img/google.png" alt="Google">
+                    <img src="assets/img/avis/google.png" alt="Google">
                     <span>Évaluations vérifiées par <strong>Google Business</strong></span>
                 </div>
             </a>
@@ -33,8 +33,8 @@
         <div class="comparison-card">
             
             <div class="comparison-slider">
-                <div class="img-after" style="background-image: url('assets/img/apres.png');"></div>
-                <div class="img-before" style="background-image: url('assets/img/avant.png');"></div>
+                <div class="img-after" style="background-image: url('assets/img/avis/apres.png');"></div>
+                <div class="img-before" style="background-image: url('assets/img/avis/avant.png');"></div>
                 
                 <input type="range" min="0" max="100" value="50" class="slider-handle" id="compare-slider">
                 <div class="slider-line" id="slider-line"></div>

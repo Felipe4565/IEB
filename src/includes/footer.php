@@ -64,7 +64,7 @@
                     <a href="mailto:interieurexterieurbois@orange.fr">interieurexterieurbois@orange.fr</a>
                 </div>
                 <div class="payment-icons">
-                    <img src="assets/img/visa-mastercard.jpg" alt="Paiement sécurisé" class="img-pay">
+                    <img src="assets/img/footer/visa-mastercard.jpg" alt="Paiement sécurisé" class="img-pay">
                 </div>
             </div>
             <p class="copyright">&copy; 2026 INTÉRIEUR EXTÉRIEUR BOIS | CRÉATION FELIPE ALVARIZA</p>
@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Si on clique sur le tiroir déjà ouvert -> on ferme tout
             if (currentOpenDrawer === drawerNumber) {
-                mainImg.src = 'assets/img/meuble_close.png';
+                mainImg.src = 'assets/img/accueil/meuble_close.png';
                 factContents.forEach(c => c.classList.remove('active'));
                 if(defaultFact) defaultFact.classList.add('active');
                 currentOpenDrawer = null;
             } 
             // Sinon -> on ouvre le nouveau tiroir
             else {
-                mainImg.src = 'assets/img/meuble_open' + drawerNumber + '.png';
+                mainImg.src = 'assets/img/accueil/meuble_open' + drawerNumber + '.png';
                 
                 factContents.forEach(c => c.classList.remove('active'));
                 const activeContent = document.getElementById(targetFactId);

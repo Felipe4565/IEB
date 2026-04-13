@@ -11,7 +11,7 @@ $team_members = [
     'leonardo' => [
         'name' => 'Leonardo Freddy Alvariza',
         'role' => 'Gérant et Menuisier intérieur/extérieur bois',
-        'image' => 'assets/img/Alvariza.jpg',
+        'image' => 'assets/img/atelier/Alvariza.jpg',
         'bio' => 'Leonardo est né en Uruguay et a voyagé à travers l’Europe. Il a d’abord travaillé en France puis en Italie avant de fonder IEB en 2001. Seul au départ, il a développé son activité avec passion, et au fil des années, l’entreprise a grandi et ses clients se sont diversifiés, expliquant une croissance exponentielle.',
         'cards' => [
             ['title' => 'Expérience', 'text' => '+20 ans'],
@@ -22,7 +22,7 @@ $team_members = [
     'julian' => [
         'name' => 'Julian Alvariza',
         'role' => 'Menuisier spécialisé sur mesure',
-        'image' => 'assets/img/employé_type.jpg',
+        'image' => 'assets/img/atelier/employé_type.jpg',
         'bio' => 'Julian est spécialisé dans la fabrication sur mesure et le travail de précision. Il apporte sa créativité et son expertise au service de chaque projet.',
         'cards' => [
             ['title' => 'Expertise', 'text' => 'Sur mesure'],

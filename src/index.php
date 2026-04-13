@@ -4,7 +4,7 @@
     <section class="hero-premium">
         <div class="video-bg-wrapper">
             <video autoplay muted loop playsinline class="video-element">
-                <source src="assets/img/video_ralenti.mp4" type="video/mp4">
+                <source src="/assets/img/accueil/video_ralenti.mp4" type="video/mp4">
             </video>
             <div class="video-overlay-dark"></div>
         </div>
@@ -39,7 +39,7 @@
             <div class="gallery-grid">
                 <div class="gallery-item">
                     <div class="image-box">
-                        <img src="assets/img/Intérieur.jpg" alt="Intérieur">
+                        <img src="assets/img/accueil/Intérieur.jpg" alt="Intérieur">
                     </div>
                     <h3>Intérieur</h3>
                     <p>Des travaux d'intérieur sur mesure</p>
@@ -47,7 +47,7 @@
 
                 <div class="gallery-item">
                     <div class="image-box">
-                        <img src="assets/img/extérieur.jpg" alt="Extérieur">
+                        <img src="assets/img/accueil/extérieur.jpg" alt="Extérieur">
                     </div>
                     <h3>Extérieur</h3>
                     <p>Des créations en bois pour votre jardin et terrasse</p>
@@ -55,7 +55,7 @@
 
                 <div class="gallery-item">
                     <div class="image-box">
-                        <img src="assets/img/mobilier.jpg" alt="Mobilier">
+                        <img src="assets/img/accueil/mobilier.jpg" alt="Mobilier">
                     </div>
                     <h3>Mobilier</h3>
                     <p>Des créations signées pour votre intérieur</p>
@@ -74,7 +74,7 @@
 
         <div class="interactive-container">
             <div class="furniture-wrapper">
-                <img src="assets/img/meuble_close.png" id="main-furniture" alt="Meuble IEB">
+                <img src="assets/img/accueil/meuble_close.png" id="main-furniture" alt="Meuble IEB">
                 
                 <svg viewBox="0 0 2205 790" preserveAspectRatio="none" class="interaction-layer">
                     <polygon points="610,400 1080,380 1100,530 610,600" class="drawer-trigger" data-fact="fact1" style="fill: transparent;"></polygon>                    

@@ -1,0 +1,228 @@
+/* --- Variables & Reset --- */
+:root {
+    /* On reprend le gris anthracite chaud de ton header au lieu du noir pur */
+    --bg-dark: #121212; 
+    --text-gold: #c5a36b;
+    --text-white: #e0e0e0;
+    --grey-muted: rgba(255, 255, 255, 0.4);
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark); /* Ta couleur d'origine */
+    color: var(--text-white);
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- Section Hero --- */
+.portfolio-page .hero {
+    text-align: center;
+    padding: 100px 20px 40px;
+}
+
+.portfolio-page .hero .subtitle {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--grey-muted);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.portfolio-page .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 12px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+/* --- Navigation & Filtres --- */
+.filters-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.filters {
+    display: flex;
+    gap: 20px;
+}
+
+.filters button {
+    background: none;
+    border: none;
+    color: var(--grey-muted);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.filters button.active {
+    color: #fff;
+}
+
+.filters button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #fff;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    /* Fond très légèrement éclairé pour rester en harmonie avec le header */
+    background: rgba(255, 255, 255, 0.03); 
+    /* Bordure fine et discrète */
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    color: #fff;
+    padding: 10px 15px 10px 40px; /* Espace à gauche pour une icône loupe si besoin */
+    border-radius: 4px;
+    font-size: 13px;
+    width: 280px;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Effet au clic (Focus) */
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--text-gold); /* Rappel du doré IEB */
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(197, 163, 107, 0.1); /* Lueur dorée très légère */
+}
+
+/* Style du texte d'aide (Placeholder) */
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+/* Optionnel : Ajout d'une barre de séparation verticale avant la recherche comme sur le modèle */
+.search-bar::before {
+    content: "";
+    height: 20px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin-right: 20px;
+    display: inline-block;
+}
+
+/* --- Grille de Portfolio --- */
+.grid-portfolio {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 30px 80px;
+}
+
+/* --- Cartes de Projet --- */
+.card {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 6px; 
+    background-color: #1a1a1a;
+    
+    transform: translateZ(0);
+    will-change: opacity; 
+    transition: opacity 0.25s ease-out; 
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 25px;
+    /* On assombrit plus fort le bas pour faire ressortir le blanc */
+    background: linear-gradient(to top, 
+        rgba(0, 0, 0, 0.9) 0%, 
+        rgba(0, 0, 0, 0.5) 35%, 
+        rgba(0, 0, 0, 0.1) 60%,
+        transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.card-overlay span {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-gold); /* Ton doré */
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    /* Ombre portée subtile pour détacher du fond */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.card-overlay h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    font-weight: 400;
+    /* Ombre portée plus large pour le titre */
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* --- Bouton --- */
+.btn-more {
+    background: rgba(255, 255, 255, 0.15); /* Légèrement plus opaque */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 8px 18px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-more:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+/* Hover sur la carte */
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* --- Transition Douce Footer --- */
+.portfolio-page {
+    padding-bottom: 120px; 
+}
+
+.card.hide {
+    display: none !important;
+}
