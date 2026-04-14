@@ -29,6 +29,8 @@ include('includes/header.php');
         </div>
     </section>
 
+    <div class="transition-luxe"></div>
+
     <section class="entreprise-team section-padding">
         <div class="container">
             <h2 class="center-title">Les mains de l'expertise</h2>

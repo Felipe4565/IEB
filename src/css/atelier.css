@@ -92,18 +92,71 @@
     border: 1px solid rgba(197, 166, 124, 0.1); /* Micro bordure dorée */
 }
 
-/* --- TEAM --- */
-.entreprise-team { 
-    background-color: #141610; /* Un gris-vert très sombre pour varier du noir pur */
-    color: #fff; 
-    padding: 100px 0; 
+/* --- TRANSITION HÉRITAGE VERS EXPERTISE --- */
+
+/* 1. On donne du poids à la section du haut */
+.section-intro-heritage {
+    position: relative;
+    background-color: #0d0e0a;
+    padding-bottom: 0 !important;
+    z-index: 10; /* Doit être supérieur à l'expertise */
 }
+
+/* 2. Le fondu : on utilise un bloc réel au lieu d'un pseudo-élément 
+   si le pseudo-élément ne s'affiche pas chez toi */
+.section-intro-heritage::after {
+    content: "";
+    position: absolute;
+    bottom: -150px; /* On le fait descendre sur la section d'en dessous */
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, #0d0e0a 0%, #141610 100%);
+    z-index: 999; /* Force le passage au-dessus */
+    pointer-events: none;
+    display: block;
+}
+
+/* --- TRANSITION PHYSIQUE AFFINÉE --- */
+.transition-luxe {
+    width: 100%;
+    height: 250px; /* On augmente la hauteur pour que le fondu soit plus long */
+    background: linear-gradient(to bottom, #0d0e0a 0%, #141610 70%);
+    margin-top: -5px;   /* On "mange" un peu sur la section du haut pour éviter le trait */
+    margin-bottom: -5px;/* On "mange" sur celle du bas */
+    position: relative;
+    z-index: 5;
+}
+
+/* 3. Section Expertise (Team) */
+.entreprise-team {
+    position: relative;
+    z-index: 1; /* Plus bas */
+    background-color: #141610; 
+    margin-top: 0;
+    padding-top: 100px; /* Espace pour laisser le dégradé respirer */
+}
+
 .center-title { 
     text-align: center; 
-    margin-bottom: 50px; 
-    font-size: 2.2rem; 
+    margin-bottom: 120px; /* On passe de 60 à 90 pour aérer */    font-size: 3.5rem; /* Augmenté (était à 2.2rem) */
     color: #fff; 
     font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-style: italic; /* L'italique en Playfair donne un côté très haut de gamme */
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 10; /* Pour passer par-dessus la fin du dégradé si besoin */
+}
+
+/* Optionnel : une petite ligne dorée sous le titre pour asseoir l'expertise */
+.center-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 2px;
+    background-color: #c5a67c;
+    margin: 20px auto 0;
 }
 
 .team-grid { 
