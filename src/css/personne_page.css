@@ -140,23 +140,3 @@
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 900px) {
-    .member-container {
-        grid-template-columns: 1fr;
-        gap: 50px;
-        text-align: center;
-    }
-
-    .member-image img {
-        max-width: 100%;
-    }
-
-    .member-image::after {
-        display: none; /* On retire le cadre sur mobile pour éviter les bugs de largeur */
-    }
-
-    .member-cards {
-        flex-direction: column;
-    }
-}

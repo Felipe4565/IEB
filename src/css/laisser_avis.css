@@ -316,7 +316,3 @@
     transition: color 0.3s;
 }
 
-@media (max-width: 768px) {
-    .section-form-avis .form-wrapper { padding: 40px 25px; }
-    .section-form-avis .serif-gold { font-size: 1.8rem; }
-}

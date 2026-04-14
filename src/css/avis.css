@@ -374,9 +374,3 @@
     display: none;
 }
 
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .comparison-card { grid-template-columns: 1fr; }
-    .transformation-text { padding: 40px 20px; }
-    .reviews-header { flex-direction: column; gap: 30px; text-align: center; }
-}

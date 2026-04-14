@@ -266,8 +266,3 @@
     letter-spacing: 1px;
 }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 850px) {
-    .intro-grid { grid-template-columns: 1fr; }
-    .image-frame::after { display: none; }
-}
