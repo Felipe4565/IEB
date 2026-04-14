@@ -4,11 +4,10 @@
    ============================================================ */
 
 :root {
-    --gold: #C5A059;
-    --gold-light: rgba(197, 160, 89, 0.2);
-    --gold-glow: rgba(197, 160, 89, 0.4);
-    --dark-ieb: #0E1A11; 
-    --form-bg-ieb: rgba(0, 0, 0, 0.85);
+    --gold: #c5a67c;            /* Corrigé : était #C5A059 */
+    --dark-ieb: #0d0e0a;        /* Corrigé pour cohérence fond principal */
+    --gold-light: rgba(197, 166, 124, 0.2);
+    --gold-glow: rgba(197, 166, 124, 0.4);
 }
 
 /* Fond de la section */
@@ -25,7 +24,7 @@
 /* C'est ce bloc qui remet le formulaire au milieu */
 .section-form-avis .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     display: flex;
     flex-direction: column;
     align-items: center; /* Aligne le contenu (nav + wrapper) au centre */

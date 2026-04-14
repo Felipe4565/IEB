@@ -2,11 +2,12 @@
 /* --- Variables & Base --- */
 :root {
     --gold: #c5a67c;
-    --dark-bg: #1b201d;    
-    --card-bg: #242a26;    
-    --text-light: #f4f1ea; 
+    --dark-bg: #0d0e0a;    /* Corrigé : était #1b201d */
+    --card-bg: #161811;    /* Aligné sur --bg-light de style.css */
+    --text-light: #f4f1ea;
     --text-muted: #a0a8a3; 
-}
+
+} 
 
 .services-page {
     background-color: var(--dark-bg);
@@ -15,7 +16,7 @@
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -30,7 +31,12 @@
     margin-bottom: 10px;
 }
 .center-subtitle, .center-title { text-align: center; }
-h2 { font-size: 2.5rem; margin-bottom: 30px; }
+h2 {
+    
+    font-size: 2.5rem;
+     margin-bottom: 30px;
+    font-family: 'Playfair Display', serif;
+}
 
 /* --- Section Showroom --- */
 .showroom-banner {

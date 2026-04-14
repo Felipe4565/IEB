@@ -1,11 +1,9 @@
 /* --- Variables & Reset --- */
 :root {
-    /* On reprend le gris anthracite chaud de ton header au lieu du noir pur */
-    --bg-dark: #121212; 
-    --text-gold: #c5a36b;
-    --text-white: #e0e0e0;
-    --grey-muted: rgba(255, 255, 255, 0.4);
-    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --bg-dark: #0d0e0a;      /* Corrigé : était #121212 */
+    --text-gold: #c5a67c;    /* Corrigé : était #c5a36b */
+    --text-white: #f4f1ea;   /* Corrigé pour le beige luxe */
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -15,10 +13,9 @@
 }
 
 body {
-    background-color: var(--bg-dark); /* Ta couleur d'origine */
+    background-color: var(--bg-dark);    
     color: var(--text-white);
-    font-family: 'Inter', sans-serif;
-}
+    font-family: 'Montserrat', sans-serif; /* Corrigé : était 'Inter' */}
 
 /* --- Section Hero --- */
 .portfolio-page .hero {
@@ -40,6 +37,11 @@ body {
     letter-spacing: 12px;
     font-weight: 300;
     text-transform: uppercase;
+}
+
+/* Harmonisation conteneur */
+.portfolio-page .container {
+    max-width: 1400px; 
 }
 
 /* --- Navigation & Filtres --- */

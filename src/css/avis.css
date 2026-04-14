@@ -1,9 +1,9 @@
 /* --- VARIABLES --- */
 :root {
-    --gold: #C5A059;
-    --dark-bg: #0A0A0A;
+    --gold: #c5a67c;     /* Corrigé : était #C5A059 */
+    --dark-bg: #0d0e0a;   /* Corrigé : était #0A0A0A */
     --green-bg: #0E1A11;
-    --text-light: #E5E5E5;
+    --text-light: #f4f1ea; /* Corrigé : était #E5E5E5 */
 }
 
 .page-avis {
@@ -12,7 +12,7 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
 /* --- SECTION 1 : HERO (VERSION STABLE & AFFICHAGE COMPLET) --- */
 .hero-score {
@@ -62,7 +62,7 @@
     /* On ajoute un léger padding vertical pour laisser de la place au dégradé */
     padding: 10px 0;
     
-    background: linear-gradient(180deg, #FFFFFF 30%, #C5A059 100%);
+    background: linear-gradient(180deg, #FFFFFF 30%, #c5a67c 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     

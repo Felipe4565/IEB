@@ -38,7 +38,7 @@
     grid-template-columns: 1fr 1.2fr; /* On donne un peu plus de place au texte */
     gap: 80px;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 

@@ -3,13 +3,21 @@
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
 
+/* --- VARIABLES HARMONISÉES --- */
 :root {
-    --dark-wood: #0d0e0a;      /* Un noir plus profond et luxueux */
-    --bg-light: #161811;       /* Une nuance pour les sections en alternance */
+    --dark-wood: #0d0e0a;      
+    --bg-light: #161811;       
     --light-beige: #f4f1ea;    
-    --gold-accent: #c5a67c;    
+    --gold-accent: #c5a67c;    /* Le doré de référence */
     --gold-glow: rgba(197, 166, 124, 0.3);
-    --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Transition plus "soyeuse" */
+    --transition-luxe: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* La transition "soyeuse" */
+}
+
+/* --- STRUCTURE --- */
+.container { 
+    width: 90%; 
+    max-width: 1400px; /* Largeur de référence */
+    margin: 0 auto; 
 }
 
 .card-premium {
