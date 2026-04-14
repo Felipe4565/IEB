@@ -133,6 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configuration du nombre d'images
     let itemsToShow = 6; // Nombre de projets affichés par défaut
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get('filter');
+
+    if (filterParam) {
+        const targetBtn = document.querySelector(`.filters button[data-filter="${filterParam}"]`);
+        if (targetBtn) {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            targetBtn.classList.add('active');
+        }
+    }
+
     function filterEverything() {
         const text = searchInput.value.toLowerCase().trim();
         const activeBtn = document.querySelector('.filters button.active');

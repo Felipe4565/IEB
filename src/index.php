@@ -29,40 +29,40 @@
         </div>
     </section>
 
-    <section class="section-gallery">
-        <div class="container">
-            <div class="gallery-intro">
-                <h2>Bienvenue chez Intérieur Extérieur Bois</h2>
-                <p class="gold-subtitle">Découvrez l'art du bois sur-mesure</p>
-            </div>
-
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="image-box">
-                        <img src="assets/img/accueil/Intérieur.jpg" alt="Intérieur">
-                    </div>
-                    <h3>Intérieur</h3>
-                    <p>Des travaux d'intérieur sur mesure</p>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="image-box">
-                        <img src="assets/img/accueil/extérieur.jpg" alt="Extérieur">
-                    </div>
-                    <h3>Extérieur</h3>
-                    <p>Des créations en bois pour votre jardin et terrasse</p>
-                </div>
-
-                <div class="gallery-item">
-                    <div class="image-box">
-                        <img src="assets/img/accueil/mobilier.jpg" alt="Mobilier">
-                    </div>
-                    <h3>Mobilier</h3>
-                    <p>Des créations signées pour votre intérieur</p>
-                </div>
-            </div>
+<section class="section-gallery">
+    <div class="container">
+        <div class="gallery-intro">
+            <h2>Bienvenue chez Intérieur Extérieur Bois</h2>
+            <p class="gold-subtitle">Découvrez l'art du bois sur-mesure</p>
         </div>
-    </section>
+
+        <div class="gallery-grid">
+            <a href="realisations.php?filter=interieur" class="gallery-item">
+                <div class="image-box">
+                    <img src="assets/img/accueil/Intérieur.jpg" alt="Intérieur">
+                </div>
+                <h3>Intérieur</h3>
+                <p>Des travaux d'intérieur sur mesure</p>
+            </a>
+
+            <a href="realisations.php?filter=exterieur" class="gallery-item">
+                <div class="image-box">
+                    <img src="assets/img/accueil/extérieur.jpg" alt="Extérieur">
+                </div>
+                <h3>Extérieur</h3>
+                <p>Des créations en bois pour votre jardin et terrasse</p>
+            </a>
+
+            <a href="realisations.php?filter=sur-mesure" class="gallery-item">
+                <div class="image-box">
+                    <img src="assets/img/accueil/mobilier.jpg" alt="Mobilier">
+                </div>
+                <h3>Mobilier</h3>
+                <p>Des créations signées pour votre intérieur</p>
+            </a>
+        </div>
+    </div>
+</section>
 
 <section class="furniture-experience">
     <div class="container">

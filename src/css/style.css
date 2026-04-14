@@ -406,6 +406,12 @@ section {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+a.gallery-item {
+    text-decoration: none; /* Supprime le soulignement */
+    color: inherit;       /* Garde les couleurs définies dans ton CSS */
+    display: block;       /* Garde le comportement de bloc */
+}
+
 .gallery-item:hover .image-box img {
     transform: scale(1.08);
     filter: brightness(1.1) contrast(1.05);
