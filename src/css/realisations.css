@@ -55,33 +55,44 @@ body {
 
 .filters {
     display: flex;
-    gap: 20px;
+    gap: 25px; /* Un peu plus d'espace entre les mots pour le luxe */
 }
 
 .filters button {
     background: none;
     border: none;
-    color: var(--grey-muted);
+    color: rgba(244, 241, 234, 0.4); /* Blanc cassé très discret */
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 2px;
     cursor: pointer;
-    padding-bottom: 5px;
+    padding: 0 0 8px 0; /* Padding uniquement en bas */
     position: relative;
+    transition: color 0.4s ease;
 }
 
-.filters button.active {
-    color: #fff;
+/* État Actif ET Survol : Couleur Gold */
+.filters button.active, 
+.filters button:hover {
+    color: var(--text-gold);
 }
 
-.filters button.active::after {
+/* Création de la ligne sous le bouton */
+.filters button::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 0; /* Caché par défaut */
     height: 1px;
-    background: #fff;
+    background: var(--text-gold);
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* La ligne s'affiche en entier si actif OU au survol */
+.filters button.active::after,
+.filters button:hover::after {
+    width: 100%;
 }
 
 .search-bar {
@@ -199,8 +210,7 @@ body {
 /* --- Bouton --- */
 .btn-more {
     background: rgba(255, 255, 255, 0.15); /* Légèrement plus opaque */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
+    border: 1px solid rgba(197, 166, 124, 0.3); /* Bordure dorée mais très transparente par défaut */    color: #fff;
     padding: 8px 18px;
     font-size: 10px;
     text-transform: uppercase;
@@ -210,9 +220,10 @@ body {
 }
 
 .btn-more:hover {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
+    background: var(--text-gold);
+    color: #0d0e0a; /* Le texte passe en noir/sombre pour être lisible sur le fond gold */
+    border-color: var(--text-gold);
+    box-shadow: 0 5px 15px rgba(197, 166, 124, 0.2); /* Légère lueur dorée */
 }
 
 /* Hover sur la carte */
