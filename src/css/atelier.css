@@ -94,27 +94,15 @@
 
 /* --- TRANSITION HÉRITAGE VERS EXPERTISE --- */
 
-/* 1. On donne du poids à la section du haut */
-.section-intro-heritage {
-    position: relative;
-    background-color: #0d0e0a;
-    padding-bottom: 0 !important;
-    z-index: 10; /* Doit être supérieur à l'expertise */
-}
+/* --- SECTION HÉRITAGE (ENTREPRISE-INTRO) --- */
 
-/* 2. Le fondu : on utilise un bloc réel au lieu d'un pseudo-élément 
-   si le pseudo-élément ne s'affiche pas chez toi */
-.section-intro-heritage::after {
-    content: "";
-    position: absolute;
-    bottom: -150px; /* On le fait descendre sur la section d'en dessous */
-    left: 0;
-    width: 100%;
-    height: 150px;
-    background: linear-gradient(to bottom, #0d0e0a 0%, #141610 100%);
-    z-index: 999; /* Force le passage au-dessus */
-    pointer-events: none;
-    display: block;
+.entreprise-intro {
+    background-color: #0d0e0a;
+    /* On force l'espace en haut (140px) et en bas (100px) */
+    padding-top: 140px !important; 
+    padding-bottom: 50px !important; 
+    position: relative;
+    z-index: 10;
 }
 
 /* --- TRANSITION PHYSIQUE AFFINÉE --- */
