@@ -67,18 +67,24 @@ include('includes/header.php');
 
 <section class="expertise-ieb expertise-redesign expertise-interactive">
     <div class="container">
-        
         <span class="subtitle-ieb subtitle-expertise center-ieb">NOS DOMAINES D'EXCELLENCE</span>
         <h2 class="title-ieb title-expertise center-ieb">Une Expertise Complète</h2>
 
         <div class="expertise-flex-container">
             
             <div class="expertise-card">
-                <div class="expertise-image">
-                    <img src="assets/img/services/exterieur.jpg" alt="Menuiserie Extérieure">
-                </div>
+                <a href="realisations.php?filter=exterieur" class="expertise-link-wrapper">
+                    <div class="expertise-image">
+                        <img src="assets/img/services/exterieur.jpg" alt="Menuiserie Extérieure">
+                        <div class="expertise-overlay-hover">
+                            <span>Voir les réalisations <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </a>
                 <div class="expertise-content">
-                    <h3>MENUISERIE EXTÉRIEURE</h3>
+                    <a href="realisations.php?filter=exterieur">
+                        <h3>MENUISERIE EXTÉRIEURE</h3>
+                    </a>
                     <div class="expertise-lists">
                         <ul>
                             <li><strong>OUVERTURES</strong></li>
@@ -97,11 +103,18 @@ include('includes/header.php');
             </div>
 
             <div class="expertise-card">
-                <div class="expertise-image">
-                    <img src="assets/img/services/interieur.jpg" alt="Menuiserie Intérieure">
-                </div>
+                <a href="realisations.php?filter=interieur" class="expertise-link-wrapper">
+                    <div class="expertise-image">
+                        <img src="assets/img/services/interieur.jpg" alt="Menuiserie Intérieure">
+                        <div class="expertise-overlay-hover">
+                            <span>Voir les réalisations <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </a>
                 <div class="expertise-content">
-                    <h3>MENUISERIE INTÉRIEURE</h3>
+                    <a href="realisations.php?filter=interieur">
+                        <h3>MENUISERIE INTÉRIEURE</h3>
+                    </a>
                     <div class="expertise-lists">
                         <ul>
                             <li><strong>AMÉNAGEMENTS</strong></li>
@@ -118,6 +131,7 @@ include('includes/header.php');
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
