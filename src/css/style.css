@@ -301,11 +301,17 @@ h1, h2, h3 {
     letter-spacing: 1px;
     border-bottom: 1px solid var(--gold-accent);
     padding-bottom: 5px;
-    transition: var(--transition);
+    transition: var(--transition-luxe);
+}
+
+.btn-link-gold:hover {
+    color: #ffffff; /* Il passe en blanc brillant */
+    border-bottom-color: #ffffff;
+    padding-left: 10px; /* Ton petit effet de décalage existant */
 }
 
 .btn-devis-solid { 
-    background-color: var(--light-beige);
+    background-color: var(--light-beige); /* Fond initial blanc cassé */
     color: #1a1c14;
     padding: 15px 35px;
     border-radius: 50px;
@@ -314,16 +320,17 @@ h1, h2, h3 {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: var(--transition);
+    transition: var(--transition-luxe);
     border: 1px solid var(--light-beige);
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
 .btn-devis-solid:hover {
-    background-color: transparent;
-    color: var(--light-beige);
+    background-color: var(--gold-accent); /* Devient Gold au survol */
     border-color: var(--gold-accent);
+    color: #1a1c14; /* On garde le texte sombre pour le contraste */
     transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(197, 166, 124, 0.2); /* Lueur dorée */
 }
 
 .btn-link-gold:hover {
