@@ -10,8 +10,10 @@ include('includes/header.php');
             <div class="showroom-text">
                 <span class="subtitle">ÉVÉNEMENT</span>
                 <h2>Bientôt : L'expérience IEB prend vie</h2>
-                <p>Nous avons hâte de vous accueillir dans notre futur <strong>Showroom</strong>.<br> 
-                Un espace dédié à l'inspiration et à la visualisation de vos projets les plus ambitieux.</p>
+                <p>
+                    Nous avons hâte de vous accueillir dans notre futur <strong>Showroom</strong>.<br> 
+                    Un espace dédié à l'inspiration et à la visualisation de vos projets les plus ambitieux.
+                </p>
                 <a href="#contact" class="btn-gold">Restez informé</a>
             </div>
         </div>

@@ -80,25 +80,38 @@ background: linear-gradient(rgba(27, 32, 29, 0.8), rgba(27, 32, 29, 0.8)),
 
 /* --- Bouton Or (Correction taille et centrage) --- */
 .btn-gold {
-    display: inline-block; /* Crucial pour que le bouton ne fasse pas 100% de large */
-    width: auto;           /* Sécurité supplémentaire */
-    padding: 16px 45px;
-    border: 2px solid var(--gold);
-    background: transparent;
-    color: var(--gold) !important;
-    text-decoration: none;
+    /* --- STRUCTURE (On garde ce qui marche) --- */
+    display: inline-table !important; 
+    width: auto !important;           
+    min-width: 200px !important;      /* On lui donne quand même une base solide */
+    margin: 30px auto !important;     
+    
+    /* --- AGRANDISSEMENT ICI --- */
+    padding: 16px 45px !important;    /* Plus haut et plus large à l'intérieur */
+    font-size: 0.95rem !important;    /* Texte plus grand (au lieu de 0.75) */
+    letter-spacing: 3px !important;   /* Espacement des lettres plus "Premium" */
+    border: 2px solid #c5a67c !important; /* Bordure un peu plus épaisse pour le visuel */
+
+    /* --- STYLE VISUEL --- */
+    background-color: transparent !important;
+    color: #c5a67c !important;
+    text-decoration: none !important;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 600;
-    transition: all 0.4s ease;
+    font-weight: 700;                 /* Texte plus gras */
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+    
+    /* --- ANIMATION --- */
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
+/* Hover avec un petit effet de zoom pour la visibilité */
 .btn-gold:hover { 
-    background: var(--gold); 
-    color: #121212 !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    transform: translateY(-3px);
+    background-color: #c5a67c !important; 
+    color: #1a1c14 !important; 
+    transform: scale(1.05);           /* Le bouton gonfle légèrement au survol */
 }
 
 /* --- Redesign de la Section ADN (Haut de Gamme) --- */
