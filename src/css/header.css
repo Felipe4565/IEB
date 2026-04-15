@@ -21,6 +21,17 @@
     width: 100%;
 }
 
+/* État réduit quand on scrolle */
+.main-header.scrolled {
+    height: 85px; /* On réduit la hauteur */
+    background-color: rgba(26, 28, 20, 0.98); /* Fond plus opaque */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.main-header.scrolled .logo img {
+    height: 65px; /* Le logo suit le mouvement */
+}
+
 /* Bloc Logo */
 .logo {
     flex: 0 0 300px;
@@ -44,6 +55,20 @@
     flex: 2;
 }
 
+/* État actif : le texte */
+.nav-menu a.active {
+    color: var(--gold-accent);
+    opacity: 1;
+    letter-spacing: 3.3px;
+}
+
+/* État actif : le trait en dessous */
+.nav-menu a.active::after {
+    width: 100%;
+    background-color: var(--gold-accent);
+}
+
+
 .nav-menu ul {
     list-style: none;
     display: flex;
@@ -52,11 +77,14 @@
 }
 
 .nav-menu li:not(:last-child)::after {
-    content: "|";
-    color: var(--gold-accent);
-    opacity: 0.3;
-    margin: 0 20px;
-    font-size: 0.7rem;
+    content: ""; /* On enlève le texte | */
+    width: 1px;
+    height: 15px;
+    background: linear-gradient(to bottom, transparent, var(--gold-accent), transparent);
+    opacity: 0.4;
+    margin: 0 25px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .nav-menu a {

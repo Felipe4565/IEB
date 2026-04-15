@@ -10,7 +10,7 @@
                 <img src="assets/img/logo_ieb.jpg" alt="Logo IEB" class="footer-logo">
                 <div class="vertical-divider"></div>
                 <div class="social-links">
-                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/interieur_exterieur_bois_/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>

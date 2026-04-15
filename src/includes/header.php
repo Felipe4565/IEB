@@ -1,3 +1,7 @@
+<?php
+// 1. On place la logique de détection tout en haut
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,11 +28,21 @@
 
             <nav class="nav-menu">
                 <ul>
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="services.php">Nos Services</a></li>
-                    <li><a href="realisations.php">Réalisations</a></li>
-                    <li><a href="entreprise.php">L'Atelier</a></li>
-                    <li><a href="avis.php">Avis</a></li>
+                    <li>
+                        <a href="index.php" class="<?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Accueil</a>
+                    </li>
+                    <li>
+                        <a href="services.php" class="<?php echo ($current_page == 'services.php') ? 'active' : ''; ?>">Nos Services</a>
+                    </li>
+                    <li>
+                        <a href="realisations.php" class="<?php echo ($current_page == 'realisations.php') ? 'active' : ''; ?>">Réalisations</a>
+                    </li>
+                    <li>
+                        <a href="entreprise.php" class="<?php echo ($current_page == 'entreprise.php') ? 'active' : ''; ?>">L'Atelier</a>
+                    </li>
+                    <li>
+                        <a href="avis.php" class="<?php echo ($current_page == 'avis.php') ? 'active' : ''; ?>">Avis</a>
+                    </li>
                 </ul>
             </nav>
 
@@ -37,3 +51,24 @@
             </div>
         </div>
     </header>
+
+    
+    <script>
+        const header = document.querySelector('.main-header');
+        let isScrolled = false;
+
+        window.addEventListener('scroll', () => {
+            const scrollValue = window.scrollY;
+
+            // On active à 100px
+            if (scrollValue > 100 && !isScrolled) {
+                header.classList.add('scrolled');
+                isScrolled = true;
+            } 
+            // On ne désactive QUE si on remonte vraiment haut (sous 20px)
+            else if (scrollValue < 20 && isScrolled) {
+                header.classList.remove('scrolled');
+                isScrolled = false;
+            }
+        }, { passive: true });
+    </script>
