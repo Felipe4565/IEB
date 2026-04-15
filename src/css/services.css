@@ -1,9 +1,8 @@
 /* --- Variables & Base --- */
-/* --- Variables & Base --- */
 :root {
     --gold: #c5a67c;
-    --dark-bg: #0d0e0a;    /* Corrigé : était #1b201d */
-    --card-bg: #161811;    /* Aligné sur --bg-light de style.css */
+    --dark-bg: #0d0e0a;    
+    --card-bg: #161811;    
     --text-light: #f4f1ea;
     --text-muted: #a0a8a3; 
 

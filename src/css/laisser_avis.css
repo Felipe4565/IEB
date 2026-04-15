@@ -1,8 +1,3 @@
-/* ============================================================
-   SECTION FORMULAIRE AVIS - ATELIER IEB 
-   Correctif : Centrage du formulaire sans impacter le Header
-   ============================================================ */
-
 :root {
     --gold: #c5a67c;            /* Corrigé : était #C5A059 */
     --dark-ieb: #0d0e0a;        /* Corrigé pour cohérence fond principal */

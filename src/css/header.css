@@ -1,0 +1,124 @@
+/* =========================================
+    HEADER 
+   ========================================= */
+.main-header {
+    background-color: var(--dark-wood); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(197, 166, 124, 0.15); 
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 120px; 
+    display: flex;
+    align-items: center;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Bloc Logo */
+.logo {
+    flex: 0 0 300px;
+}
+
+.logo img {
+    height: 105px;
+    width: auto;     
+    display: block;
+    /* mix-blend-mode: lighten; */
+    filter: brightness(1.1);
+    transition: var(--transition);
+}
+
+.logo img:hover {
+    transform: scale(1.02);
+}
+
+/* Menu de Navigation */
+.nav-menu {
+    flex: 2;
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-menu li:not(:last-child)::after {
+    content: "|";
+    color: var(--gold-accent);
+    opacity: 0.3;
+    margin: 0 20px;
+    font-size: 0.7rem;
+}
+
+.nav-menu a {
+    color: var(--light-beige);
+    text-decoration: none;
+    font-size: 0.75rem; 
+    text-transform: uppercase;
+    letter-spacing: 2.5px; 
+    font-weight: 400;
+    position: relative;
+    padding: 8px 0;
+    transition: var(--transition);
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.nav-menu a:hover {
+    color: var(--gold-accent);
+    opacity: 1;
+    letter-spacing: 3.3px;
+}
+
+.nav-menu a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--gold-accent);
+    transition: var(--transition);
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+/* Bloc Bouton */
+.header-actions {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-contact-pill {
+    background-color: transparent; /* Fond transparent pour plus de finesse */
+    color: var(--gold-accent);
+    padding: 12px 35px;
+    border-radius: 4px; /* Carré adouci, plus artisanal que le rond */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition);
+    border: 1px solid var(--gold-accent);
+}
+
+.btn-contact-pill:hover {
+    background-color: transparent;
+    color: var(--light-beige);
+    border-color: var(--gold-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
