@@ -43,7 +43,7 @@
                 <h4 class="col-title">Service Clients</h4>
                 <div class="sub-grid-lists">
                     <ul class="clean-list">
-                        <li><a href="#">Nous contacter</a></li>
+                        <li><a href="index.php#contact">Nous contacter</a></li>
                         <li><a href="#">FAQ</a></li>
                         <li><a href="#">S'identifier</a></li>
                     </ul>
