@@ -30,10 +30,10 @@
             <div class="footer-col">
                 <h4 class="col-title">Nos Réalisations</h4>
                 <ul class="clean-list">
-                    <li><a href="#">Intérieur</a></li>
-                    <li><a href="#">Extérieur</a></li>
-                    <li><a href="#">Nos meubles</a></li>
-                    <li><a href="#">Nos créations</a></li>
+                    <li><a href="realisations.php?filter=interieur">Intérieur</a></li>
+                    <li><a href="realisations.php?filter=exterieur">Extérieur</a></li>
+                    <li><a href="realisations.php?filter=sur-mesure">Nos meubles</a></li>
+                    <li><a href="realisations.php?filter=all">Nos créations</a></li>
                 </ul>
             </div>
 
