@@ -87,8 +87,6 @@
     border: 1px solid rgba(197, 166, 124, 0.1); /* Micro bordure dorée */
 }
 
-/* --- TRANSITION HÉRITAGE VERS EXPERTISE --- */
-
 /* --- SECTION HÉRITAGE (ENTREPRISE-INTRO) --- */
 
 .entreprise-intro {
@@ -110,6 +108,28 @@
     position: relative;
     z-index: 5;
 }
+
+.transition-luxe::after {
+    content: '';
+    position: absolute;
+    bottom: 0;         /* Colle le trait tout en bas de la transition */
+    left: 50%;         /* Positionne le début à 50% de la largeur */
+    transform: translateX(-50%); /* Décale de moitié vers la gauche pour centrer pile poil */
+    
+    /* Dimensions : tu peux mettre 100% pour toute la largeur, ou 80% pour plus de style */
+    width: 70%; 
+    height: 3px;
+    
+    /* Dégradé pour que le trait disparaisse sur les côtés (très chic) */
+    background: linear-gradient(to right, 
+        transparent, 
+        var(--gold-accent), 
+        transparent
+    );
+    
+    opacity: 0.7;      /* Pas trop violent pour rester dans le luxe */
+}
+
 
 /* 3. Section Expertise (Team) */
 .entreprise-team {
