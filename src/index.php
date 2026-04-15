@@ -125,15 +125,97 @@
 
         <div class="contact-column-map">
             <div class="map-inner">
-                <iframe 
-                    src="https://www.google.com/maps/embed?..." 
-                    style="border:0;" allowfullscreen="" loading="lazy">
-                </iframe>
+                <div id="map-zoom-container">
+                    <img src="assets/img/accueil/carte-france-dark.png" class="map-base-img" alt="Carte des implantations IEB">
+
+                    <div class="map-hotspot" style="top: 26%; left: 51%;" 
+                        onclick="showLocation('showroom', this)"></div>
+
+                    <div class="map-hotspot" style="top: 23%; left: 47%;" 
+                        onclick="showLocation('ateliers', this)"></div>
+                </div>
+
                 <div class="map-overlay-gradient"></div>
+            </div>
+
+            <div id="location-details" class="location-info-card">
+                <div id="info-default">
+                    <p><i class="fas fa-mouse-pointer"></i> Cliquez sur un point pour voir les détails</p>
+                </div>
+                <div id="info-content" class="hide">
+                    <h3 id="loc-title">Nom du lieu</h3>
+                    <a id="loc-addr" href="#" target="_blank" class="map-link">Adresse complète</a>
+                    <p id="loc-desc" class="gold-subtitle">Description légère</p>
+                </div>
             </div>
         </div>
 
-    </div>
+        <script>
+        function showLocation(type, element) {
+            const container = document.getElementById('map-zoom-container');
+            const infoDefault = document.getElementById('info-default');
+            const infoContent = document.getElementById('info-content');
+            
+            const locations = {
+                'showroom': {
+                    title: "Le Showroom",
+                    addr: "123 Rue du Design, 75000 Paris",
+                    desc: "Découvrez nos plus belles essences de bois et nos réalisations finies.",
+                    origin: "51% 26%",
+                    mapUrl: "https://www.google.com/maps/search/?api=1&query=123+Rue+du+Design+75000+Paris"
+                },
+                'ateliers': {
+                    title: "L'Atelier de fabrication",
+                    addr: "1 Chemin de Mezy, 95450 Seraincourt",
+                    desc: "Lieu de fabrication où la magie opère et où le bois prend forme.",
+                    origin: "47% 23%",
+                    mapUrl: "https://www.google.com/maps/place//data=!4m2!3m1!1s0x47e6ecdd64fde6f9:0x9d342857e04a9d26?sa=X&ved=1t:8290&ictx=111"
+                }
+            };
+
+            const data = locations[type];
+
+            if (data) {
+                document.querySelectorAll('.map-hotspot').forEach(pt => pt.classList.remove('active'));
+                element.classList.add('active');
+
+                container.style.transformOrigin = data.origin;
+                container.style.transform = "scale(2.8)";
+
+                if (infoDefault) infoDefault.classList.add('hide');
+                
+                infoContent.style.transition = "none";
+                infoContent.style.opacity = 0;
+                infoContent.classList.remove('hide');
+
+                // Mise à jour des textes
+                document.getElementById('loc-title').innerText = data.title;
+                
+                // Mise à jour du lien d'adresse
+                const addrElement = document.getElementById('loc-addr');
+                addrElement.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${data.addr} <i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-left: 5px;"></i>`;
+                addrElement.href = data.mapUrl;
+
+                document.getElementById('loc-desc').innerText = data.desc;
+
+                setTimeout(() => {
+                    infoContent.style.transition = "opacity 0.5s ease";
+                    infoContent.style.opacity = 1;
+                }, 50);
+            }
+        }
+
+        // Dézoomer
+        document.getElementById('map-zoom-container').addEventListener('click', function(e) {
+            if (e.target.classList.contains('map-base-img')) {
+                this.style.transform = "scale(1)";
+                document.querySelectorAll('.map-hotspot').forEach(pt => pt.classList.remove('active'));
+                document.getElementById('info-content').classList.add('hide');
+                document.getElementById('info-default').classList.remove('hide');
+            }
+        });
+        </script>
+
 </section>
 
 </main>

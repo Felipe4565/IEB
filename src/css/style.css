@@ -621,32 +621,215 @@ a.gallery-item {
     border: 1px solid rgba(197, 166, 124, 0.12);
 }
 
-/* --- Colonne Carte --- */
+/* =========================================
+   COLONNE CARTE & LOCATIONS
+   ========================================= */
+
+/* =========================================
+   COLONNE CARTE & LOCATIONS (CORRIGÉ)
+   ========================================= */
+
+:root {
+    --gold-accent: #c5a67c;
+    --gold-glow: rgba(197, 166, 124, 0.4);
+    --light-beige: #f5f5f0;
+}
+
 .contact-column-map {
-    flex: 1; /* Prend 50% */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .map-inner {
     position: relative;
     width: 100%;
-    height: 100%;
-    min-height: 550px;
+    min-height: 500px; /* Ajuste selon ton besoin */
     border: 1px solid rgba(197, 166, 124, 0.1);
-    overflow: hidden;
+    background: #0d0e0a;
+    overflow: hidden; /* INDISPENSABLE pour le zoom */
+    border-radius: 4px;
 }
 
-.map-inner iframe {
+/* --- Conteneur de Zoom --- */
+#map-zoom-container {
     width: 100%;
     height: 100%;
-    filter: grayscale(1) invert(0.9) contrast(1.2) opacity(0.7);
+    position: relative;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    cursor: grab;
 }
 
-/* Dégradé pour intégrer la carte au fond noir sur les bords */
+#map-zoom-container:active {
+    cursor: grabbing;
+}
+
+.map-base-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0.7) contrast(1.1) grayscale(0.3);
+    opacity: 0.7;
+    transition: opacity 0.5s ease, filter 0.5s ease;
+    display: block;
+}
+
+/* Éclairage de la carte quand on interagit ou qu'un point est actif */
+.map-inner:hover .map-base-img,
+#map-zoom-container[style*="scale(2"] .map-base-img {
+    opacity: 1;
+    filter: brightness(0.9) contrast(1.2) grayscale(0.1);
+}
+
+/* --- Points (Hotspots) --- */
+.map-hotspot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: var(--gold-accent);
+    border-radius: 50%;
+    z-index: 10;
+    cursor: pointer;
+    box-shadow: 0 0 15px var(--gold-glow);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    /* On s'assure que le point est bien centré sur ses coordonnées */
+    margin-left: -8px; 
+    margin-top: -8px;
+}
+
+/* État actif (quand on a cliqué) */
+.map-hotspot.active {
+    background-color: #fff;
+    box-shadow: 0 0 20px #fff, 0 0 30px var(--gold-accent);
+    transform: scale(1.2); /* On compense le zoom parent */
+    border: 2px solid var(--gold-accent);
+}
+
+.map-hotspot:hover {
+    transform: scale(1.4);
+    background-color: #fff;
+}
+
+.map-hotspot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45px; /* L'utilisateur peut cliquer jusqu'à 20px à côté du point */
+    height: 45px;
+    background: transparent; /* Reste invisible */
+    border-radius: 50%;
+}
+
+/* Animation de pulsation */
+.map-hotspot::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    border: 1px solid var(--gold-accent);
+    border-radius: 50%;
+    animation: hotspot-pulse 2.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes hotspot-pulse {
+    0% { width: 14px; height: 14px; opacity: 1; }
+    100% { width: 45px; height: 45px; opacity: 0; }
+}
+
+/* --- Ajustement des points lors du Zoom --- */
+/* Pour éviter que les points deviennent gigantesques quand on scale la carte */
+#map-zoom-container[style*="scale"] .map-hotspot {
+    transform: scale(0.6);
+}
+#map-zoom-container[style*="scale"] .map-hotspot.active {
+    transform: scale(0.8);
+}
+
+/* --- Fiche Descriptive sous la carte --- */
+.location-info-card {
+    margin-top: 25px;
+    padding: 30px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.03), transparent);
+    border: 1px solid rgba(197, 166, 124, 0.1);
+    border-left: 3px solid var(--gold-accent);
+    min-height: 140px;
+    transition: all 0.5s ease;
+    border-radius: 0 4px 4px 0;
+}
+
+.location-info-card h3 {
+    color: var(--gold-accent);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.location-info-card p {
+    font-size: 0.95rem;
+    color: var(--light-beige);
+    opacity: 0.9;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.gold-subtitle {
+    font-style: italic;
+    color: var(--gold-accent) !important;
+    margin-top: 15px;
+    display: block;
+    font-size: 0.9rem;
+}
+
+/* --- Utilitaires --- */
 .map-overlay-gradient {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle, transparent 40%, #1a1c14 110%);
+    background: radial-gradient(circle, transparent 40%, rgba(13, 14, 10, 0.8) 110%);
     pointer-events: none;
+    z-index: 5;
+}
+
+.hide { 
+    display: none !important; 
+}
+
+/* Animation d'entrée pour le contenu info */
+#info-content:not(.hide) {
+    animation: fadeInSlide 0.6s ease forwards;
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.map-link {
+    display: inline-block;
+    font-size: 0.95rem;
+    color: var(--light-beige);
+    text-decoration: none;
+    opacity: 0.8;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    border-bottom: 1px border transparent;
+}
+
+.map-link i {
+    color: var(--gold-accent);
+    margin-right: 8px;
+}
+
+.map-link:hover {
+    opacity: 1;
+    color: var(--gold-accent);
+    transform: translateX(5px); /* Petit décalage au survol */
 }
 
 /* --- Détails Formulaire --- */
