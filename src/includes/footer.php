@@ -48,7 +48,6 @@
                         <li><a href="#">S'identifier</a></li>
                     </ul>
                     <ul class="clean-list">
-                        <li><a href="#">Livraison & Pose</a></li>
                         <li><a href="#">Devis gratuit</a></li>
                         <li><a href="#">Mentions Légales</a></li>
                         <li><a href="#">CGV</a></li>

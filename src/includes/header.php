@@ -47,7 +47,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </nav>
 
             <div class="header-actions">
-                <a href="contact.php" class="btn-contact-pill">Contact & Devis</a>
+                <a href="contact.php" class="btn-contact-pill">Besoin d'un devis ?</a>
             </div>
         </div>
     </header>
