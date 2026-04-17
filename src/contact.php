@@ -38,17 +38,26 @@ include('includes/header.php');
                     <p class="label-gold">Étape 1 : Vos Coordonnées</p>
                     
                     <div class="input-group">
-                        <input type="text" name="nom" placeholder="VOTRE NOM COMPLET" required>
+                        <input type="text" name="nom" placeholder="NOM COMPLET" required>
                     </div>
                     <div class="input-group">
-                        <input type="email" name="email" placeholder="VOTRE ADRESSE EMAIL" required>
+                        <input type="email" name="email" placeholder="ADRESSE EMAIL" required>
                     </div>
                     <div class="input-group">
-                        <input type="text" name="tel" placeholder="NUMÉRO DE TÉLÉPHONE">
+                        <input type="text" 
+                            name="tel" 
+                            placeholder="NUMÉRO DE TÉLÉPHONE" 
+                            inputmode="numeric" 
+                            maxlength="10" 
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" 
+                            required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" name="ville" placeholder="VILLE" required>
                     </div>
 
                     <div class="step-actions">
-                        <button type="button" class="btn-submit-gold" onclick="changeStep(2)">CONTINUER</button>
+                        <button type="button" class="btn-submit-gold" onclick="validateAndNext(2)">CONTINUER</button>
                     </div>
                 </div>
 
@@ -60,11 +69,11 @@ include('includes/header.php');
                         <input type="hidden" name="type_travail" id="selected_type" value="Menuiserie Intérieure">
                         <div class="tag active" onclick="selectTag(this, 'Menuiserie Intérieure')">Menuiserie Intérieure</div>
                         <div class="tag" onclick="selectTag(this, 'Menuiserie Extérieure')">Menuiserie Extérieure</div>
-                        <div class="tag" onclick="selectTag(this, 'Mobilier')">Mobilier Signature</div>
+                        <div class="tag" onclick="selectTag(this, 'Autres')">Autres</div>
                     </div>
 
                     <div class="input-group">
-                        <textarea name="description" placeholder="DÉCRIVEZ VOTRE PROJET (DIMENSIONS, ESSENCES DE BOIS...)" rows="4"></textarea>
+                        <textarea name="description" id="desc-projet" placeholder="DÉCRIVEZ VOTRE PROJET (DIMENSIONS, ESSENCES DE BOIS...)" rows="4" required></textarea>
                     </div>
 
                     <div class="file-upload">
@@ -78,7 +87,7 @@ include('includes/header.php');
 
                     <div class="step-actions dual">
                         <button type="button" class="btn-back" onclick="changeStep(1)">RETOUR</button>
-                        <button type="button" class="btn-submit-gold" onclick="changeStep(3)">CONTINUER</button>
+                        <button type="button" class="btn-submit-gold" onclick="validateAndNext(3)">CONTINUER</button>
                     </div>
                 </div>
 
@@ -86,7 +95,7 @@ include('includes/header.php');
                     <p class="label-gold">Étape 3 : Vos Préférences</p>
                     
                     <div class="input-group">
-                        <input type="text" name="echeance" placeholder="ÉCHÉANCE SOUHAITÉE (EX: SEPTEMBRE 2024)">
+                        <input type="text" name="echeance" placeholder="ÉCHÉANCE SOUHAITÉE (EX: SEPTEMBRE 2024)" required>
                     </div>
 
                     <div class="info-note">
@@ -105,40 +114,110 @@ include('includes/header.php');
 </main>
 
 <script>
+    /**
+     * Valide les champs de l'étape actuelle avant de passer à la suivante
+     */
+    function validateAndNext(nextStep) {
+        // On récupère le bloc de l'étape active
+        const currentStepDiv = document.querySelector('.form-step.active');
+        // On cible tous les champs requis (input et textarea)
+        const inputs = currentStepDiv.querySelectorAll('input[required], textarea[required]');
+        
+        let isValid = true;
+        let errorMessage = "";
+
+        inputs.forEach(input => {
+            // 1. Vérification générale : Champ vide
+            if (!input.value.trim()) {
+                isValid = false;
+                input.style.borderBottomColor = "#ff4d4d"; // Soulignement rouge
+                errorMessage = "Veuillez remplir tous les champs obligatoires.";
+            } else {
+                input.style.borderBottomColor = "rgba(255, 255, 255, 0.1)"; // Retour au gris si OK
+            }
+
+            // 2. Vérification spécifique : EMAIL (doit avoir @ et .)
+            if (input.type === "email" && input.value.trim()) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(input.value)) {
+                    isValid = false;
+                    input.style.borderBottomColor = "#ff4d4d";
+                    errorMessage = "L'adresse email n'est pas valide (ex: contact@domaine.fr).";
+                }
+            }
+
+            // 3. Vérification spécifique : TÉLÉPHONE (exactement 10 chiffres)
+            if (input.name === "tel" && input.value.trim()) {
+                if (input.value.length !== 10) {
+                    isValid = false;
+                    input.style.borderBottomColor = "#ff4d4d";
+                    errorMessage = "Le numéro de téléphone doit comporter exactement 10 chiffres.";
+                }
+            }
+        });
+
+        // Si tout est bon, on change d'étape, sinon on alerte
+        if (isValid) {
+            changeStep(nextStep);
+        } else {
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+        }
+    }
+
+    /**
+     * Gère l'affichage visuel des étapes (dots et barre de progression)
+     */
     function changeStep(step) {
+        // Masquer toutes les étapes et afficher la nouvelle
         document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
         document.getElementById('step-' + step).classList.add('active');
         
-        // Update Dots
+        // Mise à jour visuelle des points (stepper)
         document.querySelectorAll('.dot').forEach((dot, index) => {
-            if (index + 1 <= step) dot.classList.add('active');
-            else dot.classList.remove('active');
+            if (index + 1 <= step) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
         });
 
-        // Update Line
+        // Mise à jour de la barre dorée (0% -> 50% -> 100%)
         const progress = ((step - 1) / 2) * 100;
         document.getElementById('progress-fill').style.width = progress + "%";
+        
+        // Retour en haut du formulaire pour le confort
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    /**
+     * Gère la sélection des tags (Etape 2)
+     */
     function selectTag(el, val) {
         document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
         el.classList.add('active');
         document.getElementById('selected_type').value = val;
     }
 
+    /**
+     * Gère la prévisualisation des fichiers (Etape 2)
+     */
     function handleFiles(files) {
         const container = document.getElementById('thumbnails-container');
-        container.innerHTML = '';
+        container.innerHTML = ''; // On vide les anciennes vignettes
+        
         Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const item = document.createElement('div');
-                item.className = 'thumbnail-item';
-                item.innerHTML = `<img src="${e.target.result}">`;
-                container.appendChild(item);
-            };
-            reader.readAsDataURL(file);
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const item = document.createElement('div');
+                    item.className = 'thumbnail-item';
+                    item.innerHTML = `<img src="${e.target.result}">`;
+                    container.appendChild(item);
+                };
+                reader.readAsDataURL(file);
+            }
         });
     }
 </script>

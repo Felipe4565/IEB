@@ -47,11 +47,26 @@
     width: 100%;
 }
 
-/* On change aussi légèrement l'opacité du fond pour confirmer la sélection */
-.section-form-devant input:focus, 
-.section-form-devant textarea:focus {
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom-color: rgba(255, 255, 255, 0.1); /* On garde la ligne grise dessous pour le contraste */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Change la couleur de la barre dorée en rouge si le champ est invalide et que l'utilisateur a essayé de valider */
+input:invalid:not(:placeholder-shown) {
+    border-bottom-color: #ff4d4d !important;
+}
+
+/* Empêche l'autofill de déformer le bloc ou de changer le fond */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff !important;
+    /* On utilise un shadow interne pour simuler le fond noir sans changer la taille */
+    -webkit-box-shadow: 0 0 0px 1000px #0d0e0a inset !important; 
+    transition: background-color 5000s ease-in-out 0s;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 /* --- NAVIGATION RETOUR --- */
@@ -160,17 +175,43 @@
 
 .section-form-devant .input-group { margin-bottom: 40px; position: relative; }
 
-.section-form-devant input[type="text"], 
-.section-form-devant input[type="email"],
+/* --- NOUVEAU CODE PROPRE --- */
+
+/* Base commune pour tous les champs */
+.section-form-devant input, 
 .section-form-devant textarea {
     width: 100%;
-    background: transparent;
+    background: transparent !important;
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 15px 0;
     color: #FFF;
-    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
     outline: none;
+    box-sizing: border-box;
+    display: block;
+}
+
+/* Réglage spécifique pour les lignes simples (Nom, Email, Tel, Ville) */
+.section-form-devant input {
+    height: 40px !important;      /* Hauteur réduite pour que le texte soit proche de la barre */
+    padding: 10px 0 0 0 !important; /* Pas de padding en bas pour "coller" à la ligne */
+    font-size: 1rem;
+    line-height: 30px;
+}
+
+/* Réglage spécifique pour le gros bloc (Description) */
+.section-form-devant textarea {
+    height: 120px !important;     /* Lui reste grand */
+    padding: 15px 0 !important;
+    font-size: 0.9rem;
+    resize: none;
+    overflow: auto;
+}
+
+/* Effet au clic : on ne change SURTOUT PAS la taille, juste un léger fond */
+.section-form-devant input:focus, 
+.section-form-devant textarea:focus {
+    background: rgba(255, 255, 255, 0.03) !important;
 }
 
 /* Texte d'exemple en Gold léger */
