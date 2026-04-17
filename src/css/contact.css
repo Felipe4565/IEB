@@ -1,0 +1,233 @@
+:root {
+    --gold: #c5a67c;
+    --dark-ieb: #0d0e0a;
+    --gold-light: rgba(197, 166, 124, 0.2);
+    --gold-glow: rgba(197, 166, 124, 0.4);
+    --form-bg-ieb: rgba(13, 14, 10, 0.8);
+}
+
+.section-form-devant {
+    padding: 120px 20px;
+    background: var(--dark-ieb);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.section-form-devant .container {
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-form-devant .input-group {
+    margin-bottom: 40px;
+    position: relative; /* Indispensable pour l'ancrage du trait */
+}
+
+.section-form-devant .input-group::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; /* Départ à zéro */
+    height: 2px;
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold-glow); /* Petit halo lumineux */
+    transition: width 0.4s ease; /* Animation fluide de l'étirement */
+    z-index: 2;
+}
+
+/* Quand on clique (focus) dans le groupe, le trait s'étire */
+.section-form-devant .input-group:focus-within::after {
+    width: 100%;
+}
+
+/* On change aussi légèrement l'opacité du fond pour confirmer la sélection */
+.section-form-devant input:focus, 
+.section-form-devant textarea:focus {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom-color: rgba(255, 255, 255, 0.1); /* On garde la ligne grise dessous pour le contraste */
+}
+
+/* --- NAVIGATION RETOUR --- */
+.section-form-devant .form-navigation {
+    width: 100%;
+    max-width: 750px;
+    margin-bottom: 25px;
+}
+
+.section-form-devant .btn-back {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    background: none; border: none; cursor: pointer;
+}
+
+/* --- WRAPPER GLASS --- */
+.section-form-devant .form-wrapper {
+    max-width: 750px;
+    width: 100%;
+    background: var(--form-bg-ieb);
+    backdrop-filter: blur(15px);
+    padding: 60px;
+    border: 1px solid var(--gold-light);
+    border-radius: 4px;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.section-form-devant .form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* --- STEPPER --- */
+.stepper-ieb {
+    width: 200px;
+    margin: 30px auto 0;
+    position: relative;
+}
+
+.progress-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 50%;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--gold);
+    transition: 0.6s ease;
+}
+
+.step-dots {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.dot {
+    width: 24px;
+    height: 24px;
+    background: #1a1a16;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: #555;
+    transition: 0.4s;
+}
+
+.dot.active { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); }
+
+/* --- ÉLÉMENTS FORMULAIRE --- */
+.form-step { display: none; animation: fadeIn 0.5s ease-out; }
+.form-step.active { display: block; }
+
+.section-form-devant .serif-gold { 
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; 
+    color: #FFF; 
+    margin: 10px 0;
+}
+
+.section-form-devant .label-gold {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    margin-bottom: 30px;
+    display: block;
+    text-align: center;
+}
+
+.section-form-devant .input-group { margin-bottom: 40px; position: relative; }
+
+.section-form-devant input[type="text"], 
+.section-form-devant input[type="email"],
+.section-form-devant textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 0;
+    color: #FFF;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* Texte d'exemple en Gold léger */
+::placeholder { 
+    color: rgba(255, 255, 255, 0.4); /* Un blanc cassé/gris translucide */
+    font-style: italic; 
+    font-size: 0.85rem; 
+    letter-spacing: 0.5px;
+}
+
+input::-webkit-input-placeholder, 
+textarea::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Tags de projet */
+.project-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+.tag {
+    padding: 8px 18px;
+    border: 1px solid rgba(197, 166, 124, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+.tag.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: bold; }
+
+/* Upload & Thumbnails */
+.file-upload { border: 1px dashed var(--gold-light); padding: 30px; text-align: center; margin-bottom: 30px; }
+#thumbnails-container { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 15px; }
+.thumbnail-item img { width: 60px; height: 60px; object-fit: cover; border: 1px solid var(--gold); }
+
+/* Actions & Boutons */
+.step-actions { margin-top: 40px; }
+.step-actions.dual { display: flex; justify-content: space-between; align-items: center; }
+
+.btn-submit-gold {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 20px 40px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.btn-submit-gold:hover { background: #FFF; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+
+.info-note {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
