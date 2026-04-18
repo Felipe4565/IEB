@@ -1,0 +1,147 @@
+.legal-page {
+    background-color: #080908;
+    min-height: 100vh;
+    padding: 80px 20px 120px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.legal-container {
+    width: 100%;
+    max-width: 850px;
+}
+
+/* --- Bouton Retour avec Flèche Stylisée --- */
+.back-nav {
+    margin-bottom: 40px;
+}
+
+.minimal-back {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+}
+
+.arrow-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 40px;
+}
+
+.arrow-head {
+    width: 7px;
+    height: 7px;
+    border-left: 1px solid #c5a67c;
+    border-bottom: 1px solid #c5a67c;
+    transform: rotate(45deg);
+    position: absolute;
+    left: 0;
+    transition: all 0.4s ease;
+    opacity: 0.6;
+}
+
+.minimal-back .line {
+    width: 35px;
+    height: 1px;
+    background-color: #c5a67c;
+    transition: width 0.4s ease;
+    opacity: 0.6;
+}
+
+.minimal-back .text {
+    color: #c5a67c;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.minimal-back:hover .line { width: 50px; opacity: 1; }
+.minimal-back:hover .arrow-head { opacity: 1; transform: rotate(45deg) translate(-2px, 2px); }
+.minimal-back:hover .text { opacity: 1; }
+
+/* --- Titre --- */
+.legal-main-title {
+    text-align: center;
+    color: #c5a67c;
+    font-family: 'Serif', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: 12px;
+    margin-bottom: 70px;
+    text-transform: uppercase;
+}
+
+/* --- Accordéon FAQ --- */
+.legal-accordion {
+    border-top: 1px solid rgba(197, 166, 124, 0.15);
+}
+
+.legal-item {
+    border-bottom: 1px solid rgba(197, 166, 124, 0.15);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.legal-item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #c5a67c, transparent);
+    transition: width 0.5s ease;
+}
+
+.legal-item.active::before { width: 100%; }
+
+.legal-header {
+    width: 100%;
+    padding: 35px 20px;
+    background: transparent;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+}
+
+.legal-label {
+    color: #e0e0e0;
+    font-family: 'Serif', Georgia, serif;
+    font-size: 0.95rem; /* Un peu plus petit pour les questions longues */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-right: 20px;
+}
+
+.legal-plus {
+    color: #c5a67c;
+    font-size: 1.5rem;
+    transition: transform 0.4s ease;
+}
+
+.legal-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.legal-inner { padding: 10px 40px 40px 40px; }
+
+.legal-text {
+    color: #b0b0b0;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.legal-item.active { background-color: rgba(197, 166, 124, 0.03); }
+.legal-item.active .legal-label { color: #c5a67c; }
+.legal-item.active .legal-plus { transform: rotate(45deg); }

@@ -44,7 +44,7 @@
                 <div class="sub-grid-lists">
                     <ul class="clean-list">
                         <li><a href="index.php#contact">Nous contacter</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="faq.php">FAQ</a></li>
                         <li><a href="#">S'identifier</a></li>
                     </ul>
                     <ul class="clean-list">
