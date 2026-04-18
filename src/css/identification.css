@@ -1,0 +1,117 @@
+:root {
+    --gold: #c5a67c;
+    --dark-ieb: #080908;
+    --gold-glow: rgba(197, 166, 124, 0.4);
+}
+
+.admin-login-page {
+    background-color: var(--dark-ieb);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.admin-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+/* --- Navigation Retour (Flèche CSS) --- */
+.back-nav { margin-bottom: 30px; }
+.minimal-back { display: inline-flex; align-items: center; text-decoration: none; gap: 12px; }
+.minimal-back .arrow-head { width: 7px; height: 7px; border-left: 1px solid var(--gold); border-bottom: 1px solid var(--gold); transform: rotate(45deg); opacity: 0.6; transition: 0.4s; }
+.minimal-back .line { width: 30px; height: 1px; background: var(--gold); opacity: 0.6; transition: 0.4s; }
+.minimal-back .text { color: var(--gold); font-size: 0.65rem; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
+
+.minimal-back:hover .line { width: 45px; opacity: 1; }
+.minimal-back:hover .arrow-head { opacity: 1; transform: rotate(45deg) translate(-2px, 2px); }
+.minimal-back:hover .text { opacity: 1; }
+
+/* --- Carte Auth --- */
+.auth-card {
+    background: rgba(13, 14, 10, 0.9);
+    border: 1px solid rgba(197, 166, 124, 0.15);
+    padding: 60px 40px;
+    backdrop-filter: blur(20px);
+    text-align: center;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.auth-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.serif-gold {
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin: 10px 0 20px;
+}
+
+.label-gold { color: var(--gold); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 5px; }
+
+.separator-line { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 40px; opacity: 0.3; }
+
+/* --- Inputs avec trait doré animé --- */
+.input-group { margin-bottom: 35px; position: relative; }
+
+.auth-form input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 0;
+    color: #fff;
+    outline: none;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.input-group::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 0; height: 2px;
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold-glow);
+    transition: width 0.4s ease;
+}
+
+.input-group:focus-within::after { width: 100%; }
+
+.btn-submit-gold-full {
+    width: 100%;
+    background: var(--gold); /* Rempli de doré par défaut */
+    color: #000; /* Texte noir pour le contraste sur or */
+    border: none;
+    padding: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 15px;
+}
+
+.btn-submit-gold-full:hover {
+    background: #ffffff; /* Devient blanc au survol */
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px); /* Léger effet de soulèvement */
+}
+
+.security-note {
+    margin-top: 35px;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.2);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
