@@ -49,7 +49,7 @@
                     </ul>
                     <ul class="clean-list">
                         <li><a href="contact.php">Devis gratuit</a></li>
-                        <li><a href="#">Mentions Légales</a></li>
+                        <li><a href="mentions_legales.php">Mentions Légales</a></li>
                         <li><a href="#">CGV</a></li>
                     </ul>
                 </div>
