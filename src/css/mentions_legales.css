@@ -1,40 +1,105 @@
 .legal-page {
-    /* Fond noir organique très sombre (tiré de ton header/footer) */
-    background-color: #0d0e0d; 
+    background-color: #080908; /* Noir profond organique conforme à ton footer */
     min-height: 100vh;
-    padding: 100px 20px;
+    padding: 80px 20px 120px 20px;
     display: flex;
     justify-content: center;
 }
 
 .legal-container {
     width: 100%;
-    max-width: 900px;
+    max-width: 850px;
 }
 
-.legal-main-title {
-    text-align: center;
-    color: #c5a66d; /* Or légèrement désaturé pour plus de classe */
-    font-family: 'Serif', Georgia, serif;
-    font-weight: 300;
-    letter-spacing: 10px;
-    margin-bottom: 80px;
-    text-transform: uppercase;
+/* --- Bouton Retour avec Flèche Stylisée --- */
+.back-nav {
+    margin-bottom: 40px;
 }
 
-/* --- L'Accordéon --- */
-.legal-accordion {
-    border-top: 1px solid rgba(197, 166, 109, 0.15);
+.minimal-back {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+    cursor: pointer;
 }
 
-.legal-item {
-    border-bottom: 1px solid rgba(197, 166, 109, 0.15);
+.arrow-wrapper {
+    display: flex;
+    align-items: center;
     position: relative;
-    background: rgba(255, 255, 255, 0.01); /* Presque invisible */
+    width: 40px; 
+}
+
+.arrow-head {
+    width: 7px;
+    height: 7px;
+    border-left: 1px solid #c5a67c;
+    border-bottom: 1px solid #c5a67c;
+    transform: rotate(45deg);
+    position: absolute;
+    left: 0;
+    transition: all 0.4s ease;
+    opacity: 0.6;
+}
+
+/* La ligne horizontale */
+.minimal-back .line {
+    width: 35px;
+    height: 1px;
+    background-color: #c5a67c;
+    transition: width 0.4s ease;
+    opacity: 0.6;
+}
+
+.minimal-back .text {
+    color: #c5a67c;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
     transition: all 0.3s ease;
 }
 
-/* Liseré doré supérieur qui s'anime */
+/* --- Effets au survol du bouton retour --- */
+.minimal-back:hover .line {
+    width: 50px;
+    opacity: 1;
+}
+
+.minimal-back:hover .arrow-head {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, 2px); /* Petit mouvement vers la gauche */
+}
+
+.minimal-back:hover .text {
+    opacity: 1;
+}
+
+/* --- Titre Principal --- */
+.legal-main-title {
+    text-align: center;
+    color: #c5a67c;
+    font-family: 'Serif', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: 12px;
+    margin-bottom: 70px;
+    text-transform: uppercase;
+}
+
+/* --- Accordéon --- */
+.legal-accordion {
+    border-top: 1px solid rgba(197, 166, 124, 0.15);
+}
+
+.legal-item {
+    border-bottom: 1px solid rgba(197, 166, 124, 0.15);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Liseré doré supérieur au survol/actif */
 .legal-item::before {
     content: '';
     position: absolute;
@@ -42,7 +107,7 @@
     left: 0;
     width: 0;
     height: 1.5px;
-    background: linear-gradient(90deg, transparent, #c5a66d, transparent);
+    background: linear-gradient(90deg, transparent, #c5a67c, transparent);
     transition: width 0.5s ease;
 }
 
@@ -62,16 +127,15 @@
 }
 
 .legal-label {
-    color: #e0e0e0; /* Texte clair mais pas blanc pur */
+    color: #e0e0e0;
     font-family: 'Serif', Georgia, serif;
     font-size: 1rem;
     letter-spacing: 3px;
     text-transform: uppercase;
-    transition: color 0.3s ease;
 }
 
 .legal-plus {
-    color: #c5a66d;
+    color: #c5a67c;
     font-size: 1.5rem;
     font-weight: 200;
     transition: transform 0.4s ease;
@@ -91,7 +155,7 @@
 
 .legal-subtitle {
     display: block;
-    color: #c5a66d;
+    color: #c5a67c;
     font-size: 0.85rem;
     text-transform: uppercase;
     margin-bottom: 15px;
@@ -99,78 +163,21 @@
 }
 
 .legal-text {
-    color: #b0b0b0; /* Gris clair pour le corps du texte */
+    color: #b0b0b0; /* Gris clair pour la lisibilité sur noir */
     font-family: 'Arial', sans-serif;
     line-height: 1.8;
     font-size: 0.95rem;
 }
 
-/* --- État Actif --- */
+/* --- États Actifs --- */
 .legal-item.active {
-    background-color: rgba(197, 166, 109, 0.03); /* Très légère lueur */
+    background-color: rgba(197, 166, 124, 0.03);
 }
 
 .legal-item.active .legal-label {
-    color: #c5a66d; /* Le titre devient doré quand ouvert */
+    color: #c5a67c;
 }
 
 .legal-item.active .legal-plus {
-    transform: rotate(45deg);
+    transform: rotate(45deg); /* Le + devient un x */
 }
-
-/* --- Bouton Retour --- */
-.btn-back {
-    display: inline-flex;
-    align-items: center;
-    color: #c5a66d; /* Or */
-    text-decoration: none;
-    font-family: 'Serif', Georgia, serif;
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-    transition: all 0.3s ease;
-    opacity: 0.7;
-    border: 1px solid transparent;
-    padding: 8px 15px;
-}
-
-.btn-back:hover {
-    opacity: 1;
-    border-color: rgba(197, 166, 109, 0.3);
-    background: rgba(197, 166, 109, 0.05);
-}
-
-.arrow-back {
-    margin-right: 10px;
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
-
-.btn-back:hover .arrow-back {
-    transform: translateX(-5px); /* Petit effet de mouvement au survol */
-}
-
-/* --- Reste du style (Fond très noir) --- */
-.legal-page {
-    background-color: #080908; /* Encore plus sombre */
-    min-height: 100vh;
-    padding: 60px 20px 100px 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.legal-container {
-    width: 100%;
-    max-width: 850px;
-}
-
-.legal-main-title {
-    text-align: center;
-    color: #c5a66d;
-    font-family: 'Serif', Georgia, serif;
-    font-weight: 300;
-    letter-spacing: 12px;
-    margin-bottom: 70px;
-    text-transform: uppercase;
-}
-

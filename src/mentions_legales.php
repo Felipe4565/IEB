@@ -45,9 +45,15 @@ $sections_legales = [
 
 <main class="legal-page">
     <div class="legal-container">
-        <a href="index.php" class="btn-back">
-            <span class="arrow-back">←</span> RETOUR À L'ACCUEIL
-        </a>
+        <div class="back-nav">
+            <a href="index.php" class="minimal-back">
+                <div class="arrow-wrapper">
+                    <span class="arrow-head"></span>
+                    <span class="line"></span>
+                </div>
+                <span class="text">RETOUR À L'ACCUEIL</span>
+            </a>
+        </div>
         <h1 class="legal-main-title">MENTIONS LÉGALES</h1>
         
         <div class="legal-accordion" id="legalAccordion">
