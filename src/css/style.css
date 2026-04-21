@@ -507,7 +507,9 @@ a.gallery-item {
     color: #fff;
     font-family: inherit;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    outline: none;
+    outline: none; 
+    resize: none;
+
 }
 
 /* Effet au clic (Focus) */
