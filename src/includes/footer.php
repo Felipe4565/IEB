@@ -24,7 +24,7 @@
                     <p class="address">4 RUE SAINT CLAUDE<br>77340 PONTAULT-COMBAULT</p>
                     <p class="schedule">Lun - Ven : 8h à 20h</p>
                     <div class="btn-alignment">
-                        <a href="#" class="btn-gold-pill">Prendre un RDV</a>
+                        <a href="rdv.php" class="btn-gold-pill">Prendre un RDV</a>
                     </div>
                 </div>
             </div>
