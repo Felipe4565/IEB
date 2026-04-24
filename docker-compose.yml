@@ -1,7 +1,7 @@
 services:
   # Serveur Web avec PHP
   php-apache:
-    image: php:8.2-apache
+    build: .
     container_name: ieb_web
     ports:
       - "8080:80"
@@ -16,7 +16,7 @@ services:
     container_name: ieb_db
     restart: always
     environment:
-      MYSQL_DATABASE: ieb_database
+      MYSQL_DATABASE: ieb_site
       MYSQL_ROOT_PASSWORD: root_password
     ports:
       - "3307:3306"
