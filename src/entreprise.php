@@ -1,11 +1,16 @@
 <?php
+require_once('includes/db.php'); 
+
+$query_atelier = $pdo->query("SELECT image_url FROM images_projets WHERE type = 'atelier_heritage' LIMIT 1");
+$img_heritage = $query_atelier->fetchColumn() ?: 'assets/img/atelier/heritage_meuble.jpg';
+
+$query_equipe = $pdo->query("SELECT * FROM equipe ORDER BY id ASC");
+$membres = $query_equipe->fetchAll();
+
 $page_title = "L'Atelier - IEB";
 $page_css = "css/atelier.css?v=" . time(); 
-require_once('includes/db.php'); 
-include('includes/header.php');
 
-$query = $pdo->query("SELECT * FROM equipe ORDER BY id ASC");
-$membres = $query->fetchAll();
+include('includes/header.php');
 ?>
 
 <main class="atelier-page">
@@ -26,10 +31,9 @@ $membres = $query->fetchAll();
             </div>
             <div class="intro-featured-img">
                 <div class="image-frame">
-                    <img src="assets/img/atelier/heritage_meuble.jpg" alt="Détail technique Héritage">
+                    <img src="<?= $img_heritage ?>" alt="Détail technique Héritage">
                 </div>
             </div>
-        </div>
     </section>
 
     <div class="transition-luxe"></div>
