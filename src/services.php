@@ -1,6 +1,20 @@
 <?php
+require_once('includes/db.php'); 
+
+$query = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'service_%'");
+$images_services = $query->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$img_precision = $images_services['service_precision'] ?? 'assets/img/services/precision.jpg';
+$img_geste     = $images_services['service_geste'] ?? 'assets/img/services/geste.jpg';
+$img_techno    = $images_services['service_technologie'] ?? 'assets/img/services/technologie.jpg';
+$img_matiere   = $images_services['service_matiere'] ?? 'assets/img/services/matiere.jpg';
+
+$img_card_ext = $images_services['service_card_exterieur'] ?? 'assets/img/services/exterieur.jpg';
+$img_card_int = $images_services['service_card_interieur'] ?? 'assets/img/services/interieur.jpg';
+
 $page_title = "Nos Services - IEB";
 $page_css = "css/services.css?v=" . time();
+
 include('includes/header.php');
 ?>
 
@@ -24,16 +38,16 @@ include('includes/header.php');
             
             <div class="adn-visuals">
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/services/precision.jpg" alt="Tracé de précision">
+                    <img src="<?= $img_precision ?>" alt="Tracé de précision">
                 </div>
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/services/geste.jpg" alt="Assemblage à tenon mortaise">
+                    <img src="<?= $img_geste ?>" alt="Assemblage à tenon mortaise">
                 </div>
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/services/technologie.jpg" alt="Usinage de précision">
+                    <img src="<?= $img_techno ?>" alt="Usinage de précision">
                 </div>
                 <div class="adn-image-wrapper">
-                    <img src="assets/img/services/matiere.jpg" alt="Finition artisanale">
+                    <img src="<?= $img_matiere ?>" alt="Finition artisanale">
                 </div>
             </div>
 
@@ -77,7 +91,7 @@ include('includes/header.php');
             <div class="expertise-card">
                 <a href="realisations.php?filter=exterieur" class="expertise-link-wrapper">
                     <div class="expertise-image">
-                        <img src="assets/img/services/exterieur.jpg" alt="Menuiserie Extérieure">
+                        <img src="<?= $img_card_ext ?>" alt="Menuiserie Extérieure">
                         <div class="expertise-overlay-hover">
                             <span>Voir les réalisations <i class="fas fa-arrow-right"></i></span>
                         </div>
@@ -107,7 +121,7 @@ include('includes/header.php');
             <div class="expertise-card">
                 <a href="realisations.php?filter=interieur" class="expertise-link-wrapper">
                     <div class="expertise-image">
-                        <img src="assets/img/services/interieur.jpg" alt="Menuiserie Intérieure">
+                        <img src="<?= $img_card_int ?>" alt="Menuiserie Intérieure">   
                         <div class="expertise-overlay-hover">
                             <span>Voir les réalisations <i class="fas fa-arrow-right"></i></span>
                         </div>
