@@ -1,8 +1,11 @@
 <?php
 $page_title = "L'Atelier - IEB";
-// Chemin relatif direct car le dossier css est au même niveau
 $page_css = "css/atelier.css?v=" . time(); 
+require_once('includes/db.php'); 
 include('includes/header.php');
+
+$query = $pdo->query("SELECT * FROM equipe ORDER BY id ASC");
+$membres = $query->fetchAll();
 ?>
 
 <main class="atelier-page">
@@ -35,23 +38,17 @@ include('includes/header.php');
         <div class="container">
             <h2 class="center-title">Les mains de l'expertise</h2>
             <div class="team-grid">
-            <div class="team-item">
-                <div class="image-box">
-                    <img src="assets/img/atelier/Alvariza.jpg" alt="Leonardo Freddy Alvariza">
-                    <a href="personne_page.php?id=leonardo" class="btn-more">En savoir plus</a>
-                </div>
-                <h3>Leonardo Freddy Alvariza</h3>
-                <p>Menuisier et gérant d'intérieur extérieur bois</p>
-            </div>
-
-            <div class="team-item">
-                <div class="image-box">
-                    <img src="assets/img/atelier/employé_type.jpg" alt="Julian Alvariza">
-                    <a href="personne_page.php?id=julian" class="btn-more">En savoir plus</a>
-                </div>
-                <h3>Julian Alvariza</h3>
-                <p>Menuisier et salarié de l'entreprise intérieur extérieur bois</p>
-            </div>
+                <?php foreach ($membres as $membre): ?>
+                    <div class="team-item">
+                        <div class="image-box">
+                            <img src="<?= htmlspecialchars($membre['photo']) ?>" alt="<?= htmlspecialchars($membre['nom']) ?>">
+                            
+                            <a href="personne_page.php?id=<?= $membre['id'] ?>" class="btn-more">En savoir plus</a>
+                        </div>
+                        <h3><?= htmlspecialchars($membre['nom']) ?></h3>
+                        <p><?= htmlspecialchars($membre['poste']) ?></p>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>

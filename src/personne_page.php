@@ -1,66 +1,48 @@
 <?php
-$page_title = "Profil - IEB";
-$page_css = "css/personne_page.css?v=" . time();
-include('includes/header.php');
+require_once('includes/db.php');
 
-// Récupère l'ID depuis l'URL
-$id = isset($_GET['id']) ? $_GET['id'] : '';
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Définit les infos selon l'ID
-$team_members = [
-    'leonardo' => [
-        'name' => 'Leonardo Freddy Alvariza',
-        'role' => 'Gérant et Menuisier intérieur/extérieur bois',
-        'image' => 'assets/img/atelier/Alvariza.jpg',
-        'bio' => 'Leonardo est né en Uruguay et a voyagé à travers l’Europe. Il a d’abord travaillé en France puis en Italie avant de fonder IEB en 2001. Seul au départ, il a développé son activité avec passion, et au fil des années, l’entreprise a grandi et ses clients se sont diversifiés, expliquant une croissance exponentielle.',
-        'cards' => [
-            ['title' => 'Expérience', 'text' => '+20 ans'],
-            ['title' => 'Parcours', 'text' => 'Europe & Italie'],
-            ['title' => 'Passion', 'text' => 'Création artisanale']
-        ]
-    ],
-    'julian' => [
-        'name' => 'Julian Alvariza',
-        'role' => 'Menuisier spécialisé sur mesure',
-        'image' => 'assets/img/atelier/employé_type.jpg',
-        'bio' => 'Julian est spécialisé dans la fabrication sur mesure et le travail de précision. Il apporte sa créativité et son expertise au service de chaque projet.',
-        'cards' => [
-            ['title' => 'Expertise', 'text' => 'Sur mesure'],
-            ['title' => 'Précision', 'text' => 'Travail artisanal'],
-            ['title' => 'Témoignage', 'text' => '“J’apprends beaucoup aux côtés de Leonardo et chaque projet est un défi passionnant.”']
-        ]
-    ]
-];
+$queryMembre = $pdo->prepare("SELECT * FROM equipe WHERE id = ?");
+$queryMembre->execute([$id]);
+$person = $queryMembre->fetch();
 
-// Si ID invalide, redirige vers l’atelier
-if (!array_key_exists($id, $team_members)) {
+if (!$person) {
     header('Location: atelier.php');
     exit;
 }
 
-$person = $team_members[$id];
+$queryCards = $pdo->prepare("SELECT * FROM equipe_cards WHERE equipe_id = ? ORDER BY ordre ASC");
+$queryCards->execute([$id]);
+$cards = $queryCards->fetchAll();
+
+$page_title = "Profil de " . htmlspecialchars($person['prenom']) . " - IEB";
+$page_css = "css/personne_page.css?v=" . time();
+include('includes/header.php');
 ?>
 
-<main class="team-member-page <?= $id ?>">
+<main class="team-member-page">
     <section class="section-padding">
         <a class="back-button" href="entreprise.php">← Retour à l'équipe</a>
 
         <div class="member-container">
             <div class="member-image">
-                <img src="<?= $person['image'] ?>" alt="<?= $person['name'] ?>">
+                <img src="<?= htmlspecialchars($person['photo']) ?>" alt="<?= htmlspecialchars($person['nom']) ?>">
             </div>
 
             <div class="member-info">
-                <h1><?= $person['name'] ?></h1>
-                <h2><?= $person['role'] ?></h2>
-                <p class="member-bio"><?= $person['bio'] ?></p>
+                <h1><?= htmlspecialchars($person['prenom'] . ' ' . $person['nom']) ?></h1>
+                
+                <h2><?= htmlspecialchars($person['poste']) ?></h2>
+                
+                <p class="member-bio"><?= nl2br(htmlspecialchars($person['description'])) ?></p>
 
-                <?php if (!empty($person['cards'])): ?>
+                <?php if (!empty($cards)): ?>
                     <div class="member-cards">
-                        <?php foreach ($person['cards'] as $card): ?>
+                        <?php foreach ($cards as $card): ?>
                             <div class="member-card">
-                                <h3><?= $card['title'] ?></h3>
-                                <p><?= $card['text'] ?></p>
+                                <h3><?= htmlspecialchars($card['titre']) ?></h3>
+                                <p><?= htmlspecialchars($card['contenu']) ?></p>
                             </div>
                         <?php endforeach; ?>
                     </div>
