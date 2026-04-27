@@ -1,4 +1,13 @@
-<?php include('includes/header.php'); ?>
+<?php 
+require_once('includes/db.php'); // Connexion BDD
+
+// Récupère les avis marqués comme 'affiche'
+$query = $pdo->query("SELECT * FROM avis WHERE statut = 'affiche' ORDER BY date DESC");
+$avis_bdd = $query->fetchAll();
+
+$page_title = "Avis Clients - IEB";
+include('includes/header.php'); 
+?>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/avis.css">
@@ -71,29 +80,24 @@
             </div>
 
             <div class="reviews-grid">
-                <div class="review-card has-images">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-content">
-                        "Une équipe à l'écoute et un savoir-faire artisanal qu'on ne trouve plus ailleurs. Ma terrasse est superbe."
-                    </p>
-                    <span class="review-author">Marc-Antoine P.</span>
+                <?php foreach ($avis_bdd as $avis): ?>
+                    <div class="review-card <?= ($avis['est_detaille']) ? 'has-images' : '' ?>">
+                        
+                        <div class="stars">
+                            <?= str_repeat('★', $avis['note']) . str_repeat('☆', 5 - $avis['note']) ?>
+                        </div>
 
-                    <a href="review-marc-antoine.php" class="btn-gold-outline btn-small">
-                        Voir plus
-                    </a>
-                </div>
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-content">"Précision millimétrée pour mon dressing sur-mesure. Chantier très propre, je recommande vivement."</p>
-                    <span class="review-author">Sophie L.</span>
-                </div>
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-content">"Intervention rapide pour nos fenêtres. Le bois est de qualité supérieure, l'isolation est parfaite."</p>
-                    <span class="review-author">Julien R.</span>
-                </div>
+                        <p class="review-content">"<?= htmlspecialchars($avis['commentaire']) ?>"</p>
+                        
+                        <span class="review-author"><?= htmlspecialchars($avis['nom']) ?></span>
+
+                        <?php if ($avis['est_detaille']): ?>
+                            <a href="review-<?= $avis['slug'] ?>.php" class="btn-gold-outline btn-small">Voir plus</a>
+                        <?php endif; ?>
+                        
+                    </div>
+                <?php endforeach; ?>
             </div>
-        </div>
     </section>
 
 </main>
