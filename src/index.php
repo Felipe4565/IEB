@@ -1,4 +1,20 @@
-<?php include('includes/header.php'); ?>
+<?php
+require_once('includes/db.php');
+
+// Récupération des images de type 'home' présentes en BDD
+$query = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'home_%'");
+$images_accueil = $query->fetchAll(PDO::FETCH_KEY_PAIR);
+
+// Association des variables avec repli (fallback) sur les images statiques si la BDD est vide
+$img_int = $images_accueil['home_interieur'] ?? 'assets/img/accueil/Intérieur.jpg';
+$img_ext = $images_accueil['home_exterieur'] ?? 'assets/img/accueil/extérieur.jpg';
+$img_mob = $images_accueil['home_mobilier'] ?? 'assets/img/accueil/mobilier.jpg';
+
+$query_meuble = $pdo->query("SELECT image_url FROM images_projets WHERE type = 'home_meuble_interactif' LIMIT 1");
+$img_meuble = $query_meuble->fetchColumn() ?: 'assets/img/accueil/meuble_close.png';
+
+include('includes/header.php'); 
+?>
 
 <main>
     <section class="hero-premium">
@@ -36,75 +52,73 @@
                 <p class="gold-subtitle">Découvrez l'art du bois sur-mesure</p>
             </div>
 
-            <div class="gallery-grid">
-                <a href="realisations.php?filter=interieur" class="gallery-item">
-                    <div class="image-box">
-                        <img src="assets/img/accueil/Intérieur.jpg" alt="Intérieur">
-                    </div>
-                    <h3>Intérieur</h3>
-                    <p>Des travaux d'intérieur sur mesure</p>
-                </a>
+           <div class="gallery-grid">
+            <a href="realisations.php?filter=interieur" class="gallery-item">
+                <div class="image-box">
+                    <img src="<?= $img_int ?>" alt="Intérieur">
+                </div>
+                <h3>Intérieur</h3>
+                <p>Des travaux d'intérieur sur mesure</p>
+            </a>
 
-                <a href="realisations.php?filter=exterieur" class="gallery-item">
-                    <div class="image-box">
-                        <img src="assets/img/accueil/extérieur.jpg" alt="Extérieur">
-                    </div>
-                    <h3>Extérieur</h3>
-                    <p>Des créations en bois pour votre jardin et terrasse</p>
-                </a>
+            <a href="realisations.php?filter=exterieur" class="gallery-item">
+                <div class="image-box">
+                    <img src="<?= $img_ext ?>" alt="Extérieur">
+                </div>
+                <h3>Extérieur</h3>
+                <p>Des créations en bois pour votre jardin et terrasse</p>
+            </a>
 
-                <a href="realisations.php?filter=sur-mesure" class="gallery-item">
-                    <div class="image-box">
-                        <img src="assets/img/accueil/mobilier.jpg" alt="Mobilier">
-                    </div>
-                    <h3>Mobilier</h3>
-                    <p>Des créations signées pour votre intérieur</p>
-                </a>
+            <a href="realisations.php?filter=sur-mesure" class="gallery-item">
+                <div class="image-box">
+                    <img src="<?= $img_mob ?>" alt="Mobilier">
+                </div>
+                <h3>Mobilier</h3>
+                <p>Des créations signées pour votre intérieur</p>
+            </a>
             </div>
         </div>
     </section>
 
-    <section class="furniture-experience">
-        <div class="container">
-            <div class="experience-intro">
-                <span class="gold-subtitle">Immersion</span>
-                <h2>Explorez notre savoir-faire</h2>
-                <p>Cliquez sur les tiroirs pour découvrir l'histoire d'IEB</p>
-            </div>
-
-            <div class="interactive-container">
-                <div class="furniture-wrapper">
-                    <img src="assets/img/accueil/meuble_close.png" id="main-furniture" alt="Meuble IEB">
-                    
-                    <svg viewBox="0 0 2205 790" preserveAspectRatio="none" class="interaction-layer">
-                        <polygon points="610,400 1080,380 1100,530 610,600" class="drawer-trigger" data-fact="fact1" style="fill: transparent;"></polygon>                    
-                        <polygon points="1100,275 1500,275 1475,525 1175,530" class="drawer-trigger" data-fact="fact2" />
-                        
-                        <polygon points="625,640 1475,540 1490,700 625,780" class="drawer-trigger" data-fact="fact3"></polygon>
-                    </svg>
-                </div>
-
-                <div class="fact-panel" id="fact-display">
-                    <div class="fact-content active" id="default-fact">
-                        <i class="fas fa-hand-pointer"></i>
-                        <p>Interagissez avec le meuble pour révéler nos secrets de fabrication.</p>
-                    </div>
-                    <div class="fact-content" id="fact1">
-                        <h3>25 Ans d'Expertise</h3>
-                        <p>Depuis 2001, nous transformons le bois noble en pièces uniques.</p>
-                    </div>
-                    <div class="fact-content" id="fact2">
-                        <h3>Matériaux Durables</h3>
-                        <p>Bois issus de forêts gérées durablement.</p>
-                    </div>
-                    <div class="fact-content" id="fact3">
-                        <h3>Sur-Mesure Total</h3>
-                        <p>Chaque millimètre est pensé pour votre espace.</p>
-                    </div>
-                </div>
-            </div>
+<section class="furniture-experience">
+    <div class="container">
+        <div class="experience-intro">
+            <span class="gold-subtitle">Immersion</span>
+            <h2>Explorez notre savoir-faire</h2>
+            <p>Cliquez sur les tiroirs pour découvrir l'histoire d'IEB</p>
         </div>
-    </section>
+
+        <div class="interactive-container">
+            <div class="furniture-wrapper">
+                <img src="<?= $img_meuble ?>" id="main-furniture" alt="Meuble IEB">
+                
+                <svg viewBox="0 0 2205 790" preserveAspectRatio="none" class="interaction-layer">
+                    <polygon points="610,400 1080,380 1100,530 610,600" class="drawer-trigger" data-fact="fact1"></polygon>                     
+                    <polygon points="1100,275 1500,275 1475,525 1175,530" class="drawer-trigger" data-fact="fact2" />
+                    <polygon points="625,640 1475,540 1490,700 625,780" class="drawer-trigger" data-fact="fact3"></polygon>
+                </svg>
+            </div>
+
+            <div class="fact-panel" id="fact-display">
+                <div class="fact-content active" id="default-fact">
+                    <i class="fas fa-hand-pointer"></i>
+                    <p>Interagissez avec le meuble pour révéler nos secrets de fabrication.</p>
+                </div>
+                <div class="fact-content" id="fact1">
+                    <h3>25 Ans d'Expertise</h3>
+                    <p>Depuis 2001, nous transformons le bois noble en pièces uniques.</p>
+                </div>
+                <div class="fact-content" id="fact2">
+                    <h3>Matériaux Durables</h3>
+                    <p>Bois issus de forêts gérées durablement.</p>
+                </div>
+                <div class="fact-content" id="fact3">
+                    <h3>Sur-Mesure Total</h3>
+                    <p>Chaque millimètre est pensé pour votre espace.</p>
+                </div>
+            </div>
+        </div> </div>
+</section>
 
     <section id="contact" class="contact-split-container">
             <div class="container-contact-wrapper">    

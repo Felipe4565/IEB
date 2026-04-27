@@ -1,3 +1,17 @@
+<?php
+require_once('includes/db.php');
+
+// Récupération de toutes les images liées au meuble interactif
+$query = $pdo->query("SELECT type, image_url FROM images_projets WHERE type LIKE 'home_meuble_%'");
+$meuble_images = $query->fetchAll(PDO::FETCH_KEY_PAIR);
+
+// On définit les chemins avec des valeurs par défaut au cas où
+$img_close = $meuble_images['home_meuble_close'] ?? 'assets/img/accueil/meuble_close.png';
+$img_open1 = $meuble_images['home_meuble_open1'] ?? 'assets/img/accueil/meuble_open1.png';
+$img_open2 = $meuble_images['home_meuble_open2'] ?? 'assets/img/accueil/meuble_open2.png';
+$img_open3 = $meuble_images['home_meuble_open3'] ?? 'assets/img/accueil/meuble_open3.png';
+?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/footer.css">
@@ -80,6 +94,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const defaultFact = document.getElementById('default-fact');
     const mainImg = document.getElementById('main-furniture');
     
+    // On crée un objet de correspondance entre le numéro du tiroir et l'image BDD
+    const drawerImages = {
+        '0': '<?= $img_close ?>',
+        '1': '<?= $img_open1 ?>',
+        '2': '<?= $img_open2 ?>',
+        '3': '<?= $img_open3 ?>'
+    };
+
     let currentOpenDrawer = null;
 
     triggers.forEach(trigger => {
@@ -89,14 +111,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Si on clique sur le tiroir déjà ouvert -> on ferme tout
             if (currentOpenDrawer === drawerNumber) {
-                mainImg.src = 'assets/img/accueil/meuble_close.png';
+                mainImg.src = drawerImages['0']; // Utilise l'image close de la BDD
                 factContents.forEach(c => c.classList.remove('active'));
                 if(defaultFact) defaultFact.classList.add('active');
                 currentOpenDrawer = null;
             } 
             // Sinon -> on ouvre le nouveau tiroir
             else {
-                mainImg.src = 'assets/img/accueil/meuble_open' + drawerNumber + '.png';
+                // On récupère l'image correspondante dans notre objet drawerImages
+                mainImg.src = drawerImages[drawerNumber] || drawerImages['0'];
                 
                 factContents.forEach(c => c.classList.remove('active'));
                 const activeContent = document.getElementById(targetFactId);
