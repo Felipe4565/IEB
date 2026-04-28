@@ -1,7 +1,14 @@
 <?php 
 require_once('includes/db.php'); // Connexion BDD
 
-// Récupère les avis marqués comme 'affiche'
+// 1. Récupération des images du Slider Avant/Après
+$query_slider = $pdo->query("SELECT image_url, type FROM images_projets WHERE type IN ('avis_avant', 'avis_apres')");
+$imgs_slider = $query_slider->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$img_avant = $imgs_slider['avis_avant'] ?? 'assets/img/avis/avant.png';
+$img_apres = $imgs_slider['avis_apres'] ?? 'assets/img/avis/apres.png';
+
+// 2. Récupère les avis (ton code existant)
 $query = $pdo->query("SELECT * FROM avis WHERE statut = 'affiche' ORDER BY date DESC");
 $avis_bdd = $query->fetchAll();
 
@@ -42,8 +49,9 @@ include('includes/header.php');
         <div class="comparison-card">
             
             <div class="comparison-slider">
-                <div class="img-after" style="background-image: url('assets/img/avis/apres.png');"></div>
-                <div class="img-before" style="background-image: url('assets/img/avis/avant.png');"></div>
+                <div class="img-after" style="background-image: url('<?= $img_apres ?>');"></div>
+                
+                <div class="img-before" style="background-image: url('<?= $img_avant ?>');"></div>
                 
                 <input type="range" min="0" max="100" value="50" class="slider-handle" id="compare-slider">
                 <div class="slider-line" id="slider-line"></div>
