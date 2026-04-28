@@ -1,17 +1,37 @@
 <?php
 require_once('includes/db.php');
 
-// Récupération des images de type 'home' présentes en BDD
-$query = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'home_%'");
-$images_accueil = $query->fetchAll(PDO::FETCH_KEY_PAIR);
+// 1. Récupération des images (déjà OK)
+$query_img = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'home_%'");
+$images_accueil = $query_img->fetchAll(PDO::FETCH_KEY_PAIR);
 
-// Association des variables avec repli (fallback) sur les images statiques si la BDD est vide
 $img_int = $images_accueil['home_interieur'] ?? 'assets/img/accueil/Intérieur.jpg';
 $img_ext = $images_accueil['home_exterieur'] ?? 'assets/img/accueil/extérieur.jpg';
 $img_mob = $images_accueil['home_mobilier'] ?? 'assets/img/accueil/mobilier.jpg';
+$img_meuble = $images_accueil['home_meuble_close'] ?? 'assets/img/accueil/meuble_close.png';
 
-$query_meuble = $pdo->query("SELECT image_url FROM images_projets WHERE type = 'home_meuble_interactif' LIMIT 1");
-$img_meuble = $query_meuble->fetchColumn() ?: 'assets/img/accueil/meuble_close.png';
+// 2. Récupération des textes - CORRIGÉ : 'valeur' au lieu de 'texte'
+// Et on ne filtre plus par "page" car ta table n'a pas cette colonne d'après ton screen
+$query_txt = $pdo->query("SELECT cle, valeur FROM contenus");
+$textes_accueil = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+// 3. Association des variables avec les clés EXACTES de ta BDD
+$txt_announcement = $textes_accueil['home_top_announcement'] ?? "Artisan Menuisier en Île-de-France depuis 2001";
+$txt_subtitle     = $textes_accueil['home_hero_subtitle']     ?? "Conception & Fabrication";
+$txt_h1_main      = $textes_accueil['home_hero_title_main']   ?? "L'art du bois,";
+$txt_h1_gold      = $textes_accueil['home_hero_title_gold']   ?? "le sens du détail.";
+$txt_description  = $textes_accueil['home_hero_description']  ?? "Conception unique de cuisines, escaliers et mobilier sur-mesure.";
+$txt_btn_projets  = $textes_accueil['home_btn_projets']       ?? "Voir nos projets";
+$txt_btn_devis    = $textes_accueil['home_btn_devis']         ?? "Demander un devis";
+
+$gal_title    = $textes_accueil['home_gallery_title']    ?? "Bienvenue chez Intérieur Extérieur Bois";
+$gal_subtitle = $textes_accueil['home_gallery_subtitle'] ?? "Découvrez l'art du bois sur-mesure";
+$cat_int_title = $textes_accueil['home_gallery_card1_title'] ?? "Intérieur";
+$cat_int_desc  = $textes_accueil['home_gallery_card1_desc']  ?? "Des travaux d'intérieur sur mesure";
+$cat_ext_title = $textes_accueil['home_gallery_card2_title'] ?? "Extérieur";
+$cat_ext_desc  = $textes_accueil['home_gallery_card2_desc']  ?? "Des créations en bois pour votre jardin et terrasse";
+$cat_mob_title = $textes_accueil['home_gallery_card3_title'] ?? "Mobilier";
+$cat_mob_desc  = $textes_accueil['home_gallery_card3_desc']  ?? "Des créations signées pour votre intérieur";
 
 include('includes/header.php'); 
 ?>
@@ -25,20 +45,21 @@ include('includes/header.php');
             <div class="video-overlay-dark"></div>
         </div>
 
-        <div class="hero-content-overlay">
-            <div class="container">
-                <div class="top-announcement">
-                    <p>Artisan Menuisier en Île-de-France depuis 2001</p>
-                </div>
-                
-                <div class="main-hero-text">
-                    <span class="subtitle">Conception & Fabrication</span>
-                    <h1>L'art du bois, <br><span class="gold-text">le sens du détail.</span></h1>
-                    <p class="description">Conception unique de cuisines, escaliers et mobilier sur-mesure.</p>
+            <div class="hero-content-overlay">
+                <div class="container">
+                    <div class="top-announcement">
+                        <p><?= $txt_announcement ?></p>
+                    </div>
                     
-                    <div class="hero-btns">
-                        <a href="realisations.php" class="btn-link-gold">Voir nos projets</a>
-                        <a href="contact.php" class="btn-devis-solid">Demander un devis</a>
+                    <div class="main-hero-text">
+                        <span class="subtitle"><?= $txt_subtitle ?></span>
+                        <h1><?= $txt_h1_main ?><br><span class="gold-text"><?= $txt_h1_gold ?></span></h1>
+                        <p class="description"><?= $txt_description ?></p>
+                        
+                        <div class="hero-btns">
+                            <a href="realisations.php" class="btn-link-gold">Voir nos projets</a>
+                            <a href="contact.php" class="btn-devis-solid">Demander un devis</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,34 +69,34 @@ include('includes/header.php');
     <section class="section-gallery">
         <div class="container">
             <div class="gallery-intro">
-                <h2>Bienvenue chez Intérieur Extérieur Bois</h2>
-                <p class="gold-subtitle">Découvrez l'art du bois sur-mesure</p>
+                <h2><?= $gal_title ?></h2>
+                <p class="gold-subtitle"><?= $gal_subtitle ?></p>
             </div>
 
-           <div class="gallery-grid">
-            <a href="realisations.php?filter=interieur" class="gallery-item">
-                <div class="image-box">
-                    <img src="<?= $img_int ?>" alt="Intérieur">
-                </div>
-                <h3>Intérieur</h3>
-                <p>Des travaux d'intérieur sur mesure</p>
-            </a>
+            <div class="gallery-grid">
+                <a href="realisations.php?filter=interieur" class="gallery-item">
+                    <div class="image-box">
+                        <img src="<?= $img_int ?>" alt="Intérieur">
+                    </div>
+                    <h3><?= $cat_int_title ?></h3>
+                    <p><?= $cat_int_desc ?></p>
+                </a>
 
-            <a href="realisations.php?filter=exterieur" class="gallery-item">
-                <div class="image-box">
-                    <img src="<?= $img_ext ?>" alt="Extérieur">
-                </div>
-                <h3>Extérieur</h3>
-                <p>Des créations en bois pour votre jardin et terrasse</p>
-            </a>
+                <a href="realisations.php?filter=exterieur" class="gallery-item">
+                    <div class="image-box">
+                        <img src="<?= $img_ext ?>" alt="Extérieur">
+                    </div>
+                    <h3><?= $cat_ext_title ?></h3>
+                    <p><?= $cat_ext_desc ?></p>
+                </a>
 
-            <a href="realisations.php?filter=sur-mesure" class="gallery-item">
-                <div class="image-box">
-                    <img src="<?= $img_mob ?>" alt="Mobilier">
-                </div>
-                <h3>Mobilier</h3>
-                <p>Des créations signées pour votre intérieur</p>
-            </a>
+                <a href="realisations.php?filter=sur-mesure" class="gallery-item">
+                    <div class="image-box">
+                        <img src="<?= $img_mob ?>" alt="Mobilier">
+                    </div>
+                    <h3><?= $cat_mob_title ?></h3>
+                    <p><?= $cat_mob_desc ?></p>
+                </a>
             </div>
         </div>
     </section>
