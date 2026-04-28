@@ -1,7 +1,6 @@
 <?php
 require_once('includes/db.php');
 
-// 1. Récupération des images (déjà OK)
 $query_img = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'home_%'");
 $images_accueil = $query_img->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -10,12 +9,10 @@ $img_ext = $images_accueil['home_exterieur'] ?? 'assets/img/accueil/extérieur.j
 $img_mob = $images_accueil['home_mobilier'] ?? 'assets/img/accueil/mobilier.jpg';
 $img_meuble = $images_accueil['home_meuble_close'] ?? 'assets/img/accueil/meuble_close.png';
 
-// 2. Récupération des textes - CORRIGÉ : 'valeur' au lieu de 'texte'
-// Et on ne filtre plus par "page" car ta table n'a pas cette colonne d'après ton screen
+
 $query_txt = $pdo->query("SELECT cle, valeur FROM contenus");
 $textes_accueil = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
 
-// 3. Association des variables avec les clés EXACTES de ta BDD
 $txt_announcement = $textes_accueil['home_top_announcement'] ?? "Artisan Menuisier en Île-de-France depuis 2001";
 $txt_subtitle     = $textes_accueil['home_hero_subtitle']     ?? "Conception & Fabrication";
 $txt_h1_main      = $textes_accueil['home_hero_title_main']   ?? "L'art du bois,";
@@ -32,6 +29,14 @@ $cat_ext_title = $textes_accueil['home_gallery_card2_title'] ?? "Extérieur";
 $cat_ext_desc  = $textes_accueil['home_gallery_card2_desc']  ?? "Des créations en bois pour votre jardin et terrasse";
 $cat_mob_title = $textes_accueil['home_gallery_card3_title'] ?? "Mobilier";
 $cat_mob_desc  = $textes_accueil['home_gallery_card3_desc']  ?? "Des créations signées pour votre intérieur";
+
+$fact_default = $textes_accueil['home_fact_default'] ?? "Interagissez avec le meuble pour révéler nos secrets de fabrication.";
+$fact1_title  = $textes_accueil['home_fact1_title']   ?? "25 Ans d'Expertise";
+$fact1_desc   = $textes_accueil['home_fact1_desc']    ?? "Depuis 2001, nous transformons le bois noble en pièces uniques.";
+$fact2_title  = $textes_accueil['home_fact2_title']   ?? "Matériaux Durables";
+$fact2_desc   = $textes_accueil['home_fact2_desc']    ?? "Bois issus de forêts gérées durablement.";
+$fact3_title  = $textes_accueil['home_fact3_title']   ?? "Sur-Mesure Total";
+$fact3_desc   = $textes_accueil['home_fact3_desc']    ?? "Chaque millimètre est pensé pour votre espace.";
 
 include('includes/header.php'); 
 ?>
@@ -123,19 +128,19 @@ include('includes/header.php');
             <div class="fact-panel" id="fact-display">
                 <div class="fact-content active" id="default-fact">
                     <i class="fas fa-hand-pointer"></i>
-                    <p>Interagissez avec le meuble pour révéler nos secrets de fabrication.</p>
+                    <p><?= $fact_default ?></p>
                 </div>
                 <div class="fact-content" id="fact1">
-                    <h3>25 Ans d'Expertise</h3>
-                    <p>Depuis 2001, nous transformons le bois noble en pièces uniques.</p>
+                    <h3><?= $fact1_title ?></h3>
+                    <p><?= $fact1_desc ?></p>
                 </div>
                 <div class="fact-content" id="fact2">
-                    <h3>Matériaux Durables</h3>
-                    <p>Bois issus de forêts gérées durablement.</p>
+                    <h3><?= $fact2_title ?></h3>
+                    <p><?= $fact2_desc ?></p>
                 </div>
                 <div class="fact-content" id="fact3">
-                    <h3>Sur-Mesure Total</h3>
-                    <p>Chaque millimètre est pensé pour votre espace.</p>
+                    <h3><?= $fact3_title ?></h3>
+                    <p><?= $fact3_desc ?></p>
                 </div>
             </div>
         </div> </div>
