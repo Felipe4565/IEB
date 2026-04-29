@@ -2,6 +2,12 @@
 require_once 'includes/db.php'; 
 include 'includes/header.php'; 
 
+$query_txt = $pdo->query("SELECT cle, valeur FROM contenus WHERE cle LIKE 'realisations_%'");
+$textes = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$txt_hero_subtitle = $textes['realisations_hero_subtitle'] ?? "Un héritage de projets d'excellence";
+$txt_hero_title    = $textes['realisations_hero_title']    ?? "NOS RÉALISATIONS";
+
 $query = $pdo->query("SELECT * FROM projets WHERE statut = 'brouillon' ORDER BY date_creation DESC");
 $projets = $query->fetchAll();
 ?>
@@ -10,8 +16,8 @@ $projets = $query->fetchAll();
 
 <main class="portfolio-page">
     <section class="hero">
-        <p class="subtitle">Un héritage de projets d'excellence</p>
-        <h1>NOS RÉALISATIONS</h1>
+        <p class="subtitle"><?= htmlspecialchars($txt_hero_subtitle) ?></p>
+        <h1><?= htmlspecialchars($txt_hero_title) ?></h1>
     </section>
 
     <section class="filters-container">
