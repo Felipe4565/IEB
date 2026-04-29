@@ -1,18 +1,28 @@
 <?php 
-require_once('includes/db.php'); // Connexion BDD
+require_once('includes/db.php'); 
 
-// 1. Récupération des images du Slider Avant/Après
 $query_slider = $pdo->query("SELECT image_url, type FROM images_projets WHERE type IN ('avis_avant', 'avis_apres')");
 $imgs_slider = $query_slider->fetchAll(PDO::FETCH_KEY_PAIR);
 
 $img_avant = $imgs_slider['avis_avant'] ?? 'assets/img/avis/avant.png';
 $img_apres = $imgs_slider['avis_apres'] ?? 'assets/img/avis/apres.png';
 
-// 2. Récupère les avis (ton code existant)
-$query = $pdo->query("SELECT * FROM avis WHERE statut = 'affiche' ORDER BY date DESC");
-$avis_bdd = $query->fetchAll();
+$query_txt = $pdo->query("SELECT cle, valeur FROM contenus WHERE cle LIKE 'avis_%'");
+$textes = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+$txt_trans_title    = $textes['avis_transformation_title'] ?? "Étude de cas : La métamorphose";
+$txt_case_title     = $textes['avis_case_title']          ?? "Rénovation Salon & Bibliothèque";
+$txt_case_client    = $textes['avis_case_client']         ?? "Maison Haussmannienne";
+$txt_case_location  = $textes['avis_case_location']       ?? "Paris VII";
+$txt_case_quote     = $textes['avis_case_quote']          ?? "Nous avions un espace sombre et mal optimisé. L'équipe IEB a su redonner vie à notre pièce avec un travail du bois d'une finesse rare. Le résultat dépasse nos espérances.";
+$txt_case_signature = $textes['avis_case_signature']      ?? "— Famille de V.";
+
+$query_avis = $pdo->query("SELECT * FROM avis WHERE statut = 'affiche' ORDER BY date DESC");
+$avis_bdd = $query_avis->fetchAll();
 
 $page_title = "Avis Clients - IEB";
+$page_css = "css/avis.css?v=" . time(); 
+
 include('includes/header.php'); 
 ?>
 
@@ -43,42 +53,39 @@ include('includes/header.php');
 </section>
 
 <section class="section-transformation">
-    <div class="container">
-        <h1 class="serif-gold">Étude de cas : La métamorphose</h1>
-        
-        <div class="comparison-card">
+        <div class="container">
+            <h1 class="serif-gold"><?= htmlspecialchars($txt_trans_title) ?></h1>
             
-            <div class="comparison-slider">
-                <div class="img-after" style="background-image: url('<?= $img_apres ?>');"></div>
-                
-                <div class="img-before" style="background-image: url('<?= $img_avant ?>');"></div>
-                
-                <input type="range" min="0" max="100" value="50" class="slider-handle" id="compare-slider">
-                <div class="slider-line" id="slider-line"></div>
-                
-                <div class="label-before">Avant</div>
-                <div class="label-after">Après</div>
-            </div>
-
-            <div class="transformation-text">
-                <div class="transformation-header">
-                    <h2 class="title-section-unifie">Rénovation Salon & Bibliothèque</h2>
-                    <h3 class="client-name">Maison Haussmannienne</h3>
-                    <p class="client-project">Paris VII</p>
+            <div class="comparison-card">
+                <div class="comparison-slider">
+                    <div class="img-after" style="background-image: url('<?= $img_apres ?>');"></div>
+                    <div class="img-before" style="background-image: url('<?= $img_avant ?>');"></div>
+                    
+                    <input type="range" min="0" max="100" value="50" class="slider-handle" id="compare-slider">
+                    <div class="slider-line" id="slider-line"></div>
+                    
+                    <div class="label-before">Avant</div>
+                    <div class="label-after">Après</div>
                 </div>
-                
-                <div class="quote-wrapper">
-                    <blockquote class="main-quote">
-                        "Nous avions un espace sombre et mal optimisé. L'équipe IEB a su redonner vie à notre pièce avec un travail du bois d'une finesse rare. Le résultat dépasse nos espérances."
-                    </blockquote>
-                </div>
-                
-                <p class="signature-client">— Famille de V.</p>
-            </div>
 
+                <div class="transformation-text">
+                    <div class="transformation-header">
+                        <h2 class="title-section-unifie"><?= htmlspecialchars($txt_case_title) ?></h2>
+                        <h3 class="client-name"><?= htmlspecialchars($txt_case_client) ?></h3>
+                        <p class="client-project"><?= htmlspecialchars($txt_case_location) ?></p>
+                    </div>
+                    
+                    <div class="quote-wrapper">
+                        <blockquote class="main-quote">
+                            "<?= htmlspecialchars($txt_case_quote) ?>"
+                        </blockquote>
+                    </div>
+                    
+                    <p class="signature-client"><?= htmlspecialchars($txt_case_signature) ?></p>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <section class="all-reviews">
         <div class="container">
