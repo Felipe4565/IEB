@@ -146,3 +146,12 @@ body {
 }
 .badge-new { color: #ff5f40; }
 .badge-read { color: #666; }
+
+.filter-nav a {
+    transition: var(--transition-luxe);
+    position: relative;
+}
+
+.filter-nav a:hover {
+    color: var(--gold-accent) !important;
+}
