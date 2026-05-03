@@ -2,83 +2,82 @@
 require_once('includes/auth_check.php');
 require_once('../includes/db.php');
 
-// On récupère les projets
-$stmt = $pdo->query("SELECT * FROM projets ORDER BY date_creation DESC");
+// Modification de la requête : On exclut les projets envoyés à la corbeille
+$stmt = $pdo->query("SELECT * FROM projets WHERE statut != 'corbeille' ORDER BY date_creation DESC");
 $projets = $stmt->fetchAll();
 
 $base_path = '../'; 
 include('../includes/header.php'); 
 ?>
 
-<!-- Lien vers le CSS harmonisé -->
+<!-- Utilisation de tes variables et polices -->
 <link rel="stylesheet" href="../css/admin.css">
 
-<main class="admin-main" style="padding: 100px 20px; min-height: 80vh;">
-    <div class="container">
+<main class="admin-main">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
         
-        <!-- Header avec titre et bouton retour Dashboard -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px;">
+        <!-- En-tête avec bouton Dashboard -->
+        <header style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; border-bottom: 1px solid rgba(197, 166, 124, 0.2); padding-bottom: 30px;">
             <div>
-                <h1 class="serif-gold" style="margin-bottom: 5px;">Gestion des Projets</h1>
-                <p style="opacity: 0.5; font-size: 0.9rem;">Gérez vos réalisations et votre portfolio</p>
+                <h1 class="serif-gold" style="font-size: 2.5rem; margin: 0;">Le Portfolio</h1>
+                <p style="color: var(--light-beige); opacity: 0.6; margin-top: 10px; font-weight: 300;">Gestion des ouvrages et des réalisations de l'atelier.</p>
             </div>
-            <!-- Bouton Dashboard version propre -->
-            <a href="index.php" class="btn-gold" style="font-size: 0.7rem; padding: 10px 20px; width: auto; min-width: unset; text-transform: uppercase; letter-spacing: 2px; text-decoration: none;">
-                ← Dashboard
-            </a>
-        </div>
-
-        <!-- Barre d'action pour l'ajout -->
-        <div style="margin-bottom: 30px; display: flex; justify-content: flex-end;">
-            <a href="add_projet.php" class="btn-gold" style="background: var(--gold-accent); color: #000; padding: 12px 25px; text-decoration: none; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
-                + Nouveau Projet
-            </a>
-        </div>
+            <div style="display: flex; gap: 20px;">
+                <a href="index.php" class="btn-action" style="align-self: center; text-transform: uppercase; letter-spacing: 2px; text-decoration: none;">← Dashboard</a>
+                <a href="add_projet.php" class="btn-gold">+ Nouveau Projet</a>
+            </div>
+        </header>
 
         <?php if (empty($projets)): ?>
-            <div class="card-premium" style="text-align: center; padding: 50px;">
-                <p style="opacity: 0.5;">Aucun projet dans le portfolio pour le moment.</p>
+            <div class="card-premium" style="text-align: center; border-style: dashed; padding: 50px;">
+                <p style="opacity: 0.5; font-family: 'Playfair Display', serif; font-style: italic;">Aucun projet actif n'est enregistré.</p>
             </div>
         <?php else: ?>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Titre</th>
-                        <th>Type</th>
-                        <th>Statut</th>
-                        <th style="text-align: right;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($projets as $p): ?>
-                    <tr>
-                        <td>
-                            <div style="width: 60px; height: 60px; border: 1px solid rgba(197, 166, 124, 0.3); padding: 2px;">
-                                <img src="../<?= $p['image_principale'] ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                        </td>
-                        <td>
-                            <strong style="color: var(--light-beige);"><?= htmlspecialchars($p['titre']) ?></strong>
-                        </td>
-                        <td>
-                            <span style="font-size: 0.85rem; opacity: 0.7;"><?= htmlspecialchars($p['type']) ?></span>
-                        </td>
-                        <td>
-                            <span class="badge <?= $p['statut'] === 'publie' ? 'badge-read' : 'badge-new' ?>" style="text-transform: uppercase; font-size: 0.7rem;">
-                                <?= $p['statut'] ?>
+            <!-- Grille utilisant ta dashboard-grid -->
+            <div class="dashboard-grid">
+                <?php foreach ($projets as $p): ?>
+                <div class="card-premium" style="padding: 0; display: flex; flex-direction: column; overflow: hidden;">
+                    
+                    <!-- Image du projet -->
+                    <div style="width: 100%; height: 250px; overflow: hidden; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
+                        <img src="../<?= htmlspecialchars($p['image_principale']) ?>" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: var(--transition-luxe);">
+                    </div>
+
+                    <!-- Contenu de la carte -->
+                    <div style="padding: 25px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span class="badge" style="color: var(--gold-accent); border-color: rgba(197, 166, 124, 0.3); font-size: 0.7rem; padding: 2px 8px;">
+                                <?= htmlspecialchars($p['type']) ?>
                             </span>
-                        </td>
-                        <td style="text-align: right;">
-                            <a href="edit_projet.php?id=<?= $p['id'] ?>" class="btn-action">Modifier</a>
-                            <a href="delete_projet.php?id=<?= $p['id'] ?>" class="btn-action" style="color: #ff5f40; margin-left: 10px;" onclick="return confirm('Supprimer ce projet ?')">Supprimer</a>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                            <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: <?= $p['statut'] === 'publie' ? 'var(--gold-accent)' : '#666' ?>;">
+                                <?= $p['statut'] === 'publie' ? '● En ligne' : '● Brouillon' ?>
+                            </span>
+                        </div>
+
+                        <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--light-beige);"><?= htmlspecialchars($p['titre']) ?></h3>
+                        
+                        <!-- Actions -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(197, 166, 124, 0.1);">
+                            <a href="edit_projet.php?id=<?= $p['id'] ?>" class="btn-action" style="margin: 0;">Modifier</a>
+                            <!-- Le lien pointe vers delete_projet.php qui met à jour le statut en 'corbeille'[cite: 5, 7] -->
+                            <a href="delete_projet.php?id=<?= $p['id'] ?>" class="btn-action" style="color: #ff5f40; margin: 0;" onclick="return confirm('Envoyer cette réalisation à la corbeille ?')">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
         <?php endif; ?>
+
     </div>
 </main>
+
+<style>
+/* Effet au survol de la carte */
+.card-premium:hover img {
+    opacity: 1;
+    transform: scale(1.05);
+}
+.btn-action { text-decoration: none; }
+</style>
 
 <?php include('../includes/footer.php'); ?>
