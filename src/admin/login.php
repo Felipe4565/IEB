@@ -1,32 +1,40 @@
 <?php
 session_start();
-require_once('../includes/db.php'); // On remonte pour la BDD
+require_once('../includes/db.php');
+
+if (isset($_SESSION['admin_id'])) {
+    header('Location: index.php');
+    exit();
+}
 
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_input = $_POST['admin_user'];
+    // trim() retire les espaces invisibles avant/après l'email
+    $user_input = trim($_POST['admin_user']); 
     $pass_input = $_POST['admin_pass'];
 
     $stmt = $pdo->prepare("SELECT * FROM admins WHERE email = ?");
     $stmt->execute([$user_input]);
     $admin = $stmt->fetch();
 
+    // On vérifie si l'admin existe ET si le mot de passe est valide
     if ($admin && password_verify($pass_input, $admin['mot_de_passe'])) {
         $_SESSION['admin_id'] = $admin['id'];
         $_SESSION['admin_email'] = $admin['email'];
-        header('Location: index.php'); // Redirection vers le dashboard
+        header('Location: index.php');
         exit();
     } else {
         $error = "IDENTIFIANTS INCORRECTS";
     }
 }
 
-// On inclut le header de base qui est maintenant "intelligent"
+// Définition du chemin pour le header intelligent
+$base_path = '../'; 
 include('../includes/header.php'); 
 ?>
 
-<!-- On force le CSS du formulaire qui est aussi à la racine -->
+<!-- Lien vers ton CSS spécifique -->
 <link rel="stylesheet" href="../css/identification.css">
 
 <main class="admin-login-page">
@@ -39,15 +47,20 @@ include('../includes/header.php');
 
             <form action="login.php" method="POST" class="auth-form">
                 <?php if($error): ?>
-                    <p style="color: #d4af37; text-align: center; font-weight: bold;"><?= $error ?></p>
+                    <p style="color: #d4af37; text-align: center; font-weight: bold; margin-bottom: 20px;">
+                        <?= $error ?>
+                    </p>
                 <?php endif; ?>
                 
                 <div class="input-group">
-                    <input type="text" name="admin_user" placeholder="EMAIL" required>
+                    <!-- Utilisation du type email pour une meilleure validation -->
+                    <input type="email" name="admin_user" placeholder="EMAIL" required>
                 </div>
+                
                 <div class="input-group">
                     <input type="password" name="admin_pass" placeholder="MOT DE PASSE" required>
                 </div>
+                
                 <button type="submit" class="btn-submit-gold-full">ACCÉDER AU PANEL</button>
             </form>
         </div>

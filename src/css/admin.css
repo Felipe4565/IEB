@@ -1,0 +1,148 @@
+/* =========================================
+   1. POLICES & VARIABLES HARMONISÉES
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+
+:root {
+    --dark-wood: #0d0e0a;      /* Ton noir de référence */
+    --bg-light: #161811;       /* Ton noir secondaire */
+    --light-beige: #f4f1ea;    
+    --gold-accent: #c5a67c;    /* Ton doré IEB */
+    --gold-glow: rgba(197, 166, 124, 0.2);
+    --transition-luxe: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- RESET & BASE --- */
+body {
+    background-color: var(--dark-wood);
+    color: var(--light-beige);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.admin-main {
+    padding: 120px 0;
+    background: radial-gradient(circle at top center, var(--bg-light) 0%, var(--dark-wood) 100%);
+    min-height: 100vh;
+}
+
+/* --- TYPOGRAPHIE --- */
+.serif-gold {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-accent);
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* --- DASHBOARD GRID & CARDS --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.card-premium {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(197, 166, 124, 0.1);
+    padding: 40px;
+    position: relative;
+    transition: var(--transition-luxe);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.card-premium:hover {
+    border-color: var(--gold-accent);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 20px var(--gold-glow);
+}
+
+.card-premium h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin: 0;
+    color: var(--gold-accent);
+}
+
+/* --- TABLEAUX DE GESTION (Style IEB) --- */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    margin-top: 40px;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 10px 20px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-accent);
+    border-bottom: 1px solid rgba(197, 166, 124, 0.3);
+}
+
+.admin-table tr {
+    background: rgba(255, 255, 255, 0.03);
+    transition: var(--transition-luxe);
+}
+
+.admin-table tr:hover {
+    background: rgba(255, 255, 255, 0.07);
+    transform: scale(1.01);
+}
+
+.admin-table td {
+    padding: 20px;
+    border-top: 1px solid rgba(197, 166, 124, 0.05);
+    border-bottom: 1px solid rgba(197, 166, 124, 0.05);
+}
+
+/* --- BOUTONS & ACTIONS --- */
+.btn-gold {
+    display: inline-block;
+    padding: 12px 25px;
+    background: transparent;
+    border: 1px solid var(--gold-accent);
+    color: var(--gold-accent);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    transition: var(--transition-luxe);
+}
+
+.btn-gold:hover {
+    background: var(--gold-accent);
+    color: var(--dark-wood);
+    box-shadow: 0 0 15px var(--gold-glow);
+}
+
+.btn-action {
+    color: var(--light-beige);
+    text-decoration: none;
+    font-size: 0.8rem;
+    margin-right: 15px;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.btn-action:hover {
+    opacity: 1;
+    color: var(--gold-accent);
+}
+
+/* --- STATUS BADGES --- */
+.badge {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+}
+.badge-new { color: #ff5f40; }
+.badge-read { color: #666; }
