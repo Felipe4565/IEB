@@ -8,20 +8,40 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
     $table = $_GET['target']; 
     
     if ($_GET['action'] === 'restore') {
-        $nouveau_statut = ($table === 'projets') ? 'brouillon' : 'lu';
+        if ($table === 'projets') {
+            $nouveau_statut = 'brouillon';
+        } elseif ($table === 'avis') {
+            $nouveau_statut = 'affiche'; 
+        } elseif ($table === 'contacts') {
+            $nouveau_statut = 'non_lu';
+        } else {
+            $nouveau_statut = 'lu';
+        }
+
         $pdo->prepare("UPDATE $table SET statut = ? WHERE id = ?")->execute([$nouveau_statut, $id]);
+
     } elseif ($_GET['action'] === 'flush') {
         if ($table === 'projets') {
             $stmt = $pdo->prepare("SELECT image_principale FROM projets WHERE id = ?");
             $stmt->execute([$id]);
             $p = $stmt->fetch();
-            if ($p && $p['image_principale'] != 'assets/img/realisations/default.jpg') {
+            if ($p && $p['image_principale'] && $p['image_principale'] != 'assets/img/realisations/default.jpg') {
                 $file = '../' . $p['image_principale'];
                 if (file_exists($file)) unlink($file);
             }
+        } elseif ($table === 'avis') {
+            $stmt = $pdo->prepare("SELECT image FROM avis WHERE id = ?");
+            $stmt->execute([$id]);
+            $a = $stmt->fetch();
+            if ($a && $a['image']) {
+                $file = '../' . $a['image'];
+                if (file_exists($file)) unlink($file);
+            }
         }
+
         $pdo->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
     }
+    
     header('Location: corbeille.php');
     exit();
 }
@@ -29,8 +49,8 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
 $p_trash = $pdo->query("SELECT id, titre as label, 'projets' as tab FROM projets WHERE statut='corbeille'")->fetchAll();
 $m_trash = $pdo->query("SELECT id, CONCAT(nom, ' (Devis)') as label, 'messages' as tab FROM messages WHERE statut='corbeille'")->fetchAll();
 $c_trash = $pdo->query("SELECT id, CONCAT(nom, ' (Contact)') as label, 'contacts' as tab FROM contacts WHERE statut='corbeille'")->fetchAll();
-
-$full_trash = array_merge($p_trash, $m_trash, $c_trash);
+$a_trash = $pdo->query("SELECT id, CONCAT(nom, ' (Avis)') as label, 'avis' as tab FROM avis WHERE statut='corbeille'")->fetchAll();
+$full_trash = array_merge($p_trash, $m_trash, $c_trash, $a_trash);
 
 include('../includes/header.php');
 ?>
@@ -95,46 +115,5 @@ include('../includes/header.php');
         </div>
     </div>
 </main>
-
-<style>
-    /* Style mini boutons pour la corbeille */
-    .btn-mini-gold, .btn-mini-flush {
-        display: inline-block;
-        padding: 5px 12px;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 0.6rem;
-        letter-spacing: 1px;
-        font-weight: 600;
-        transition: var(--transition-luxe);
-        border: 1px solid;
-        width: auto;
-    }
-
-    /* Restaurer */
-    .btn-mini-gold {
-        border-color: var(--gold-accent);
-        color: var(--gold-accent);
-    }
-    .btn-mini-gold:hover {
-        background: var(--gold-accent);
-        color: var(--dark-wood);
-    }
-
-    /* Détruire */
-    .btn-mini-flush {
-        border-color: #ff5f40;
-        color: #ff5f40;
-    }
-    .btn-mini-flush:hover {
-        background: #ff5f40;
-        color: white;
-    }
-
-    /* Ajustement table */
-    .admin-table tr { background: transparent !important; border-bottom: 1px solid rgba(197, 166, 124, 0.1); }
-    .admin-table tr:last-child { border-bottom: none; }
-    .admin-table td { border: none !important; }
-</style>
 
 <?php include('../includes/footer.php'); ?>
