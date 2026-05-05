@@ -90,6 +90,15 @@ include('../includes/header.php');
                 </div>
             </div>
 
+            <!-- Carte Editeur -->
+            <div class="card-premium">
+                <h3 style="color: var(--gold-accent);"><?= $nb_avis ?></h3>
+                <p>Editeur de texte/photos</p>
+                <div style="margin-top: 20px;">
+                    <a href="editeur.php" class="btn-action">Accéder à l'éditeur →</a>
+                </div>
+            </div>
+
         </div>
 
         <div class="admin-footer-actions" style="margin-top: 60px; padding: 40px 0; border-top: 1px solid rgba(197, 166, 124, 0.1); display: flex; justify-content: center;">

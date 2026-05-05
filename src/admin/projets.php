@@ -23,8 +23,10 @@ include('../includes/header.php');
                 <p style="color: var(--light-beige); opacity: 0.6; margin-top: 10px; font-weight: 300;">Gestion des ouvrages et des réalisations de l'atelier.</p>
             </div>
             <div style="display: flex; gap: 20px;">
-                <a href="index.php" class="btn-action" style="align-self: center; text-transform: uppercase; letter-spacing: 2px; text-decoration: none;">← Dashboard</a>
                 <a href="add_projet.php" class="btn-gold">+ Nouveau Projet</a>
+                <a href="index.php" class="btn-gold" style="width: auto; min-width: 140px; padding: 12px 25px; font-size: 0.7rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;">
+                    ← Dashboard
+                </a>
             </div>
         </header>
 
@@ -72,7 +74,6 @@ include('../includes/header.php');
 </main>
 
 <style>
-/* Effet au survol de la carte */
 .card-premium:hover img {
     opacity: 1;
     transform: scale(1.05);
