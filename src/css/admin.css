@@ -64,7 +64,14 @@ body {
     font-family: 'Playfair Display', serif;
     font-size: 3rem;
     margin: 0;
-    color: var(--gold-accent);
+    color: var(--gold-accent) !important;
+}
+
+.card-premium p {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    opacity: 0.8;
 }
 
 /* --- TABLEAUX DE GESTION (Style IEB) --- */
@@ -136,6 +143,26 @@ body {
     color: var(--gold-accent);
 }
 
+.btn-logout-elegant {
+    display: inline-block;
+    padding: 12px 40px;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    background: transparent;
+}
+
+.btn-logout-elegant:hover {
+    color: #ff5f40; /* Une touche de corail pour le rappel de la déconnexion */
+    border-color: #ff5f40;
+    background: rgba(255, 95, 64, 0.05);
+    letter-spacing: 5px; /* Petit effet de respiration au survol */
+ }
+
 /* --- STATUS BADGES --- */
 .badge {
     font-size: 0.65rem;
@@ -206,3 +233,5 @@ body {
         outline: none;
         border-color: var(--gold-accent) !important;
     }
+
+    

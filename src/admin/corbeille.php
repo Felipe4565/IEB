@@ -8,8 +8,11 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
     $table = $_GET['target']; 
     
     if ($_GET['action'] === 'restore') {
+        // Logique de restauration par table
         if ($table === 'projets') {
             $nouveau_statut = 'brouillon';
+        } elseif ($table === 'equipe') {
+            $nouveau_statut = 'brouillon'; // Restauré en brouillon par défaut
         } elseif ($table === 'avis') {
             $nouveau_statut = 'affiche'; 
         } elseif ($table === 'contacts') {
@@ -21,12 +24,22 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
         $pdo->prepare("UPDATE $table SET statut = ? WHERE id = ?")->execute([$nouveau_statut, $id]);
 
     } elseif ($_GET['action'] === 'flush') {
+        // Nettoyage des fichiers avant suppression définitive
         if ($table === 'projets') {
             $stmt = $pdo->prepare("SELECT image_principale FROM projets WHERE id = ?");
             $stmt->execute([$id]);
             $p = $stmt->fetch();
             if ($p && $p['image_principale'] && $p['image_principale'] != 'assets/img/realisations/default.jpg') {
                 $file = '../' . $p['image_principale'];
+                if (file_exists($file)) unlink($file);
+            }
+        } elseif ($table === 'equipe') {
+            // Suppression de la photo de l'artisan[cite: 2]
+            $stmt = $pdo->prepare("SELECT photo FROM equipe WHERE id = ?");
+            $stmt->execute([$id]);
+            $e = $stmt->fetch();
+            if ($e && $e['photo'] && $e['photo'] != 'assets/img/equipe/default.jpg') {
+                $file = '../' . $e['photo'];
                 if (file_exists($file)) unlink($file);
             }
         } elseif ($table === 'avis') {
@@ -46,11 +59,14 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
     exit();
 }
 
+// Récupération des éléments à la corbeille
 $p_trash = $pdo->query("SELECT id, titre as label, 'projets' as tab FROM projets WHERE statut='corbeille'")->fetchAll();
 $m_trash = $pdo->query("SELECT id, CONCAT(nom, ' (Devis)') as label, 'messages' as tab FROM messages WHERE statut='corbeille'")->fetchAll();
 $c_trash = $pdo->query("SELECT id, CONCAT(nom, ' (Contact)') as label, 'contacts' as tab FROM contacts WHERE statut='corbeille'")->fetchAll();
 $a_trash = $pdo->query("SELECT id, CONCAT(nom, ' (Avis)') as label, 'avis' as tab FROM avis WHERE statut='corbeille'")->fetchAll();
-$full_trash = array_merge($p_trash, $m_trash, $c_trash, $a_trash);
+$e_trash = $pdo->query("SELECT id, CONCAT(prenom, ' ', nom, ' (Équipe)') as label, 'equipe' as tab FROM equipe WHERE statut='corbeille'")->fetchAll();
+
+$full_trash = array_merge($p_trash, $m_trash, $c_trash, $a_trash, $e_trash);
 
 include('../includes/header.php');
 ?>
@@ -79,29 +95,29 @@ include('../includes/header.php');
                     </p>
                 </div>
             <?php else: ?>
-                <table class="admin-table" style="margin-top: 0; border-spacing: 0;">
+                <table class="admin-table" style="margin-top: 0; border-spacing: 0; width: 100%;">
                     <thead>
                         <tr>
-                            <th style="padding-bottom: 20px;">Élément</th>
-                            <th style="text-align:right; padding-bottom: 20px;">Actions</th>
+                            <th style="padding-bottom: 20px; text-align: left; color: var(--gold-accent); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">Élément</th>
+                            <th style="text-align:right; padding-bottom: 20px; color: var(--gold-accent); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach($full_trash as $item): ?>
                         <tr>
-                            <td style="padding: 15px 0; color: var(--light-beige); opacity: 0.8;">
+                            <td style="padding: 15px 0; color: var(--light-beige); opacity: 0.8; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
                                 <?= htmlspecialchars($item['label']) ?>
                             </td>
-                            <td style="text-align:right; padding: 15px 0; white-space: nowrap;">
-                                <!-- Conteneur de boutons pour gérer l'espace -->
+                            <td style="text-align:right; padding: 15px 0; white-space: nowrap; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
                                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                                     <a href="?action=restore&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>" 
-                                       class="btn-mini-gold">
+                                       class="btn-mini-gold" style="text-decoration: none;">
                                         Restaurer
                                     </a>
                                     
                                     <a href="?action=flush&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>" 
                                        class="btn-mini-flush" 
+                                       style="text-decoration: none;"
                                        onclick="return confirm('Attention : Cette action est irréversible. Détruire définitivement ?')">
                                         Détruire
                                     </a>
