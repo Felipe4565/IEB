@@ -234,4 +234,26 @@ body {
         border-color: var(--gold-accent) !important;
     }
 
-    
+    .btn-empty-trash {
+        display: inline-block;
+        padding: 10px 20px;
+        background: transparent;
+        border: 1px solid #ff4d4d; /* Rouge plus vif pour l'alerte */
+        color: #ff4d4d;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        font-weight: 600;
+        transition: var(--transition-luxe); /* Utilise ta transition fluide */
+        white-space: nowrap; /* Force une seule ligne */
+        cursor: pointer;
+    }
+
+    .btn-empty-trash:hover {
+        background: #ff4d4d !important;
+        color: #ffffff !important; /* Texte blanc au survol */
+        box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
+    }
+
+        
