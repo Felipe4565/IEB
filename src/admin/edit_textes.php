@@ -1,6 +1,7 @@
 <?php
 require_once('includes/auth_check.php');
 require_once('../includes/db.php');
+include('../includes/header.php');
 
 $success = "";
 $page_filter = $_GET['page'] ?? 'home';
@@ -72,3 +73,5 @@ $textes = $stmt->fetchAll();
         </form>
     </div>
 </main>
+
+<?php include('../includes/footer.php'); ?>
