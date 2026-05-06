@@ -256,4 +256,113 @@ body {
         box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
     }
 
+
+
+    /* Navigation des Filtres */
+    .filter-nav {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid rgba(197, 166, 124, 0.1);
+        padding-bottom: 20px;
+    }
+
+    .btn-filter {
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+        padding: 12px 25px;
+        border: 1px solid rgba(197, 166, 124, 0.3);
+        color: var(--gold-accent);
+        background: transparent;
+        transition: var(--transition-luxe);
+        border-radius: 0; /* Garder des angles droits pour le côté premium */
+    }
+
+    .btn-filter:hover {
+        background: rgba(197, 166, 124, 0.05);
+        border-color: var(--gold-accent);
+    }
+
+    .btn-filter.active {
+        background: var(--gold-accent);
+        color: var(--dark-wood);
+        font-weight: 700;
+    }
+
+    .btn-filter.active:hover {
+        color: #ffffff !important; 
+        opacity: 0.9; 
+    }
+    
+    /* Cartes de texte */
+    .text-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(197, 166, 124, 0.05);
+        padding: 25px;
+        margin-bottom: 20px;
+        transition: var(--transition-luxe);
+    }
+
+    .text-card:hover {
+        border-color: rgba(197, 166, 124, 0.3);
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .label-cle {
+        display: block;
+        color: var(--gold-accent);
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 12px;
+        opacity: 0.7;
+    }
+
+    /* Champs de saisie */
+    .input-text {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--light-beige);
+        padding: 15px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+        transition: var(--transition-luxe);
+    }
+
+    .input-text:focus {
+        outline: none;
+        border-color: var(--gold-accent);
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .textarea-text {
+        min-height: 100px;
+        line-height: 1.5;
+        resize: vertical;
+    }
+
+    /* Bouton Enregistrer (Flottant) */
+    .btn-save {
+        background: var(--gold-accent);
+        color: var(--dark-wood);
+        border: none;
+        padding: 18px 45px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        cursor: pointer;
+        transition: var(--transition-luxe);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-save:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(197, 166, 124, 0.2);
+    }
+
         
