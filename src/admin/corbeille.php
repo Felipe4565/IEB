@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Contient déjà session_start()[cite: 2]
 require_once('../includes/db.php');
 
 // ==========================================
@@ -33,7 +33,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
         $pdo->query("DELETE FROM $t WHERE statut = 'corbeille'");
     }
 
-    header('Location: corbeille.php?msg=deleted');
+    // Notification et redirection
+    $_SESSION['success'] = "La corbeille a été entièrement vidée avec succès.";
+    header('Location: corbeille.php');
     exit();
 }
 
@@ -41,6 +43,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
 if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
     $id = intval($_GET['id']);
     $table = $_GET['target']; 
+    $filter_back = isset($_GET['type']) ? '?type=' . $_GET['type'] : '';
     
     if ($_GET['action'] === 'restore') {
         if ($table === 'projets' || $table === 'equipe') {
@@ -53,6 +56,7 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
             $nouveau_statut = 'lu';
         }
         $pdo->prepare("UPDATE $table SET statut = ? WHERE id = ?")->execute([$nouveau_statut, $id]);
+        $_SESSION['success'] = "L'élément a été restauré avec succès.";
 
     } elseif ($_GET['action'] === 'flush') {
         $image_columns = ['projets' => 'image_principale', 'equipe' => 'photo', 'avis' => 'image'];
@@ -67,8 +71,10 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
             }
         }
         $pdo->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
+        $_SESSION['success'] = "L'élément a été définitivement supprimé.";
     }
-    header('Location: corbeille.php');
+    
+    header('Location: corbeille.php' . $filter_back);
     exit();
 }
 
@@ -101,6 +107,9 @@ include('../includes/header.php');
 <link rel="stylesheet" href="../css/admin.css">
 
 <main class="admin-main">
+    <!-- SYSTÈME DE NOTIFICATION GLOBAL -->
+    <?php include('includes/notifications.php'); ?>
+
     <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
         
         <!-- HEADER -->
@@ -109,10 +118,10 @@ include('../includes/header.php');
                 <h1 class="serif-gold" style="margin: 0;">Centre de Récupération</h1>
                 <p style="opacity: 0.5; font-size: 0.9rem;">Gérez les éléments supprimés de l'atelier</p>
             </div>
-                <a href="index.php" class="btn-gold" style="width: auto; min-width: 140px; padding: 12px 25px; font-size: 0.7rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;">
-                    ← Dashboard
-                </a>
-            </div>
+            <a href="index.php" class="btn-gold" style="width: auto; min-width: 140px; padding: 12px 25px; font-size: 0.7rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap;">
+                ← Dashboard
+            </a>
+        </div>
 
         <!-- BARRE DE FILTRAGE (ONGLETS) + BOUTON VIDER -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; gap: 20px;">
@@ -170,8 +179,8 @@ include('../includes/header.php');
                             </td>
                             <td style="text-align:right; padding: 15px 0; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
                                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                                    <a href="?action=restore&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>" class="btn-mini-gold" style="text-decoration:none;">Restaurer</a>
-                                    <a href="?action=flush&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Détruire définitivement ?')">Détruire</a>
+                                    <a href="?action=restore&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>&type=<?= $filter ?>" class="btn-mini-gold" style="text-decoration:none;">Restaurer</a>
+                                    <a href="?action=flush&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>&type=<?= $filter ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Détruire définitivement ?')">Détruire</a>
                                 </div>
                             </td>
                         </tr>

@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Assure la session et la protection[cite: 1]
 require_once('../includes/db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,18 +24,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Insertion conforme à la structure de ta table 'equipe'
+    // Préparation de l'insertion
     $sql = "INSERT INTO equipe (prenom, nom, poste, description, photo, statut, ordre) 
             VALUES (?, ?, ?, ?, ?, ?, 99)";
     
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$prenom, $nom, $poste, $description, $photo_path, $statut]);
+    
+    // Tentative d'exécution et création de la notification pour le pop-up
+    if ($stmt->execute([$prenom, $nom, $poste, $description, $photo_path, $statut])) {
+        $_SESSION['success'] = "L'artisan a été ajouté avec succès à l'équipe.";
+    } else {
+        $_SESSION['error'] = "Une erreur technique est survenue lors de l'ajout.";
+    }
 
+    // Redirection vers la liste qui contient le fichier notifications.php
     header('Location: equipe.php');
     exit();
 }
-
-include('../includes/header.php');
 ?>
 
 <link rel="stylesheet" href="../css/admin.css">

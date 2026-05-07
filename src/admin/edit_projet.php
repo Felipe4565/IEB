@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Assure le démarrage de la session et la sécurité
 require_once('../includes/db.php');
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -7,13 +7,15 @@ $stmt = $pdo->prepare("SELECT * FROM projets WHERE id = ?");
 $stmt->execute([$id]);
 $p = $stmt->fetch();
 
-if (!$p) { header('Location: projets.php'); exit(); }
+if (!$p) { 
+    header('Location: projets.php'); 
+    exit(); 
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titre = $_POST['titre'] ?? '';
     $type = $_POST['type'] ?? '';
     $description = $_POST['description'] ?? '';
-    // Utilisation de l'opérateur de coalescence ?? pour éviter le "Undefined array key"
     $localisation = $_POST['localisation'] ?? '';
     $surface = $_POST['surface'] ?? '';
     $materiaux = $_POST['materiaux'] ?? '';
@@ -32,8 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $sql = "UPDATE projets SET titre=?, description=?, type=?, localisation=?, surface=?, materiaux=?, duree=?, image_principale=?, statut=? WHERE id=?";
-    $pdo->prepare($sql)->execute([$titre, $description, $type, $localisation, $surface, $materiaux, $duree, $image_path, $statut, $id]);
+    $stmt_update = $pdo->prepare($sql);
 
+    // TENTATIVE D'EXÉCUTION ET NOTIFICATION POUR LE POP-UP
+    if ($stmt_update->execute([$titre, $description, $type, $localisation, $surface, $materiaux, $duree, $image_path, $statut, $id])) {
+        $_SESSION['success'] = "Le projet '" . htmlspecialchars($titre) . "' a été mis à jour avec succès.";
+    } else {
+        $_SESSION['error'] = "Une erreur est survenue lors de la mise à jour du projet.";
+    }
+
+    // Redirection vers la liste qui affiche le message de session
     header('Location: projets.php');
     exit();
 }

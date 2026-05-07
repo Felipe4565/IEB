@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Gère session_start() et la protection
 require_once('../includes/db.php');
 
 // Fonction pour générer le slug automatiquement
@@ -43,15 +43,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
     
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$titre, $slug, $description, $type, $localisation, $surface, $materiaux, $duree, $image_path, $statut]);
+    
+    // TENTATIVE D'EXÉCUTION ET NOTIFICATION POUR LE POP-UP
+    if ($stmt->execute([$titre, $slug, $description, $type, $localisation, $surface, $materiaux, $duree, $image_path, $statut])) {
+        $_SESSION['success'] = "Le projet a été créé et ajouté au portfolio avec succès.";
+    } else {
+        $_SESSION['error'] = "Erreur lors de la création du projet en base de données.";
+    }
 
+    // Redirection vers la liste (projets.php ou portfolio.php selon ton fichier)
     header('Location: projets.php');
     exit();
 }
-
-$base_path = '../';
-include('../includes/header.php');
 ?>
+
+<?php include('../includes/header.php'); ?>
 
 <link rel="stylesheet" href="../css/admin.css">
 

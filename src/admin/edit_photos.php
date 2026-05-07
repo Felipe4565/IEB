@@ -1,13 +1,13 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Contient déjà session_start()
 require_once('../includes/db.php');
 include('../includes/header.php'); 
 
-$success = "";
 $error = "";
 $page_filter = $_GET['page'] ?? 'home';
 $photos = [];
 
+// --- LOGIQUE D'UPLOAD AVEC SESSION ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image'])) {
     $id = $_POST['target_id'];
     $table = $_POST['target_table'];
@@ -26,11 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image'])) {
         
         $stmt = $pdo->prepare("UPDATE $table SET $column = ? WHERE id = ?");
         if ($stmt->execute([$db_path, $id])) {
-            $success = "Image mise à jour avec succès !";
+            // On stocke le message en session pour le système de pop-up
+            $_SESSION['success'] = "Image mise à jour avec succès !";
+            
+            // Redirection pour éviter le renvoi du formulaire et afficher la notif
+            header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . $page_filter);
+            exit();
         }
     }
 }
 
+// --- LOGIQUE DE RÉCUPÉRATION DES PHOTOS ---
 if ($page_filter === 'home') {
     $types = "'home_interieur', 'home_exterieur', 'home_mobilier', 'home_meuble', 'home_meuble_close', 'home_meuble_open1', 'home_meuble_open2', 'home_meuble_open3'";
     $stmt = $pdo->prepare("SELECT id, image_url as url, type as label, 'images_projets' as origin FROM images_projets WHERE type IN ($types)");
@@ -59,12 +65,16 @@ if ($page_filter === 'home') {
 <link rel="stylesheet" href="../css/admin.css">
 
 <main class="admin-main">
+    <!-- INCLUSION DU SYSTÈME DE NOTIFICATION GLOBAL[cite: 3] -->
+    <?php include('includes/notifications.php'); ?>
+
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
             <h1 class="serif-gold">Médiathèque</h1>
             <a href="editeur.php" class="btn-gold" style="text-decoration:none; width:auto; padding:12px 25px;">← Editeur</a>
         </div>
 
+        <!-- Système de Filtres -->
         <nav class="filter-nav">
             <?php 
             $nav = ['home' => 'Accueil', 'services' => 'Services', 'atelier' => 'Atelier', 'avis' => 'Avis'];
@@ -75,21 +85,18 @@ if ($page_filter === 'home') {
             <?php endforeach; ?>
         </nav>
 
-        <?php if($success): ?>
-            <div style="color: #c5a67c; background: rgba(197,166,124,0.1); padding: 15px; border-left: 4px solid #c5a67c; margin-bottom: 20px;">
-                <?= $success ?>
-            </div>
-        <?php endif; ?>
-
+        <!-- Grille d'images -->
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
             <?php foreach($photos as $p): ?>
                 <div class="card-premium" style="padding: 15px;">
                     <span class="label-cle" style="display:block; margin-bottom:10px;">
                         <?= strtoupper(str_replace(['home_', 'avis_'], '', $p['label'])) ?>
                     </span>
+                    
                     <div style="width: 100%; height: 160px; overflow: hidden; margin-bottom: 15px;">
                         <img src="../<?= $p['url'] ?>" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
+
                     <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="target_id" value="<?= $p['id'] ?>">
                         <input type="hidden" name="target_table" value="<?= $p['origin'] ?>">

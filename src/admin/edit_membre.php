@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Assure le démarrage de la session et la protection
 require_once('../includes/db.php');
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -7,7 +7,11 @@ $stmt = $pdo->prepare("SELECT * FROM equipe WHERE id = ?");
 $stmt->execute([$id]);
 $m = $stmt->fetch();
 
-if (!$m) { header('Location: equipe.php'); exit(); }
+if (!$m) { 
+    $_SESSION['error'] = "Ce membre est introuvable.";
+    header('Location: equipe.php'); 
+    exit(); 
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prenom = $_POST['prenom'];
@@ -35,13 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $sql = "UPDATE equipe SET prenom = ?, nom = ?, poste = ?, description = ?, photo = ?, statut = ? WHERE id = ?";
-    $pdo->prepare($sql)->execute([$prenom, $nom, $poste, $description, $photo_path, $statut, $id]);
+    $stmt_update = $pdo->prepare($sql);
+    
+    // TENTATIVE D'EXÉCUTION ET NOTIFICATION POUR LE POP-UP
+    if ($stmt_update->execute([$prenom, $nom, $poste, $description, $photo_path, $statut, $id])) {
+        $_SESSION['success'] = "Le profil de " . htmlspecialchars($prenom) . " " . htmlspecialchars($nom) . " a été mis à jour.";
+    } else {
+        $_SESSION['error'] = "Une erreur est survenue lors de la mise à jour.";
+    }
         
     header('Location: equipe.php');
     exit();
 }
-
-include('../includes/header.php');
 ?>
 
 <link rel="stylesheet" href="../css/admin.css">

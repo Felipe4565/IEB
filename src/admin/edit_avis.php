@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php');
+require_once('includes/auth_check.php'); // Assure le démarrage de la session et la sécurité
 require_once('../includes/db.php');
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -10,6 +10,7 @@ $stmt->execute([$id]);
 $avis = $stmt->fetch();
 
 if (!$avis) {
+    $_SESSION['error'] = "Ce témoignage est introuvable.";
     header('Location: avis.php');
     exit();
 }
@@ -25,12 +26,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $est_detaille = isset($_POST['est_detaille']) ? 1 : 0;
 
     $sql = "UPDATE avis SET nom = ?, commentaire = ?, note = ?, statut = ?, est_detaille = ? WHERE id = ?";
-    $pdo->prepare($sql)->execute([$nom, $commentaire, $note, $statut, $est_detaille, $id]);
+    $stmt_update = $pdo->prepare($sql);
+    
+    // TENTATIVE D'EXÉCUTION ET NOTIFICATION POUR LE POP-UP
+    if ($stmt_update->execute([$nom, $commentaire, $note, $statut, $est_detaille, $id])) {
+        $_SESSION['success'] = "Le témoignage de " . htmlspecialchars($nom) . " a été mis à jour avec succès.";
+    } else {
+        $_SESSION['error'] = "Une erreur est survenue lors de la mise à jour du témoignage.";
+    }
     
     header('Location: avis.php');
     exit();
 }
 
+$base_path = '../';
 include('../includes/header.php');
 ?>
 
