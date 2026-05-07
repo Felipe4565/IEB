@@ -1,7 +1,6 @@
 <?php
 require_once('includes/auth_check.php'); // Contient session_start()[cite: 2]
 require_once('../includes/db.php');
-include('../includes/header.php');
 
 $page_filter = $_GET['page'] ?? 'home';
 
@@ -25,6 +24,8 @@ $prefix = $page_filter . '_%';
 $stmt = $pdo->prepare("SELECT * FROM contenus WHERE cle LIKE ? ORDER BY id ASC");
 $stmt->execute([$prefix]);
 $textes = $stmt->fetchAll();
+
+include('../includes/header.php');
 ?>
 
 <link rel="stylesheet" href="../css/admin.css">
