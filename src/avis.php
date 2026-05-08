@@ -1,6 +1,7 @@
 <?php 
 require_once('includes/db.php'); 
 
+// 1. Récupération des images pour le comparateur Avant/Après
 $query_slider = $pdo->query("SELECT image_url, type FROM images_projets WHERE type IN ('avis_avant', 'avis_apres')");
 $imgs_slider = $query_slider->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -14,7 +15,7 @@ $txt_trans_title    = $textes['avis_transformation_title'] ?? "Étude de cas : L
 $txt_case_title     = $textes['avis_case_title']          ?? "Rénovation Salon & Bibliothèque";
 $txt_case_client    = $textes['avis_case_client']         ?? "Maison Haussmannienne";
 $txt_case_location  = $textes['avis_case_location']       ?? "Paris VII";
-$txt_case_quote     = $textes['avis_case_quote']          ?? "Nous avions un espace sombre et mal optimisé. L'équipe IEB a su redonner vie à notre pièce avec un travail du bois d'une finesse rare. Le résultat dépasse nos espérances.";
+$txt_case_quote     = $textes['avis_case_quote']          ?? "Nous avions un espace sombre et mal optimisé. L'équipe IEB a su redonner vie à notre pièce avec un travail du bois d'une finesse rare.";
 $txt_case_signature = $textes['avis_case_signature']      ?? "— Famille de V.";
 
 $query_avis = $pdo->query("SELECT * FROM avis WHERE statut = 'affiche' ORDER BY date DESC");
