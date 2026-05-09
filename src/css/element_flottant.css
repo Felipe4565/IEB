@@ -1,0 +1,85 @@
+/* --- 1. BARRE DE SCROLL DORÉE --- */
+::-webkit-scrollbar { 
+    width: 8px; 
+}
+
+::-webkit-scrollbar-track { 
+    background: #0d0e0a; 
+}
+
+::-webkit-scrollbar-thumb { 
+    background: #c5a67c; 
+    border-radius: 10px; 
+    border: 2px solid #0d0e0a; 
+}
+
+/* --- 2. BOUTONS FLOTTANTS --- */
+
+/* Style commun aux boutons */
+.control-btn {
+    position: fixed;
+    bottom: 30px;
+    height: 50px;
+    background: rgba(13, 14, 10, 0.8);
+    border: 1px solid #c5a67c;
+    color: #c5a67c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    z-index: 9999;
+}
+
+/* Bouton Scroll Up (Positionné à GAUCHE) */
+#scrollTop {
+    left: 30px;
+    width: 50px;
+    border-radius: 0; /* Carré pour l'aspect architectural */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+#scrollTop.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Bulle de Contact (Positionnée à DROITE) */
+.contact-bubble {
+    right: 30px;
+    width: auto;
+    padding: 0 20px;
+    border-radius: 0; /* Cohérence avec le style IEB */
+    background: #c5a67c;
+    color: #0d0e0a;
+}
+
+.bubble-text { 
+    margin-left: 10px; 
+    font-weight: 600; 
+    font-size: 0.75rem; 
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+
+.control-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+#scrollTop:hover {
+    background: #c5a67c;
+    color: #0d0e0a;
+}
+
+.contact-bubble:hover {
+    background: #f4f1ea;
+    border-color: #f4f1ea;
+}

@@ -18,8 +18,8 @@ $txt_intro_title = $textes['atelier_intro_title']      ?? "Notre Héritage";
 $txt_intro_lead  = $textes['atelier_intro_lead']       ?? "Chaque pièce est une rencontre entre une essence noble et un geste précis.";
 $txt_intro_text  = $textes['atelier_intro_text']       ?? "Installés en Île-de-France, nous combinons les techniques traditionnelles et l'innovation.";
 
-// --- 3. RÉCUPÉRATION DE L'ÉQUIPE ---
-$query_equipe = $pdo->query("SELECT * FROM equipe ORDER BY id ASC");
+
+$query_equipe = $pdo->query("SELECT * FROM equipe WHERE statut = 'actif' ORDER BY ordre ASC, id ASC");
 $membres = $query_equipe->fetchAll();
 
 // --- CONFIGURATION DE LA PAGE ---

@@ -1,0 +1,149 @@
+:root {
+    --bg-dark: #0d0e0a;      
+    --text-gold: #c5a67c;    
+    --text-white: #f4f1ea;
+    --gold-dim: rgba(197, 166, 124, 0.05);   
+    --transition-luxe: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+body { background: var(--bg-dark); color: var(--text-white); font-family: 'Montserrat', sans-serif; margin: 0; }
+.container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+
+/* Reveal Animation */
+.reveal { opacity: 0; transform: translateY(30px); transition: var(--transition-luxe); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* --- HERO SECTION CORRIGÉE --- */
+.hero-project {
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--bg-dark) 0%, rgba(0,0,0,0.2) 40%, transparent 100%), 
+                rgba(0, 0, 0, 0.4); 
+    display: flex;
+    width: 100%;
+}
+
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 100px; 
+}
+
+.nav-top-wrapper {
+    flex: 0; /* Ne s'étire pas */
+}
+
+.hero-text-content { 
+    margin-top: auto; /* Pousse ce bloc tout en bas du conteneur flex */
+    padding-bottom: 5px; /* Très léger ajustement pour ne pas couper les lettres descendantes */
+    position: relative; 
+    z-index: 5; 
+}
+
+.hero-project h1 { 
+    font-family: 'Playfair Display', serif; 
+    font-size: clamp(2.5rem, 8vw, 5.5rem); 
+    margin: 0; 
+    font-weight: 400; 
+    line-height: 0.85; /* Réduit drastiquement pour coller au bas */
+    letter-spacing: -2px;
+    transform: translateY(10px); /* Compense visuellement l'espace sous les lettres */
+}
+
+.back-link { 
+    color: var(--text-gold); 
+    text-decoration: none; 
+    font-size: 0.75rem; 
+    letter-spacing: 2px; 
+    transition: all 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    
+    /* LA SOLUTION : Un léger fond sombre pour le faire ressortir */
+    background: rgba(0, 0, 0, 0.5); 
+    padding: 10px 20px;
+    border-radius: 2px; /* Carré mais adouci */
+    border: 1px solid rgba(197, 166, 124, 0.3); /* Bordure dorée très fine */
+    backdrop-filter: blur(5px); /* Effet flou très haut de gamme */
+}
+
+.back-link i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.back-link:hover { 
+    background: var(--text-gold); 
+    color: var(--bg-dark); 
+    border-color: var(--text-gold);
+}
+
+.back-link:hover i {
+    transform: translateX(-5px); /* Animation de la flèche au survol */
+}
+
+.category-label { 
+    display: block; 
+    color: var(--text-gold); 
+    letter-spacing: 5px; 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+    margin-bottom: 5px; 
+}
+
+/* --- INFO GRID --- */
+.project-info-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 60px; padding: 80px 0; }
+.gold-title { color: var(--text-gold); font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 25px; }
+.description-large { font-size: 1.1rem; line-height: 1.8; color: #b0b0b0; }
+
+.specs-box { background: var(--gold-dim); padding: 40px; border-left: 1px solid var(--text-gold); display: flex; flex-direction: column; gap: 25px; }
+.specs-title { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-gold); margin-bottom: 10px; opacity: 0.6; }
+.spec-item { display: flex; flex-direction: column; }
+.spec-item .label { font-size: 0.6rem; color: var(--text-gold); text-transform: uppercase; letter-spacing: 1px; }
+.spec-item .value { font-size: 1rem; color: #fff; margin-top: 4px; }
+
+/* --- MOSAIC GALLERY --- */
+.project-gallery-section { padding-bottom: 100px; }
+.gallery-intro { text-align: center; margin-bottom: 50px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--text-gold); letter-spacing: 2px; }
+
+.mosaic-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 250px; gap: 15px; }
+.mosaic-item { cursor: pointer; overflow: hidden; position: relative; background: #000; }
+.mosaic-inner { width: 100%; height: 100%; }
+.mosaic-item img { width: 100%; height: 100%; object-fit: cover; transition: 1s var(--transition-luxe); filter: brightness(0.8); }
+
+.mosaic-item.is-large { grid-column: span 2; grid-row: span 2; }
+.mosaic-item.is-wide { grid-column: span 2; }
+
+.mosaic-overlay { position: absolute; inset: 0; background: rgba(197, 166, 124, 0.2); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.4s; }
+.plus-icon { color: #fff; font-size: 2rem; transform: translateY(10px); transition: 0.4s; }
+
+.mosaic-item:hover img { transform: scale(1.05); filter: brightness(1); }
+.mosaic-item:hover .mosaic-overlay { opacity: 1; }
+.mosaic-item:hover .plus-icon { transform: translateY(0); }
+
+/* --- NEXT BANNER --- */
+.next-banner { height: 350px; margin-bottom: 80px; position: relative; overflow: hidden; }
+.next-link { display: flex; height: 100%; width: 100%; text-decoration: none; align-items: center; justify-content: center; }
+.next-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.3); transition: 1s; }
+.next-inner { position: relative; text-align: center; color: #fff; }
+.next-label { color: var(--text-gold); letter-spacing: 4px; font-size: 0.7rem; }
+.next-inner h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 15px 0; font-weight: 400; }
+.next-link:hover .next-bg { transform: scale(1.05); }
+
+/* --- LIGHTBOX --- */
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; }
+.lightbox.active { display: flex; }
+.lightbox img { max-width: 90%; max-height: 80vh; object-fit: contain; }
+.close-lb { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; }
+

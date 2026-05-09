@@ -15,9 +15,9 @@ $base_path = (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../' : '';
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Utilisation du $base_path pour que le CSS soit trouvé partout -->
     <link rel="stylesheet" href="<?php echo $base_path; ?>css/style.css">
     <link rel="stylesheet" href="<?php echo $base_path; ?>css/header.css">
+    <link rel="stylesheet" href="<?php echo $base_path; ?>css/element_flottant.css?v=<?php echo time(); ?>">
     
     <?php if (isset($page_css)): ?>
         <link rel="stylesheet" href="<?php echo $base_path . $page_css; ?>">

@@ -142,5 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<?php include($base_path . 'includes/element_flottant.php'); ?>
 </body>
 </html>
