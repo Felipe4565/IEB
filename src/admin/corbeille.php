@@ -1,5 +1,5 @@
 <?php
-require_once('includes/auth_check.php'); // Contient déjà session_start()[cite: 2]
+require_once('includes/auth_check.php'); 
 require_once('../includes/db.php');
 
 // ==========================================
@@ -8,7 +8,22 @@ require_once('../includes/db.php');
 
 // ACTION : VIDER TOUTE LA CORBEILLE
 if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
-    // Tables avec fichiers physiques à supprimer
+    
+    // --- 1. Nettoyage spécifique de la galerie des avis (images multiples) ---
+    // On récupère les chemins de toutes les images liées aux avis en corbeille
+    $stmt_galerie = $pdo->query("SELECT image_url FROM images_avis WHERE avis_id IN (SELECT id FROM avis WHERE statut = 'corbeille')");
+    $galerie_items = $stmt_galerie->fetchAll();
+    
+    foreach ($galerie_items as $g_item) {
+        $g_path = '../' . $g_item['image_url'];
+        if (file_exists($g_path)) {
+            unlink($g_path);
+        }
+    }
+    // On vide la table de liaison images_avis pour les avis concernés
+    $pdo->query("DELETE FROM images_avis WHERE avis_id IN (SELECT id FROM avis WHERE statut = 'corbeille')");
+
+    // --- 2. Nettoyage des images principales (projets, équipe, avis) ---
     $files_to_clean = [
         'projets' => 'image_principale',
         'equipe' => 'photo',
@@ -19,21 +34,21 @@ if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
         $stmt = $pdo->query("SELECT $column FROM $table WHERE statut = 'corbeille'");
         $items = $stmt->fetchAll();
         foreach ($items as $item) {
-            // On ne supprime pas l'image par défaut
             if ($item[$column] && !strpos($item[$column], 'default.jpg')) {
                 $file_path = '../' . $item[$column];
-                if (file_exists($file_path)) unlink($file_path);
+                if (file_exists($file_path)) {
+                    unlink($file_path);
+                }
             }
         }
     }
 
-    // Suppression SQL
+    // --- 3. Suppression SQL finale des entrées ---
     $tables = ['projets', 'messages', 'contacts', 'avis', 'equipe'];
     foreach ($tables as $t) {
         $pdo->query("DELETE FROM $t WHERE statut = 'corbeille'");
     }
 
-    // Notification et redirection
     $_SESSION['success'] = "La corbeille a été entièrement vidée avec succès.";
     header('Location: corbeille.php');
     exit();
@@ -46,6 +61,7 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
     $filter_back = isset($_GET['type']) ? '?type=' . $_GET['type'] : '';
     
     if ($_GET['action'] === 'restore') {
+        // Logique de restauration
         if ($table === 'projets' || $table === 'equipe') {
             $nouveau_statut = 'brouillon';
         } elseif ($table === 'avis') {
@@ -59,17 +75,40 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
         $_SESSION['success'] = "L'élément a été restauré avec succès.";
 
     } elseif ($_GET['action'] === 'flush') {
+        
+        // --- 1. Cas spécifique : Si on détruit un AVIS, on vide d'abord TOUTE sa galerie photo ---
+        if ($table === 'avis') {
+            $stmt_g = $pdo->prepare("SELECT image_url FROM images_avis WHERE avis_id = ?");
+            $stmt_g->execute([$id]);
+            $imgs_galerie = $stmt_g->fetchAll();
+            
+            foreach ($imgs_galerie as $img) {
+                $path_g = '../' . $img['image_url'];
+                if (file_exists($path_g)) {
+                    unlink($path_g);
+                }
+            }
+            // On supprime les entrées dans la table images_avis
+            $pdo->prepare("DELETE FROM images_avis WHERE avis_id = ?")->execute([$id]);
+        }
+
+        // --- 2. Nettoyage de l'image principale ---
         $image_columns = ['projets' => 'image_principale', 'equipe' => 'photo', 'avis' => 'image'];
         if (array_key_exists($table, $image_columns)) {
             $col = $image_columns[$table];
             $stmt = $pdo->prepare("SELECT $col FROM $table WHERE id = ?");
             $stmt->execute([$id]);
             $res = $stmt->fetch();
+            
             if ($res && $res[$col] && !strpos($res[$col], 'default.jpg')) {
                 $file = '../' . $res[$col];
-                if (file_exists($file)) unlink($file);
+                if (file_exists($file)) {
+                    unlink($file);
+                }
             }
         }
+
+        // --- 3. Suppression finale de l'élément en BD ---
         $pdo->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
         $_SESSION['success'] = "L'élément a été définitivement supprimé.";
     }
