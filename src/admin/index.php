@@ -81,21 +81,28 @@ include('../includes/header.php');
                 </div>
             </div>
 
-            <!-- Carte Avis -->
             <div class="card-premium">
-                <h3 style="color: var(--gold-accent);"><?= $nb_avis ?></h3>
+                <h3 style="color: var(--gold-accent);"><?= $nb_avis_alerte ?></h3>
                 <p>Avis en attente</p>
                 <div style="margin-top: 20px;">
                     <a href="avis.php" class="btn-action">Modérer les avis →</a>
                 </div>
             </div>
 
-            <!-- Carte Editeur -->
             <div class="card-premium">
-                <h3 style="color: var(--gold-accent);"><?= $nb_avis ?></h3>
-                <p>Editeur de texte/photos</p>
-                <div style="margin-top: 20px;">
-                    <a href="editeur.php" class="btn-action">Accéder à l'éditeur →</a>
+                <div class="card-icon" style="margin-top: 10px; margin-bottom: 20px;">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </div>
+                
+                <h3 style="color: var(--gold-accent); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">
+                    Éditeur de Site
+                </h3>
+
+                <div style="margin-top: 25px;">
+                    <a href="editeur.php" class="btn-action">Ouvrir l'éditeur →</a>
                 </div>
             </div>
 
