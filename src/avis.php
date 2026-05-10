@@ -27,6 +27,15 @@ $page_css = "css/avis.css?v=" . time();
 include('includes/header.php'); 
 ?>
 
+<?php if (isset($_GET['success'])): ?>
+    <div id="success-message" style="background: rgba(197, 164, 126, 0.1); border: 1px solid var(--gold); color: var(--gold); padding: 20px; text-align: center; margin: 20px auto; max-width: 800px; position: relative; transition: opacity 0.5s ease;">
+        <span style="font-family: 'Playfair Display', serif; letter-spacing: 1px;">
+            Merci ! Votre témoignage a été envoyé avec succès et sera publié après validation.
+        </span>
+        <span onclick="this.parentElement.style.display='none'" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 20px;">×</span>
+    </div>
+<?php endif; ?>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/avis.css">
 
@@ -107,7 +116,7 @@ include('includes/header.php');
                         
                         <span class="review-author"><?= htmlspecialchars($avis['nom']) ?></span>
 
-                        <?php if ($avis['est_detaille']): ?>
+                        <?php if (!empty($avis['image'])): ?>
                             <a href="description_avis.php?slug=<?= $avis['slug'] ?>" class="btn-gold-outline btn-small">Voir plus</a>
                         <?php endif; ?>
                         

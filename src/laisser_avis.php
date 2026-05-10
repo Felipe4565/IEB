@@ -18,7 +18,7 @@
                 <p class="form-subtitle">L'excellence au service de votre projet</p>
             </div>
 
-            <form action="traitement-avis.php" method="POST" enctype="multipart/form-data" class="avis-form" id="avisForm" novalidate>
+            <form action="traitement_avis.php" method="POST" enctype="multipart/form-data" class="avis-form" id="avisForm" novalidate>
                 
                 <div class="rating-select">
                     <span class="label-gold">Notez votre expérience</span>
