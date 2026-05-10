@@ -157,22 +157,32 @@ include('includes/header.php');
         </div> </div>
 </section>
 
-    <section id="contact" class="contact-split-container">
-            <div class="container-contact-wrapper">    
-            <div class="contact-column-form">
-                <div class="floating-contact-card">
-                    <span class="gold-subtitle">Contact</span>
-                    <h2>Un projet bois ?</h2>
-                    <div class="gold-line"></div>
+<section id="contact" class="contact-split-container">
+    <div class="container-contact-wrapper">    
+        <div class="contact-column-form">
+            <div class="floating-contact-card">
+                <span class="gold-subtitle">Contact</span>
+                <h2>Un projet bois ?</h2>
+                <div class="gold-line"></div>
+                
+                <?php if (isset($_SESSION['success_contact'])): ?>
+                    <div style="background: rgba(197, 164, 126, 0.1); border: 1px solid #C5A059; color: #C5A059; padding: 15px; margin-bottom: 20px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.9rem;">
+                        <?= $_SESSION['success_contact']; unset($_SESSION['success_contact']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <form class="premium-dark-form" action="process_contact.php" method="POST">
+                    <input type="text" name="nom" placeholder="Votre Nom" required>
+                    <input type="email" name="email" placeholder="Votre Email" required>
+                    <input type="text" name="sujet" placeholder="Sujet de votre message" required>
+                    <textarea name="message" rows="4" placeholder="Décrivez votre projet..." required></textarea>
                     
-                    <form class="premium-dark-form">
-                        <input type="text" placeholder="Votre Nom" required>
-                        <input type="email" placeholder="Votre Email" required>
-                        <textarea rows="4" placeholder="Décrivez votre projet..."></textarea>
-                        <button type="submit" class="btn-gold">Envoyer le message</button>
-                    </form>
-                </div>
+                    <button type="submit" class="btn-gold">Envoyer le message</button>
+                </form>
             </div>
+        </div>
+
+
 
             <div class="contact-column-map">
                 <div class="map-inner">
