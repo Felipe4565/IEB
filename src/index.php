@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('includes/db.php');
 
 $query_img = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'home_%'");
@@ -40,6 +41,16 @@ $fact3_desc   = $textes_accueil['home_fact3_desc']    ?? "Chaque millimètre est
 
 include('includes/header.php'); 
 ?>
+
+<?php if (isset($_GET['success_devis']) && isset($_SESSION['success_devis'])): ?>
+    <div id="devis-success" style="background: rgba(197, 164, 126, 0.1); border: 1px solid #C5A059; color: #C5A059; padding: 20px; text-align: center; margin: 20px auto; max-width: 800px; position: relative; z-index: 1000; transition: opacity 0.5s ease;">
+        <span style="font-family: 'Playfair Display', serif; letter-spacing: 1px;">
+            <?= htmlspecialchars($_SESSION['success_devis']) ?>
+        </span>
+        <span onclick="this.parentElement.style.display='none'" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 22px;">&times;</span>
+    </div>
+    <?php unset($_SESSION['success_devis']); ?>
+<?php endif; ?>
 
 <main>
     <section class="hero-premium">
