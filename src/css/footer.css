@@ -3,6 +3,21 @@
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+html, body {
+    max-width: 100%;
+    overflow-x: hidden; /* Empêche le scroll latéral */
+    width: 100%;
+    height: 100%; /* Aide à stabiliser le footer en bas */
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* On s'assure que le menu mobile ne dépasse pas de son conteneur parent */
+.nav-menu {
+    max-width: 100vw;
+}
+
 .main-footer {
     background: #080806; /* Noir profond */
     padding: 90px 0 30px;
@@ -156,4 +171,68 @@
     font-size: 0.6rem;
     opacity: 0.3;
     letter-spacing: 2px;
+}
+
+/* =========================================
+   FOOTER RESPONSIVE
+   ========================================= */
+
+@media (max-width: 992px) {
+    .footer-container {
+        padding: 0 20px;
+    }
+
+    /* 1. Identité (Logo + Texte) */
+    .brand-flex {
+        flex-direction: column; /* On empile le logo et le texte */
+        text-align: center;
+        gap: 20px;
+    }
+
+    .vertical-divider {
+        width: 60px;
+        height: 1px; /* Le trait devient horizontal */
+        margin: 0 auto;
+    }
+
+    /* 2. La Grille du Footer */
+    .footer-grid {
+        grid-template-columns: 1fr; /* Une seule colonne */
+        gap: 50px;
+        text-align: center;
+    }
+
+    .btn-alignment {
+        justify-content: center; /* Centre le bouton devis */
+    }
+
+    /* 3. Le Meuble Interactif */
+    .furniture-interactivity {
+        max-width: 400px; /* On réduit la taille pour mobile */
+        margin: 0 auto;
+    }
+
+    /* On agrandit un peu les zones cliquables pour les doigts */
+    .drawer-trigger {
+        transform: scale(1.2); 
+    }
+
+    /* 4. Barre Légale */
+    .footer-legal-bar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Les listes de liens (Services / Infos) passent sur une seule colonne */
+    .sub-grid-lists {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .brand-tagline {
+        font-size: 1rem;
+    }
 }

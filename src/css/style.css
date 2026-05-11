@@ -802,3 +802,106 @@ h1, h2 {
 .image-box, .floating-contact-card, .map-inner {
     border: 1px solid rgba(197, 166, 124, 0.08) !important;
 }
+
+/* =========================================
+   ADAPTATION MOBILE & SMARTPHONES
+   ========================================= */
+
+/* Sécurité globale pour éviter l'espace vide à droite */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+@media (max-width: 992px) {
+    
+    /* 1. Suppression du Meuble Interactif (Trop complexe sur mobile) */
+    .furniture-experience {
+        display: none !important;
+    }
+
+    /* 2. Structure Générale */
+    .container {
+        width: 92%;
+    }
+
+    /* 3. Hero Section (Accueil) */
+    .hero-premium {
+        height: auto;
+        min-height: 450px;
+        padding: 60px 0;
+    }
+
+    .main-hero-text h1 {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+    }
+
+    .hero-btns {
+        flex-direction: column; /* On empile les boutons */
+        gap: 15px;
+    }
+
+    .btn-devis-solid {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 4. Grille de la Galerie (Index) */
+    .gallery-grid {
+        grid-template-columns: 1fr; /* Une seule colonne au lieu de trois */
+        gap: 30px;
+    }
+
+    .image-box img {
+        height: 300px;
+    }
+
+    /* 5. Section Contact & Map */
+    .container-contact-wrapper {
+        flex-direction: column; /* La carte passe sous le formulaire */
+        gap: 40px;
+    }
+
+    .contact-column-form, .contact-column-map {
+        width: 100%;
+    }
+
+    .floating-contact-card {
+        padding: 30px 20px;
+        max-width: 100%;
+        box-shadow: none; /* On allège le design sur mobile */
+    }
+
+    .contact-column-map {
+        height: 350px;
+    }
+    
+    .map-inner {
+        min-height: 350px;
+    }
+
+    /* 6. Ajustements des formulaires */
+    .premium-dark-form input, 
+    .premium-dark-form textarea {
+        padding: 15px;
+        font-size: 16px; /* Évite le zoom automatique sur iPhone */
+    }
+}
+
+/* Ajustements spécifiques pour iPhone SE et petits écrans */
+@media (max-width: 480px) {
+    .main-hero-text h1 {
+        font-size: 1.8rem;
+    }
+    
+    .top-announcement p {
+        letter-spacing: 3px;
+        font-size: 0.6rem;
+    }
+
+    .gallery-intro h2 {
+        font-size: 1.4rem;
+    }
+}
