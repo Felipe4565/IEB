@@ -272,3 +272,95 @@ textarea::-webkit-input-placeholder {
 }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 992px) {
+    /* 1. Réduction des espaces vides inutiles */
+    .section-form-devant {
+        padding: 40px 15px !important; /* On réduit le vide en haut/bas */
+        min-height: auto;
+    }
+
+    .form-wrapper {
+        padding: 25px 15px !important;
+        width: 100%;
+        box-shadow: none; /* Plus léger */
+    }
+
+    /* 2. Titres plus compacts */
+    .serif-gold {
+        font-size: 1.6rem !important;
+        margin-bottom: 15px !important;
+        letter-spacing: 2px !important;
+    }
+
+    .form-subtitle {
+        font-size: 0.7rem !important;
+        margin-bottom: 5px;
+    }
+
+    /* 3. Stepper (Barre de progression) plus discret */
+    .stepper-ieb {
+        margin-bottom: 30px !important;
+        transform: scale(0.9); /* On réduit légèrement la taille globale */
+    }
+
+    /* 4. AJUSTEMENT DES BOUTONS (Moins gros) */
+    .step-actions {
+        margin-top: 30px !important;
+    }
+
+    .step-actions.dual {
+        flex-direction: column-reverse; /* Suivant au-dessus de Précédent */
+        gap: 12px !important;
+    }
+
+    .btn-submit-gold, 
+    .btn-next, 
+    .btn-prev {
+        width: 100% !important;
+        padding: 14px 20px !important; /* Moins haut qu'avant */
+        font-size: 0.85rem !important; /* Texte plus fin */
+        height: auto !important;
+        min-height: 45px !important;
+        letter-spacing: 2px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-prev {
+        background: transparent !important;
+        border: 1px solid rgba(197, 166, 124, 0.3) !important;
+        color: var(--gold) !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* 5. Champs de texte (Inputs) */
+    .section-form-devant .input-group {
+        margin-bottom: 25px !important;
+    }
+
+    .section-form-devant input, 
+    .section-form-devant textarea {
+        padding: 10px 0 !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* 6. Tags de sélection */
+    .tag {
+        padding: 8px 12px !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+/* Fix spécifique pour très petits écrans */
+@media (max-width: 480px) {
+    .serif-gold {
+        font-size: 1.4rem !important;
+    }
+    
+    .btn-back {
+        font-size: 0.65rem !important;
+        margin-bottom: 10px !important;
+    }
+}

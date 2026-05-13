@@ -174,3 +174,103 @@ body {
     color: #fff;
     border-color: #fff;
 }
+
+/* =========================================
+   ADAPTATION MOBILE - DESCRIPTION AVIS
+   ========================================= */
+
+@media (max-width: 992px) {
+    /* 1. Titre et espacement global */
+    .container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .main-title {
+        font-size: 1.3rem; /* Plus compact pour éviter les retours à la ligne brusques */
+        padding: 0 10px;
+    }
+
+    .separator {
+        margin: 20px 0 30px;
+    }
+
+    /* 2. Passage de la grille en colonne unique */
+    .content-grid {
+        grid-template-columns: 1fr; /* On empile tout */
+        gap: 30px;
+    }
+
+    /* 3. Ajustement de la Galerie Photo */
+    .img-large {
+        height: 300px; /* Moins haut pour que le texte soit vite visible */
+    }
+
+    .thumb-grid {
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .thumb {
+        height: 60px; /* Vignettes un peu plus petites */
+    }
+
+    /* 4. Carte de contenu (Texte) */
+    .review-detail-card {
+        padding: 25px 20px;
+    }
+
+    .card-header {
+        flex-direction: column; /* Avatar au-dessus du nom */
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .card-header .info {
+        padding-left: 0;
+        border-left: none; /* On enlève la bordure latérale sur mobile */
+    }
+
+    /* 5. Blocs de texte */
+    .section-block h3 {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .quote {
+        font-size: 0.95rem;
+        padding-left: 15px;
+        line-height: 1.6;
+    }
+
+    .client-signature {
+        text-align: right;
+        font-size: 0.8rem;
+    }
+
+    /* 6. Actions de bas de page */
+    .footer-actions {
+        margin-top: 40px;
+        margin-bottom: 60px;
+    }
+
+    .btn-back {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+    }
+}
+
+/* Optimisation pour très petits écrans (iPhone SE) */
+@media (max-width: 400px) {
+    .main-title {
+        font-size: 1.1rem;
+    }
+    
+    .img-large {
+        height: 250px;
+    }
+}

@@ -63,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $_SESSION['success'] = "Le projet a été mis à jour avec succès.";
-    header("Location: edit_projet.php?id=$id"); // On recharge la page pour voir les changements
+    // Redirige vers la liste globale des réalisations au lieu de rester sur la page d'édition
+    header("Location: projets.php"); 
     exit();
 }
 

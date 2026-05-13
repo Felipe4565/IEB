@@ -314,3 +314,78 @@ body {
     display: none;
     opacity: 0;
 }
+
+/* =========================================
+   ADAPTATION MOBILE - RÉALISATIONS
+   ========================================= */
+
+@media (max-width: 992px) {
+    /* 1. Header & Hero */
+    .portfolio-page .hero {
+        padding: 80px 20px 30px;
+    }
+    .portfolio-page .hero h1 {
+        letter-spacing: 6px; /* Réduction pour éviter que le texte ne sorte de l'écran */
+    }
+
+    /* 2. Filtres & Recherche (Le plus important) */
+    .filters-container {
+        flex-direction: column; /* On empile les filtres et la recherche */
+        gap: 20px;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+    .filters {
+        flex-wrap: wrap; /* Les boutons passent à la ligne si besoin */
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .search-bar::before {
+        display: none; /* On enlève le séparateur vertical sur mobile */
+    }
+
+    .search-bar input {
+        width: 100%;
+        max-width: 320px; /* La barre prend plus de place */
+    }
+
+    /* 3. Grille de Portfolio */
+    .grid-portfolio {
+        grid-template-columns: 1fr; /* Une seule carte par ligne sur mobile */
+        padding: 0 15px 50px;
+        gap: 15px;
+    }
+
+    /* 4. Cartes de Projet */
+    .card {
+        aspect-ratio: 16 / 11; /* Un peu plus haut pour le confort visuel */
+    }
+
+    .card-overlay h3 {
+        font-size: 18px; /* Titre plus petit pour mobile */
+    }
+
+    .btn-more {
+        padding: 10px 20px; /* Zone de clic plus large pour les doigts */
+    }
+}
+
+/* Ajustements spécifiques pour petits smartphones (iPhone SE, etc.) */
+@media (max-width: 480px) {
+    .portfolio-page .hero h1 {
+        font-size: 1.8rem;
+        letter-spacing: 4px;
+    }
+
+    .filters button {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .load-more-container #load-more-btn {
+        width: 100%; /* Le bouton "Voir plus" prend toute la largeur */
+        padding: 16px 20px;
+    }
+}

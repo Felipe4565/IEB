@@ -442,5 +442,146 @@ background: linear-gradient(rgba(27, 32, 29, 0.8), rgba(27, 32, 29, 0.8)),
     margin: 0 auto;
 }
 
+/* =========================================
+   ADAPTATION MOBILE SERVICES (OPTIMISÉ)
+   ========================================= */
 
+@media (max-width: 992px) {
+    /* --- Général --- */
+    h2, .title-ieb, .showroom-text h2, .title-expertise {
+        font-size: 2rem !important;
+        text-align: center;
+        margin-bottom: 25px;
+        line-height: 1.2;
+    }
 
+    /* --- Showroom Banner --- */
+    .showroom-banner {
+        padding: 80px 0;
+        min-height: 50vh;
+        background-attachment: scroll; 
+    }
+
+    /* --- Section ADN (Le meilleur compromis visuel) --- */
+    .adn-redesign {
+        padding: 60px 0 !important; /* Réduit de 80px à 60px pour un look plus compact */
+    }
+
+    .adn-grid-main {
+        grid-template-columns: 1fr; 
+        gap: 20px !important; /* On réduit de 40px à 20px pour rapprocher le texte des photos */
+    }
+
+    /* On ne garde que les deux premières images pour un bandeau horizontal propre */
+    .adn-image-wrapper:nth-child(3),
+    .adn-image-wrapper:nth-child(4) {
+        display: none !important;
+    }
+
+    .adn-visuals {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Deux photos côte à côte */
+        gap: 10px;
+        width: 100%;
+        max-width: 600px; /* Évite que les photos ne deviennent géantes sur tablette */
+        margin: 0 auto;
+    }
+
+    .adn-image-wrapper {
+        aspect-ratio: 1 / 1; /* Force le carré parfait */
+        border-radius: 4px;
+    }
+
+    .adn-content-list {
+        text-align: center;
+        align-items: center;
+    }
+
+    .title-ieb {
+        margin: 0 0 40px 0 !important; 
+    }
+
+    .adn-list-item {
+        grid-template-columns: 1fr; /* Icône au-dessus du texte */
+        text-align: center;
+        gap: 15px;
+    }
+
+    .adn-list-icon { 
+        margin: 0 auto; 
+    }
+    
+    .adn-list-icon img {
+        height: 45px; /* Légèrement réduit pour l'équilibre */
+    }
+
+    /* --- Section Expertise (Pile verticale) --- */
+    .expertise-flex-container {
+        flex-direction: column; 
+        height: auto;
+        gap: 30px;
+    }
+
+    .expertise-card {
+        height: 480px; /* Un peu plus de hauteur pour le texte */
+        flex: none !important; 
+        width: 100%;
+        opacity: 1 !important; 
+        border-color: rgba(197, 166, 124, 0.3);
+    }
+
+    .expertise-card:hover { 
+        flex: none; 
+    }
+
+    .expertise-content {
+        padding: 30px 20px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 45%, transparent);
+    }
+
+    .expertise-lists {
+        flex-direction: column; 
+        gap: 15px;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* --- Section Accompagnement --- */
+    .services-icons-grid {
+        grid-template-columns: 1fr; 
+        gap: 25px;
+    }
+    
+    .s-icon-card {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+/* Optimisation iPhone SE & Petits écrans */
+@media (max-width: 480px) {
+    .showroom-text h2 { 
+        font-size: 1.7rem !important; 
+    }
+
+    .adn-visuals {
+        grid-template-columns: 1fr 1fr !important; /* On maintient les 2 colonnes */
+        gap: 8px;
+    }
+
+    .title-ieb {
+        font-size: 1.8rem !important;
+    }
+
+    .expertise-card { 
+        height: 420px; 
+    }
+
+    .btn-gold {
+        width: 100% !important;
+        min-width: unset !important;
+        padding: 15px 20px !important;
+        font-size: 0.85rem !important;
+        display: block !important;
+    }
+}

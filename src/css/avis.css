@@ -374,3 +374,100 @@
     display: none;
 }
 
+/* =========================================
+   ADAPTATION MOBILE - PAGE AVIS (V2 CORRIGÉE)
+   ========================================= */
+
+@media (max-width: 992px) {
+    /* 1. HERO & SCORE - Ajustements pour éviter les débordements */
+    .hero-score {
+        padding: 100px 0 60px;
+        background-attachment: scroll; /* Vital pour mobile */
+    }
+
+    .score-number {
+        font-size: clamp(5rem, 15vw, 7rem); /* Réduit pour ne pas saturer l'écran */
+        line-height: 1;
+    }
+
+    .stars-row.unifie {
+        letter-spacing: 15px; /* Réduction de l'espace entre étoiles */
+        margin-bottom: 40px;
+    }
+
+    /* 2. FIX GOOGLE BADGE (Empêche de dépasser) */
+    .google-badge-link {
+        display: inline-block;
+        max-width: 95%; /* Sécurité pour ne jamais toucher les bords */
+        margin: 0 auto;
+    }
+
+    .google-badge {
+        padding: 10px 20px;
+        flex-wrap: nowrap; /* Garde l'icône et le texte alignés */
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .google-badge span {
+        font-size: 0.7rem; /* Plus petit pour tenir sur une ligne */
+        white-space: normal; /* Permet le retour à la ligne si vraiment trop étroit */
+        text-align: left;
+    }
+
+    /* 3. SUPPRESSION TOTALE DE LA SECTION MÉTAMORPHOSE */
+    /* On cible la classe principale de la section pour la faire disparaître */
+    .section-transformation {
+        display: none !important;
+    }
+
+    /* 4. SECTION TOUS LES AVIS */
+    .all-reviews {
+        padding: 60px 0;
+    }
+
+    .reviews-header {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .reviews-grid {
+        grid-template-columns: 1fr; /* Un avis par ligne */
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    .review-card {
+        padding: 30px 20px;
+    }
+
+    /* 5. BOUTON "LAISSER UN AVIS" */
+    .btn-gold-outline {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}
+
+/* Optimisations extrêmes (iPhone SE / Écrans < 400px) */
+@media (max-width: 400px) {
+    .serif-gold {
+        font-size: 1.5rem !important;
+        letter-spacing: 3px;
+    }
+
+    .score-number {
+        font-size: 5rem;
+    }
+
+    .google-badge span {
+        font-size: 0.65rem;
+    }
+    
+    .google-badge img {
+        width: 16px !important;
+        height: 16px !important;
+    }
+}

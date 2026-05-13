@@ -147,3 +147,61 @@ body { background: var(--bg-dark); color: var(--text-white); font-family: 'Monts
 .lightbox img { max-width: 90%; max-height: 80vh; object-fit: contain; }
 .close-lb { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; }
 
+/* =========================================
+   ADAPTATION MOBILE FORCÉE (CORRECTION GRILLE)
+   ========================================= */
+
+@media screen and (max-width: 992px) {
+    /* On force le texte et les détails techniques à s'empiler verticalement */
+    .project-info-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 50px !important; /* Espace important entre le texte et le bloc noir */
+        padding: 40px 0 !important;
+    }
+
+    /* Le bloc de texte prend toute la largeur */
+    .content-text {
+        width: 100% !important;
+        text-align: left;
+    }
+
+    .gold-title {
+        font-size: 1.8rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Le bloc Détails Techniques (bloc noir) */
+    .specs-box {
+        width: 100% !important;
+        border-left: 2px solid var(--text-gold) !important;
+        padding: 30px !important;
+        background: rgba(197, 166, 124, 0.05) !important; /* Léger fond pour le détacher */
+        box-sizing: border-box !important;
+    }
+
+    /* Galerie : on passe à 2 colonnes sur tablette */
+    .mosaic-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-auto-rows: 200px !important;
+        gap: 10px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Galerie : 1 seule image par ligne sur téléphone pour la clarté */
+    .mosaic-grid {
+        grid-template-columns: 1fr !important;
+        grid-auto-rows: 250px !important;
+    }
+
+    .hero-project h1 {
+        font-size: 2.5rem !important;
+        line-height: 1 !important;
+    }
+
+    .next-inner h2 {
+        font-size: 1.8rem !important;
+    }
+}

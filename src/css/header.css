@@ -179,8 +179,16 @@ html, body {
 }
 
 /* =========================================
-   HEADER RESPONSIVE AMÉLIORÉ
+    HEADER RESPONSIVE AMÉLIORÉ
    ========================================= */
+
+/* Verrouillage global anti-scroll horizontal */
+html, body {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    position: relative;
+    width: 100%;
+}
 
 /* Le Voile Sombre */
 .menu-overlay {
@@ -228,16 +236,16 @@ html, body {
         height: 80px; 
         display: flex;
         align-items: center;
+        width: 100%;
     }
-    .main-header.scrolled { height: 70px; }
 
     .main-header .container {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 15px;
-        flex-wrap: nowrap; /* EMPÊCHE le menu de passer à la ligne */
-        width: 100%;       /* Sécurité pour rester dans le cadre */
+        flex-wrap: nowrap; 
+        width: 100%;       
         box-sizing: border-box;
     }
 
@@ -247,7 +255,7 @@ html, body {
     }
 
     .logo img { 
-        height: 35px !important; /* On réduit encore un peu pour gagner de la place */
+        height: 35px !important; 
         width: auto;
         object-fit: contain;
     }
@@ -257,7 +265,7 @@ html, body {
     /* Suppression des séparateurs horizontaux sur mobile */
     .nav-menu li:not(:last-child)::after { display: none; }
 
-    /* Panneau Latéral */
+    /* --- PANNEAU LATÉRAL CORRIGÉ --- */
     .nav-menu {
         position: fixed;
         top: 0;
@@ -265,27 +273,42 @@ html, body {
         width: 85%;
         max-width: 400px;
         height: 100vh;
-        background: #0d0e0a; /* Ton dark-wood */
+        background: #0d0e0a; 
         padding: 120px 40px 40px;
-        transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
         z-index: 2000;
-        display: block;
+        
+        /* CORRECTIF : On utilise flex avec une direction colonne pour ranger le menu */
+        display: flex !important; 
+        flex-direction: column !important; /* Force les liens à s'empiler verticalement */
+        align-items: flex-start !important; /* Aligne le texte à gauche */
+        
+        visibility: hidden; 
+        transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), visibility 0.5s;
+        
+        pointer-events: none;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 
-    .nav-menu.active { right: 0; }
+    .nav-menu.active { 
+        right: 0; 
+        visibility: visible; 
+        pointer-events: auto; 
+    }
 
+    /* On s'assure que la liste (ul) à l'intérieur ne crée pas de bazar */
     .nav-menu ul {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
+        display: flex !important;
+        flex-direction: column !important; /* Force l'empilement vertical des <li> */
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        list-style: none;
     }
 
     .nav-menu li {
         width: 100%;
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.4s ease;
-        border-bottom: 1px solid rgba(197, 166, 124, 0.1);
+        display: block !important; /* Chaque item prend sa propre ligne */
     }
 
     .nav-menu.active li {
@@ -303,45 +326,27 @@ html, body {
         letter-spacing: 2px;
     }
 
-    /* Animation du bouton burger qui se transforme en X */
-
-    /* 1. La ligne du haut s'incline à 45 degrés et descend */
-    .menu-toggle.active span:nth-child(1) { 
-        transform: translateY(8px) rotate(45deg); 
-    }
-
-    /* 2. La ligne du milieu disparait en glissant vers la droite */
-    .menu-toggle.active span:nth-child(2) { 
-        opacity: 0; 
-        transform: translateX(20px); 
-    }
-
-    /* 3. La ligne du bas s'incline à -45 degrés et monte */
-    .menu-toggle.active span:nth-child(3) { 
-        transform: translateY(-8px) rotate(-45deg); 
-    }
+    /* Animation du bouton burger en X */
+    .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; transform: translateX(20px); }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     .header-actions {
         display: flex !important;
         align-items: center;
         flex-shrink: 0; 
-        margin-left: 10px; /* Espace minimum avec le logo */
-        gap: 8px;          /* Espace entre Devis et Burger */
+        margin-left: 10px;
+        gap: 8px;          
     }
 
     .btn-contact-pill { 
-        padding: 6px 10px !important; /* Plus compact pour les mobiles */
+        padding: 6px 10px !important; 
         font-size: 0.6rem !important; 
-        white-space: nowrap;          /* INTERDIT au texte de s'écrire sur deux lignes */
-    }
-
-    .menu-toggle {
-        margin-left: 0; /* On utilise le gap du parent à la place */
-        flex-shrink: 0;
+        white-space: nowrap;          
     }
 }
 
 /* Optimisation pour les très petits écrans */
 @media (max-width: 340px) {
-    .btn-contact-pill { display: none; } /* Cache le bouton devis pour éviter l'écrasement */
+    .btn-contact-pill { display: none !important; } 
 }

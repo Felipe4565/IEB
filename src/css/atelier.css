@@ -269,3 +269,108 @@
     letter-spacing: 1px;
 }
 
+/* =========================================
+   ADAPTATION MOBILE - ATELIER / ENTREPRISE
+   ========================================= */
+
+@media (max-width: 992px) {
+    /* 1. Correction de la Section Hero */
+    .hero-entreprise {
+        min-height: 50vh;
+        background-attachment: scroll; /* Désactive le parallax pour éviter les saccades sur mobile */
+        padding: 60px 20px;
+    }
+
+    .hero-content-overlay h1 {
+        font-size: 2.2rem; /* Réduction du titre principal */
+        line-height: 1.2;
+    }
+
+    .hero-content-overlay p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
+    /* 2. Grid Héritage (2 colonnes -> 1 colonne) */
+    .intro-grid {
+        grid-template-columns: 1fr; 
+        gap: 30px;
+        padding: 40px 15px;
+    }
+
+    .intro-text {
+        order: 2; /* Le texte passe après l'image */
+        text-align: center;
+        padding: 0;
+    }
+
+    .intro-image {
+        order: 1; /* L'image passe en premier */
+        height: 300px;
+    }
+
+    .intro-lead {
+        font-size: 1.1rem;
+    }
+
+    /* 3. Section Valeurs (3 colonnes -> 1 colonne) */
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .value-card {
+        padding: 30px 20px;
+    }
+
+    /* 4. Équipe (4 colonnes -> 1 colonne) */
+    .team-grid {
+        grid-template-columns: 1fr; /* On empile les membres pour voir les visages en grand */
+        gap: 40px;
+        padding: 0 20px;
+    }
+
+    .team-item .image-box {
+        height: 400px; /* On donne de l'importance aux portraits */
+        max-width: 320px;
+        margin: 0 auto 15px;
+    }
+
+    .team-item h3 {
+        font-size: 1.4rem;
+        margin-top: 10px;
+    }
+
+    /* 5. Labels & Icônes de fin */
+    .labels-wrapper {
+        flex-direction: column; /* Empilage des labels */
+        gap: 40px;
+        padding: 60px 20px;
+    }
+
+    .label-box {
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+}
+
+/* Optimisations pour très petits écrans (iPhone SE, etc.) */
+@media (max-width: 480px) {
+    .hero-content-overlay h1 {
+        font-size: 1.8rem;
+    }
+
+    .section-padding {
+        padding: 50px 0;
+    }
+
+    .intro-image {
+        height: 220px;
+    }
+
+    .team-item .image-box {
+        height: 350px;
+    }
+}
