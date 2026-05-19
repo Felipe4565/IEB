@@ -1,0 +1,9 @@
+# Désactive l'exécution de scripts PHP
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Empêche l'exécution de scripts via d'autres moteurs
+php_flag engine off
+Options -ExecCGI -Indexes

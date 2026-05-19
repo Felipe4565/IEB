@@ -174,7 +174,7 @@ html, body {
 }
 
 /* =========================================
-   FOOTER RESPONSIVE
+   FOOTER RESPONSIVE RESTAURÉ
    ========================================= */
 
 @media (max-width: 992px) {
@@ -182,57 +182,59 @@ html, body {
         padding: 0 20px;
     }
 
-    /* 1. Identité (Logo + Texte) */
+    /* 1. Identité (Logo + Réseaux) */
     .brand-flex {
-        flex-direction: column; /* On empile le logo et le texte */
+        flex-direction: column;
         text-align: center;
         gap: 20px;
     }
 
     .vertical-divider {
         width: 60px;
-        height: 1px; /* Le trait devient horizontal */
+        height: 1px; /* Le trait de séparation devient horizontal */
         margin: 0 auto;
     }
 
-    /* 2. La Grille du Footer */
-    .footer-grid {
-        grid-template-columns: 1fr; /* Une seule colonne */
-        gap: 50px;
+    /* 2. Redressement de la Grille principale */
+    .footer-main-grid {
+        grid-template-columns: 1fr !important; /* Bascule sur une seule colonne propre */
+        gap: 40px !important;
         text-align: center;
+    }
+
+    .col-title {
+        height: auto !important; /* Libère la contrainte d'alignement desktop */
+        margin-bottom: 20px !important;
     }
 
     .btn-alignment {
-        justify-content: center; /* Centre le bouton devis */
+        justify-content: center !important; /* Centre le bouton de prise de RDV */
     }
 
-    /* 3. Le Meuble Interactif */
-    .furniture-interactivity {
-        max-width: 400px; /* On réduit la taille pour mobile */
-        margin: 0 auto;
-    }
-
-    /* On agrandit un peu les zones cliquables pour les doigts */
-    .drawer-trigger {
-        transform: scale(1.2); 
-    }
-
-    /* 4. Barre Légale */
+    /* 3. Barre Légale & Paiement */
     .footer-legal-bar {
+        display: flex;
         flex-direction: column;
-        gap: 15px;
+        align-items: center;
+        gap: 20px;
         text-align: center;
+    }
+
+    .contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .dot-sep {
+        display: none; /* Supprime le point de séparation sur mobile pour empiler proprement */
     }
 }
 
 @media (max-width: 480px) {
-    /* Les listes de liens (Services / Infos) passent sur une seule colonne */
+    /* Les deux sous-colonnes de liens (Service Clients) s'empilent verticalement */
     .sub-grid-lists {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .brand-tagline {
-        font-size: 1rem;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
 }

@@ -8,31 +8,38 @@ require_once('../includes/db.php');
 
 // ACTION : VIDER TOUTE LA CORBEILLE
 if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
-    
-    // --- 1. Nettoyage spécifique de la galerie des avis (images multiples) ---
-    // On récupère les chemins de toutes les images liées aux avis en corbeille
-    $stmt_galerie = $pdo->query("SELECT image_url FROM images_avis WHERE avis_id IN (SELECT id FROM avis WHERE statut = 'corbeille')");
+
+    // --- 1. Nettoyage galerie avis ---
+    $stmt_galerie = $pdo->query("
+        SELECT image_url 
+        FROM images_avis 
+        WHERE avis_id IN (SELECT id FROM avis WHERE statut = 'corbeille')
+    ");
     $galerie_items = $stmt_galerie->fetchAll();
-    
+
     foreach ($galerie_items as $g_item) {
         $g_path = '../' . $g_item['image_url'];
         if (file_exists($g_path)) {
             unlink($g_path);
         }
     }
-    // On vide la table de liaison images_avis pour les avis concernés
-    $pdo->query("DELETE FROM images_avis WHERE avis_id IN (SELECT id FROM avis WHERE statut = 'corbeille')");
 
-    // --- 2. Nettoyage des images principales (projets, équipe, avis) ---
+    $pdo->query("
+        DELETE FROM images_avis 
+        WHERE avis_id IN (SELECT id FROM avis WHERE statut = 'corbeille')
+    ");
+
+    // --- 2. Nettoyage images principales (projets, équipe, avis) ---
     $files_to_clean = [
         'projets' => 'image_principale',
-        'equipe' => 'photo',
-        'avis' => 'image'
+        'equipe'  => 'photo',
+        'avis'    => 'image'
     ];
 
     foreach ($files_to_clean as $table => $column) {
         $stmt = $pdo->query("SELECT $column FROM $table WHERE statut = 'corbeille'");
         $items = $stmt->fetchAll();
+
         foreach ($items as $item) {
             if ($item[$column] && !strpos($item[$column], 'default.jpg')) {
                 $file_path = '../' . $item[$column];
@@ -43,8 +50,30 @@ if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
         }
     }
 
-    // --- 3. Suppression SQL finale des entrées ---
+    // --- 3. SUPPRESSION GALERIE PROJETS (IMPORTANT AJOUT) ---
+    $stmt = $pdo->query("SELECT id FROM projets WHERE statut='corbeille'");
+    $projects = $stmt->fetchAll();
+
+    foreach ($projects as $p) {
+
+        $stmtImg = $pdo->prepare("SELECT image_url FROM images_projets WHERE projet_id = ?");
+        $stmtImg->execute([$p['id']]);
+        $imgs = $stmtImg->fetchAll();
+
+        foreach ($imgs as $img) {
+            $path = '../' . $img['image_url'];
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        $pdo->prepare("DELETE FROM images_projets WHERE projet_id = ?")
+            ->execute([$p['id']]);
+    }
+
+    // --- 4. Suppression SQL finale ---
     $tables = ['projets', 'messages', 'contacts', 'avis', 'equipe'];
+
     foreach ($tables as $t) {
         $pdo->query("DELETE FROM $t WHERE statut = 'corbeille'");
     }
@@ -54,14 +83,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
     exit();
 }
 
+
 // ACTIONS INDIVIDUELLES : RESTAURER OU DÉTRUIRE
 if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
+
     $id = intval($_GET['id']);
     $table = $_GET['target']; 
     $filter_back = isset($_GET['type']) ? '?type=' . $_GET['type'] : '';
-    
+
     if ($_GET['action'] === 'restore') {
-        // Logique de restauration
+
         if ($table === 'projets' || $table === 'equipe') {
             $nouveau_statut = 'brouillon';
         } elseif ($table === 'avis') {
@@ -71,35 +102,65 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
         } else {
             $nouveau_statut = 'lu';
         }
-        $pdo->prepare("UPDATE $table SET statut = ? WHERE id = ?")->execute([$nouveau_statut, $id]);
+
+        $pdo->prepare("UPDATE $table SET statut = ? WHERE id = ?")
+            ->execute([$nouveau_statut, $id]);
+
         $_SESSION['success'] = "L'élément a été restauré avec succès.";
 
     } elseif ($_GET['action'] === 'flush') {
-        
-        // --- 1. Cas spécifique : Si on détruit un AVIS, on vide d'abord TOUTE sa galerie photo ---
+
+        // --- CAS AVIS : galerie ---
         if ($table === 'avis') {
+
             $stmt_g = $pdo->prepare("SELECT image_url FROM images_avis WHERE avis_id = ?");
             $stmt_g->execute([$id]);
             $imgs_galerie = $stmt_g->fetchAll();
-            
+
             foreach ($imgs_galerie as $img) {
                 $path_g = '../' . $img['image_url'];
                 if (file_exists($path_g)) {
                     unlink($path_g);
                 }
             }
-            // On supprime les entrées dans la table images_avis
-            $pdo->prepare("DELETE FROM images_avis WHERE avis_id = ?")->execute([$id]);
+
+            $pdo->prepare("DELETE FROM images_avis WHERE avis_id = ?")
+                ->execute([$id]);
         }
 
-        // --- 2. Nettoyage de l'image principale ---
-        $image_columns = ['projets' => 'image_principale', 'equipe' => 'photo', 'avis' => 'image'];
+        // --- CAS PROJET : galerie (AJOUT IMPORTANT) ---
+        if ($table === 'projets') {
+
+            $stmtImg = $pdo->prepare("SELECT image_url FROM images_projets WHERE projet_id = ?");
+            $stmtImg->execute([$id]);
+            $imgs = $stmtImg->fetchAll();
+
+            foreach ($imgs as $img) {
+                $path = '../' . $img['image_url'];
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+
+            $pdo->prepare("DELETE FROM images_projets WHERE projet_id = ?")
+                ->execute([$id]);
+        }
+
+        // --- image principale ---
+        $image_columns = [
+            'projets' => 'image_principale',
+            'equipe'  => 'photo',
+            'avis'    => 'image'
+        ];
+
         if (array_key_exists($table, $image_columns)) {
+
             $col = $image_columns[$table];
+
             $stmt = $pdo->prepare("SELECT $col FROM $table WHERE id = ?");
             $stmt->execute([$id]);
             $res = $stmt->fetch();
-            
+
             if ($res && $res[$col] && !strpos($res[$col], 'default.jpg')) {
                 $file = '../' . $res[$col];
                 if (file_exists($file)) {
@@ -108,26 +169,42 @@ if (isset($_GET['action']) && isset($_GET['id']) && isset($_GET['target'])) {
             }
         }
 
-        // --- 3. Suppression finale de l'élément en BD ---
-        $pdo->prepare("DELETE FROM $table WHERE id = ?")->execute([$id]);
+        // --- suppression DB ---
+        $pdo->prepare("DELETE FROM $table WHERE id = ?")
+            ->execute([$id]);
+
         $_SESSION['success'] = "L'élément a été définitivement supprimé.";
     }
-    
+
     header('Location: corbeille.php' . $filter_back);
     exit();
 }
 
 // ==========================================
-// 2. FILTRAGE ET RÉCUPÉRATION DES DONNÉES
+// 2. DONNÉES
 // ==========================================
 
 $filter = isset($_GET['type']) ? $_GET['type'] : 'all';
 
-$p_trash = ($filter === 'all' || $filter === 'projets') ? $pdo->query("SELECT id, titre as label, 'projets' as tab FROM projets WHERE statut='corbeille'")->fetchAll() : [];
-$m_trash = ($filter === 'all' || $filter === 'messages') ? $pdo->query("SELECT id, CONCAT(nom, ' (Devis)') as label, 'messages' as tab FROM messages WHERE statut='corbeille'")->fetchAll() : [];
-$c_trash = ($filter === 'all' || $filter === 'contacts') ? $pdo->query("SELECT id, CONCAT(nom, ' (Contact)') as label, 'contacts' as tab FROM contacts WHERE statut='corbeille'")->fetchAll() : [];
-$a_trash = ($filter === 'all' || $filter === 'avis') ? $pdo->query("SELECT id, CONCAT(nom, ' (Avis)') as label, 'avis' as tab FROM avis WHERE statut='corbeille'")->fetchAll() : [];
-$e_trash = ($filter === 'all' || $filter === 'equipe') ? $pdo->query("SELECT id, CONCAT(prenom, ' ', nom, ' (Équipe)') as label, 'equipe' as tab FROM equipe WHERE statut='corbeille'")->fetchAll() : [];
+$p_trash = ($filter === 'all' || $filter === 'projets')
+    ? $pdo->query("SELECT id, titre as label, 'projets' as tab FROM projets WHERE statut='corbeille'")->fetchAll()
+    : [];
+
+$m_trash = ($filter === 'all' || $filter === 'messages')
+    ? $pdo->query("SELECT id, CONCAT(nom, ' (Devis)') as label, 'messages' as tab FROM messages WHERE statut='corbeille'")->fetchAll()
+    : [];
+
+$c_trash = ($filter === 'all' || $filter === 'contacts')
+    ? $pdo->query("SELECT id, CONCAT(nom, ' (Contact)') as label, 'contacts' as tab FROM contacts WHERE statut='corbeille'")->fetchAll()
+    : [];
+
+$a_trash = ($filter === 'all' || $filter === 'avis')
+    ? $pdo->query("SELECT id, CONCAT(nom, ' (Avis)') as label, 'avis' as tab FROM avis WHERE statut='corbeille'")->fetchAll()
+    : [];
+
+$e_trash = ($filter === 'all' || $filter === 'equipe')
+    ? $pdo->query("SELECT id, CONCAT(prenom, ' ', nom, ' (Équipe)') as label, 'equipe' as tab FROM equipe WHERE statut='corbeille'")->fetchAll()
+    : [];
 
 $full_trash = array_merge($p_trash, $m_trash, $c_trash, $a_trash, $e_trash);
 
@@ -138,6 +215,7 @@ $counts = [
     'avis'     => $pdo->query("SELECT COUNT(*) FROM avis WHERE statut='corbeille'")->fetchColumn(),
     'equipe'   => $pdo->query("SELECT COUNT(*) FROM equipe WHERE statut='corbeille'")->fetchColumn(),
 ];
+
 $counts['all'] = array_sum($counts);
 
 include('../includes/header.php');

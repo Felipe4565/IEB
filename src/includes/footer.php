@@ -36,7 +36,7 @@ $img_open3 = $meuble_images['home_meuble_open3'] ?? $base_path . 'assets/img/acc
             </div>
         </div>
 
-        <div class="footer-grid">
+        <div class="footer-main-grid">
             
             <div class="footer-col">
                 <h4 class="col-title">L'Atelier</h4>
@@ -44,7 +44,7 @@ $img_open3 = $meuble_images['home_meuble_open3'] ?? $base_path . 'assets/img/acc
                     <p class="address">4 RUE SAINT CLAUDE<br>77340 PONTAULT-COMBAULT</p>
                     <p class="schedule">Lun - Ven : 8h à 20h</p>
                     <div class="btn-alignment">
-                        <a href="<?php echo $base_path; ?>contact.php" class="btn-gold-pill">Prendre un RDV</a>
+                        <a href="<?php echo $base_path; ?>rdv.php" class="btn-gold-pill">Prendre un RDV</a>
                     </div>
                 </div>
             </div>
