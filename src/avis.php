@@ -117,7 +117,7 @@ include('includes/header.php');
                         <span class="review-author"><?= htmlspecialchars($avis['nom']) ?></span>
 
                         <?php if (!empty($avis['image'])): ?>
-                            <a href="description_avis.php?slug=<?= $avis['slug'] ?>" class="btn-gold-outline btn-small">Voir plus</a>
+                            <a href="description_avis.php?slug=<?= htmlspecialchars($avis['slug']) ?>" class="btn-gold-outline btn-small">Voir plus</a>
                         <?php endif; ?>
                         
                     </div>

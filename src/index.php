@@ -172,6 +172,10 @@ include('includes/header.php');
                 <?php endif; ?>
 
                 <form class="premium-dark-form" action="process_contact.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                    <div style="display:none;">
+                        <input type="text" name="hp_field_verify" autocomplete="off">
+                    </div>
                     <input type="text" name="nom" placeholder="Votre Nom" required>
                     <input type="email" name="email" placeholder="Votre Email" required>
                     <input type="text" name="sujet" placeholder="Sujet de votre message" required>

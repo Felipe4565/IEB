@@ -34,6 +34,12 @@ include('includes/header.php');
 
             <form id="multiStepForm" action="process.php" method="POST" enctype="multipart/form-data" class="avis-form">
                 
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                <div style="display:none;">
+                    <label>Si vous êtes humain, ne remplissez pas ce champ</label>
+                    <input type="text" name="hp_check_url" autocomplete="off">
+                </div>
+
                 <div class="form-step active" id="step-1">
                     <p class="label-gold">Étape 1 : Vos Coordonnées</p>
                     

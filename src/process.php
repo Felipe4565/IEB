@@ -3,6 +3,15 @@ session_start();
 require_once('includes/db.php'); // Connexion à la base de données
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Erreur de sécurité : Jeton CSRF invalide.");
+    }
+
+    if (!empty($_POST['hp_check_url'])) {
+        exit("Spam détecté."); 
+    }
+
     // 1. Récupération et nettoyage des données
     $nom = htmlspecialchars(trim($_POST['nom']));
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);

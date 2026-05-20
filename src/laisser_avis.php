@@ -19,7 +19,11 @@
             </div>
 
             <form action="traitement_avis.php" method="POST" enctype="multipart/form-data" class="avis-form" id="avisForm" novalidate>
-                
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                <div style="display:none;">
+                    <input type="text" name="hp_check_comment" autocomplete="off">
+                </div>
+
                 <div class="rating-select">
                     <span class="label-gold">Notez votre expérience</span>
                     <div class="rating-text" id="rating-desc">Sélectionnez vos étoiles</div>
