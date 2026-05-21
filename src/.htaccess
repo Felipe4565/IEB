@@ -1,9 +1,12 @@
-RewriteEngine On
-
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
+# 1. Empêcher le listage des dossiers 
 Options -Indexes
+
+# 2. Gestion des redirections et réécritures
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+
+</IfModule>
 
 <IfModule mod_expires.c>
     ExpiresActive On

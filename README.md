@@ -1,155 +1,191 @@
-# IEB – Site Web Intérieur Extérieur Bois
+#  IEB – Intérieur Extérieur Bois  
+### Site vitrine sur mesure – Menuiserie artisanale
 
-## Présentation du projet
+---
 
-Ce projet consiste en la création d’un site internet vitrine sur mesure pour l’entreprise **IEB – Intérieur Extérieur Bois**, spécialisée dans la menuiserie intérieure et extérieure ainsi que dans la fabrication et la transformation de produits en bois.
+##  Présentation du projet
 
-L’objectif du site est de présenter les services de l’entreprise, mettre en avant ses réalisations et faciliter la prise de contact avec les clients (particuliers et professionnels).
+IEB – Intérieur Extérieur Bois est un site web vitrine développé sur mesure pour une entreprise spécialisée dans la menuiserie intérieure et extérieure, la fabrication de mobilier bois et les aménagements personnalisés.
 
-Le site vise également à renforcer la visibilité de l’entreprise en Île-de-France et à améliorer son image de marque grâce à une présence en ligne moderne et professionnelle.
+L’objectif du site est de :
 
+- présenter les services de l’entreprise
+- mettre en valeur les réalisations
+- améliorer la visibilité locale en Île-de-France
+- faciliter la prise de contact et les demandes de devis
+- renforcer l’image de marque en ligne
 
-# Technologies utilisées
+---
 
-Le site est développé avec les technologies suivantes :
+##  Stack technique
 
-Front-end :
+### Front-end
 - HTML5
 - CSS3
-- JavaScript
+- JavaScript (vanilla)
 
-Back-end :
-- PHP
+### Back-end
+- PHP (procédural)
+- MySQL / MariaDB
+- PDO (connexion sécurisée)
 
-Base de données :
-- MySQL
+### Déploiement
+- Docker (développement local)
+- Hébergement mutualisé (InfinityFree / production)
 
-Ces technologies permettent de créer un site dynamique, sécurisé et facilement maintenable.
+---
 
+##  Fonctionnalités principales
 
-# Fonctionnalités principales
-
-Le site comprend plusieurs fonctionnalités permettant d’améliorer l’expérience utilisateur et de valoriser les services de l’entreprise :
-
-- Galerie de photos des réalisations de l’entreprise
-- Système avant / après pour présenter les chantiers réalisés
-- Section interactive permettant de découvrir les services
+###  Site public
+- Galerie de réalisations avec filtrage
+- Pages services (intérieur / extérieur / sur-mesure)
+- Système avant / après projets
 - Formulaire de contact et demande de devis
-- Carte interactive avec localisation de l’entreprise
-- Système de tri et filtrage des réalisations
-- Site responsive (ordinateur, tablette, mobile)
-- Numéro de téléphone cliquable
-- Liens vers les réseaux sociaux
-- Animations visuelles au survol des boutons
-- Espace FAQ
+- Page avis clients
+- FAQ et pages informatives
+- Carte et informations de contact
+- Site responsive (mobile / tablette / desktop)
 - Optimisation SEO de base
-- Optimisation des performances du site
-- Sécurisation du formulaire contre le spam
-- Intégration des mentions légales et RGPD
-- Interface d’administration pour gérer les contenus
 
+###  Back-office (admin)
+- Gestion des projets (CRUD complet)
+- Gestion des avis clients
+- Gestion des messages et contacts
+- Gestion de l’équipe
+- Système de corbeille (soft delete)
+- Upload d’images (galeries projets)
+- Éditeur de contenus dynamiques
+- Authentification sécurisée
 
-# Arborescence du projet
+---
 
-Le projet est organisé de manière à faciliter la maintenance et l’évolution du site.
+##  Arborescence du projet
 
+```bash
 src/
+│
+├── admin/
+│   ├── includes/
+│   │   ├── auth_check.php
+│   │   ├── header.php
+│   │   └── notifications.php
+│   ├── add_projet.php
+│   ├── edit_projet.php
+│   ├── projets.php
+│   ├── avis.php
+│   ├── equipe.php
+│   ├── contact.php
+│   ├── message.php
+│   ├── corbeille.php
+│   ├── soft_delete.php
+│   ├── login.php
+│   ├── logout.php
+│   └── index.php
 │
 ├── assets/
 │   └── img/
-│       └── (images des réalisations)
+│       ├── accueil/
+│       ├── admin/
+│       ├── atelier/
+│       ├── avis/
+│       ├── equipe/
+│       ├── realisations/
+│       └── services/
 │
 ├── css/
+│   ├── admin.css
+│   ├── atelier.css
+│   ├── avis.css
+│   ├── contact.css
+│   ├── footer.css
+│   ├── header.css
+│   ├── realisations.css
+│   ├── services.css
+│   ├── responsive.css
 │   └── style.css
-│   └── atelier.css
-│   └── personne_page.css
-│
-├── js/
-│   └── script.js
 │
 ├── includes/
+│   ├── db.php
 │   ├── header.php
-│   └── footer.php
+│   ├── footer.php
+│   └── element_flottant.php
 │
 ├── index.php
 ├── services.php
 ├── realisations.php
 ├── entreprise.php
 ├── contact.php
-└── avis.php
-└── personne_page.php
+├── avis.php
+├── faq.php
+├── mentions_legales.php
+└── .htaccess
 
+##  Architecture du projet
 
-# Organisation du code
+###  Includes
 
-## Header et Footer
+Les fichiers `header.php`, `footer.php` et `db.php` sont centralisés afin de :
 
-Les fichiers header.php et footer.php sont placés dans le dossier `includes/`.
+- éviter la duplication de code  
+- faciliter la maintenance du site  
+- uniformiser l’ensemble des pages  
 
-Cela permet de centraliser les éléments communs du site :
+---
 
-- menu de navigation
-- logo de l’entreprise
-- bouton de contact
-- coordonnées
-- réseaux sociaux
-- mentions légales
+###  Admin
 
-Ainsi, toute modification du menu ou du pied de page se répercute automatiquement sur toutes les pages du site.
+Le back-office est totalement séparé du site public :
 
+- authentification obligatoire pour accéder à l’administration  
+- gestion complète des contenus (projets, avis, messages, équipe)  
+- système de corbeille (soft delete avant suppression définitive)  
 
-# Pages principales du site
+---
 
-Le site comprend 6 pages principales :
+###  Assets
 
-### Accueil
-Présentation de l’entreprise et mise en avant des réalisations.
+Les ressources images sont organisées de manière structurée :
 
-### Services
-Présentation des services proposés :
-- menuiserie intérieure
-- menuiserie extérieure
-- fabrication sur mesure
+- réalisations  
+- équipe  
+- services  
+- accueil  
 
-### Réalisations
-Galerie photo des projets réalisés avec système de filtrage.
+---
 
-### Entreprise
-Présentation de l’histoire de l’entreprise, de ses valeurs et de son équipe.
+##  Sécurité
 
-### Contact / Devis
-Formulaire permettant aux clients de demander un devis et de contacter l’entreprise.
+- authentification administrateur obligatoire  
+- requêtes SQL sécurisées via PDO  
+- système de corbeille avant suppression définitive  
+- protection des pages admin  
+- séparation stricte front-end / back-end  
 
-### Avis clients
-Page regroupant les témoignages clients afin de renforcer la confiance.
+---
 
+##  SEO & performance
 
-# Objectifs du projet
+- URLs optimisées via slugs  
+- balises meta structurées  
+- site responsive (mobile-first)  
+- optimisation des images  
+- structure HTML sémantique propre  
 
-Les objectifs principaux du site sont :
+---
 
-- présenter les activités de l’entreprise
-- valoriser les réalisations
-- attirer de nouveaux clients
-- faciliter la prise de contact
-- améliorer la visibilité de l’entreprise sur internet
+## Objectifs du projet
 
+- digitaliser une entreprise artisanale locale  
+- améliorer la visibilité sur Google  
+- générer des demandes de devis  
+- professionnaliser l’image de marque  
+- centraliser la gestion du contenu  
 
-# Développement et maintenance
+---
 
-Le site est développé dans un environnement local utilisant PHP et MySQL avant d’être déployé sur un serveur d’hébergement sécurisé.
+## Auteur
 
-Une maintenance annuelle optionnelle peut être mise en place afin d’assurer :
-
-- les mises à jour du site
-- la correction de bugs
-- les sauvegardes régulières
-- le maintien des performances et de la sécurité
-
-
-# Auteur
-
-Projet réalisé par :
-
-Felipe Alvariza  
-Développement web – Projet de refonte du site internet IEB
+**Felipe Alvariza**  
+Développeur web – Projet IEB  
+PHP / MySQL / Front-end sur mesure

@@ -2,7 +2,6 @@
 require_once 'includes/db.php'; 
 include 'includes/header.php'; 
 
-// Récupération des textes dynamiques
 $query_txt = $pdo->query("SELECT cle, valeur FROM contenus WHERE cle LIKE 'realisations_%'");
 $textes = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -41,9 +40,7 @@ $projets = $query->fetchAll();
                 <img src="<?= htmlspecialchars($projet['image_principale']) ?>" alt="<?= htmlspecialchars($projet['titre']) ?>">
                 <div class="card-overlay">
                     <span><?= ucfirst(htmlspecialchars($projet['type'])) ?></span>
-                    
                     <h3><?= htmlspecialchars($projet['titre']) ?></h3>
-                    
                     <a href="projet_detail.php?slug=<?= $projet['slug'] ?>" class="btn-more" style="text-decoration:none; display:inline-block;">
                         En savoir plus
                     </a>
@@ -58,23 +55,13 @@ $projets = $query->fetchAll();
         </div>
     </section>
 
-
-        <div id="no-results" class="hide" style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
-            <p style="color: var(--text-gold); font-family: 'Playfair Display', serif; font-size: 20px;">
-                Aucune réalisation ne correspond à votre recherche.
-            </p>
-        </div>
-
-    </section>
-            <div class="load-more-container" style="text-align: center; margin-top: 40px;">
-                <button id="load-more-btn" class="btn-more" style="padding: 15px 30px;">Voir plus de réalisations</button>
-            </div>
-    </main>
-
+    <div class="load-more-container" style="text-align: center; margin-top: 40px;">
+        <button id="load-more-btn" class="btn-more" style="padding: 15px 30px;">Voir plus de réalisations</button>
+    </div>
+</main>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Sélection des éléments
     const searchInput = document.querySelector('.search-bar input');
     const filterButtons = document.querySelectorAll('.filters button');
     const cards = document.querySelectorAll('.card');
@@ -82,8 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadMoreBtn = document.getElementById('load-more-btn');
     const loadMoreContainer = document.querySelector('.load-more-container');
 
-    // Configuration du nombre d'images
-    let itemsToShow = 6; // Nombre de projets affichés par défaut
+    let itemsToShow = 6; 
 
     const urlParams = new URLSearchParams(window.location.search);
     const filterParam = urlParams.get('filter');
@@ -101,44 +87,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const activeBtn = document.querySelector('.filters button.active');
         const filter = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
         
-        let visibleCount = 0;      // Cartes réellement affichées (sous la limite)
-        let totalMatchCount = 0;   // Cartes qui correspondent aux critères (indépendamment de la limite)
+        let visibleCount = 0;      
+        let totalMatchCount = 0;   
 
         cards.forEach(card => {
             const title = card.querySelector('h3').innerText.toLowerCase();
             const cat = card.getAttribute('data-cat');
             
-            // 1. Vérification des critères (Texte + Filtre)
             const matchText = title.includes(text);
             const matchFilter = (filter === 'all' || cat === filter);
 
             if (matchText && matchFilter) {
                 totalMatchCount++;
                 
-                // 2. Gestion de la limite "Charger plus"
                 if (totalMatchCount <= itemsToShow) {
                     card.classList.remove('hide', 'hidden-load');
                     visibleCount++;
                 } else {
-                    // La carte correspond mais dépasse la limite actuelle
                     card.classList.add('hidden-load');
                     card.classList.remove('hide');
                 }
             } else {
-                // La carte ne correspond pas du tout
                 card.classList.add('hide');
                 card.classList.remove('hidden-load');
             }
         });
 
-        // Affichage du bouton "Voir plus" si des cartes restent cachées
         if (totalMatchCount > itemsToShow) {
             loadMoreContainer.classList.remove('hide');
         } else {
             loadMoreContainer.classList.add('hide');
         }
 
-        // Affichage du message "Aucun résultat" si visibleCount est à 0
         if (totalMatchCount === 0) {
             noResults.classList.remove('hide');
         } else {
@@ -146,9 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Événements ---
-
-    // Bouton Charger plus : on augmente la limite de 6
     if (loadMoreBtn) {
         loadMoreBtn.addEventListener('click', () => {
             itemsToShow += 6;
@@ -156,13 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Recherche : on remet la limite à 6 pour ne pas inonder l'écran
     searchInput.addEventListener('input', () => {
         itemsToShow = 6;
         filterEverything();
     });
 
-    // Boutons de filtres : on remet la limite à 6
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             filterButtons.forEach(b => b.classList.remove('active'));
@@ -172,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Lancement initial au chargement de la page
     filterEverything();
 });
 </script>

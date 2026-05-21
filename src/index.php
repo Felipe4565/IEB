@@ -10,7 +10,6 @@ $img_ext = $images_accueil['home_exterieur'] ?? 'assets/img/accueil/extérieur.j
 $img_mob = $images_accueil['home_mobilier'] ?? 'assets/img/accueil/mobilier.jpg';
 $img_meuble = $images_accueil['home_meuble_close'] ?? 'assets/img/accueil/meuble_close.png';
 
-
 $query_txt = $pdo->query("SELECT cle, valeur FROM contenus");
 $textes_accueil = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -61,21 +60,20 @@ include('includes/header.php');
             <div class="video-overlay-dark"></div>
         </div>
 
-            <div class="hero-content-overlay">
-                <div class="container">
-                    <div class="top-announcement">
-                        <p><?= $txt_announcement ?></p>
-                    </div>
+        <div class="hero-content-overlay">
+            <div class="container">
+                <div class="top-announcement">
+                    <p><?= $txt_announcement ?></p>
+                </div>
+                
+                <div class="main-hero-text">
+                    <span class="subtitle"><?= $txt_subtitle ?></span>
+                    <h1><?= $txt_h1_main ?><br><span class="gold-text"><?= $txt_h1_gold ?></span></h1>
+                    <p class="description"><?= $txt_description ?></p>
                     
-                    <div class="main-hero-text">
-                        <span class="subtitle"><?= $txt_subtitle ?></span>
-                        <h1><?= $txt_h1_main ?><br><span class="gold-text"><?= $txt_h1_gold ?></span></h1>
-                        <p class="description"><?= $txt_description ?></p>
-                        
-                        <div class="hero-btns">
-                            <a href="realisations.php" class="btn-link-gold">Voir nos projets</a>
-                            <a href="contact.php" class="btn-devis-solid">Demander un devis</a>
-                        </div>
+                    <div class="hero-btns">
+                        <a href="realisations.php" class="btn-link-gold">Voir nos projets</a>
+                        <a href="contact.php" class="btn-devis-solid">Demander un devis</a>
                     </div>
                 </div>
             </div>
@@ -117,87 +115,83 @@ include('includes/header.php');
         </div>
     </section>
 
-<section class="furniture-experience">
-    <div class="container">
-        <div class="experience-intro">
-            <span class="gold-subtitle">Immersion</span>
-            <h2>Explorez notre savoir-faire</h2>
-            <p>Cliquez sur les tiroirs pour découvrir l'histoire d'IEB</p>
-        </div>
-
-        <div class="interactive-container">
-            <div class="furniture-wrapper">
-                <img src="<?= $img_meuble ?>" id="main-furniture" alt="Meuble IEB">
-                
-                <svg viewBox="0 0 2205 790" preserveAspectRatio="none" class="interaction-layer">
-                    <polygon points="610,400 1080,380 1100,530 610,600" class="drawer-trigger" data-fact="fact1"></polygon>                     
-                    <polygon points="1100,275 1500,275 1475,525 1175,530" class="drawer-trigger" data-fact="fact2" />
-                    <polygon points="625,640 1475,540 1490,700 625,780" class="drawer-trigger" data-fact="fact3"></polygon>
-                </svg>
+    <section class="furniture-experience">
+        <div class="container">
+            <div class="experience-intro">
+                <span class="gold-subtitle">Immersion</span>
+                <h2>Explorez notre savoir-faire</h2>
+                <p>Cliquez sur les tiroirs pour découvrir l'histoire d'IEB</p>
             </div>
 
-            <div class="fact-panel" id="fact-display">
-                <div class="fact-content active" id="default-fact">
-                    <i class="fas fa-hand-pointer"></i>
-                    <p><?= $fact_default ?></p>
-                </div>
-                <div class="fact-content" id="fact1">
-                    <h3><?= $fact1_title ?></h3>
-                    <p><?= $fact1_desc ?></p>
-                </div>
-                <div class="fact-content" id="fact2">
-                    <h3><?= $fact2_title ?></h3>
-                    <p><?= $fact2_desc ?></p>
-                </div>
-                <div class="fact-content" id="fact3">
-                    <h3><?= $fact3_title ?></h3>
-                    <p><?= $fact3_desc ?></p>
-                </div>
-            </div>
-        </div> </div>
-</section>
-
-<section id="contact" class="contact-split-container">
-    <div class="container-contact-wrapper">    
-        <div class="contact-column-form">
-            <div class="floating-contact-card">
-                <span class="gold-subtitle">Contact</span>
-                <h2>Un projet bois ?</h2>
-                <div class="gold-line"></div>
-                
-                <?php if (isset($_SESSION['success_contact'])): ?>
-                    <div style="background: rgba(197, 164, 126, 0.1); border: 1px solid #C5A059; color: #C5A059; padding: 15px; margin-bottom: 20px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.9rem;">
-                        <?= $_SESSION['success_contact']; unset($_SESSION['success_contact']); ?>
-                    </div>
-                <?php endif; ?>
-
-                <form class="premium-dark-form" action="process_contact.php" method="POST">
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                    <div style="display:none;">
-                        <input type="text" name="hp_field_verify" autocomplete="off">
-                    </div>
-                    <input type="text" name="nom" placeholder="Votre Nom" required>
-                    <input type="email" name="email" placeholder="Votre Email" required>
-                    <input type="text" name="sujet" placeholder="Sujet de votre message" required>
-                    <textarea name="message" rows="4" placeholder="Décrivez votre projet..." required></textarea>
+            <div class="interactive-container">
+                <div class="furniture-wrapper">
+                    <img src="<?= $img_meuble ?>" id="main-furniture" alt="Meuble IEB">
                     
-                    <button type="submit" class="btn-gold">Envoyer le message</button>
-                </form>
-            </div>
+                    <svg viewBox="0 0 2205 790" preserveAspectRatio="none" class="interaction-layer">
+                        <polygon points="610,400 1080,380 1100,530 610,600" class="drawer-trigger" data-fact="fact1"></polygon>                     
+                        <polygon points="1100,275 1500,275 1475,525 1175,530" class="drawer-trigger" data-fact="fact2" />
+                        <polygon points="625,640 1475,540 1490,700 625,780" class="drawer-trigger" data-fact="fact3"></polygon>
+                    </svg>
+                </div>
+
+                <div class="fact-panel" id="fact-display">
+                    <div class="fact-content active" id="default-fact">
+                        <i class="fas fa-hand-pointer"></i>
+                        <p><?= $fact_default ?></p>
+                    </div>
+                    <div class="fact-content" id="fact1">
+                        <h3><?= $fact1_title ?></h3>
+                        <p><?= $fact1_desc ?></p>
+                    </div>
+                    <div class="fact-content" id="fact2">
+                        <h3><?= $fact2_title ?></h3>
+                        <p><?= $fact2_desc ?></p>
+                    </div>
+                    <div class="fact-content" id="fact3">
+                        <h3><?= $fact3_title ?></h3>
+                        <p><?= $fact3_desc ?></p>
+                    </div>
+                </div>
+            </div> 
         </div>
+    </section>
 
+    <section id="contact" class="contact-split-container">
+        <div class="container-contact-wrapper">    
+            <div class="contact-column-form">
+                <div class="floating-contact-card">
+                    <span class="gold-subtitle">Contact</span>
+                    <h2>Un projet bois ?</h2>
+                    <div class="gold-line"></div>
+                    
+                    <?php if (isset($_SESSION['success_contact'])): ?>
+                        <div style="background: rgba(197, 164, 126, 0.1); border: 1px solid #C5A059; color: #C5A059; padding: 15px; margin-bottom: 20px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.9rem;">
+                            <?= $_SESSION['success_contact']; unset($_SESSION['success_contact']); ?>
+                        </div>
+                    <?php endif; ?>
 
+                    <form class="premium-dark-form" action="process_contact.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                        <div style="display:none;">
+                            <input type="text" name="hp_field_verify" autocomplete="off">
+                        </div>
+                        <input type="text" name="nom" placeholder="Votre Nom" required>
+                        <input type="email" name="email" placeholder="Votre Email" required>
+                        <input type="text" name="sujet" placeholder="Sujet de votre message" required>
+                        <textarea name="message" rows="4" placeholder="Décrivez votre projet..." required></textarea>
+                        
+                        <button type="submit" class="btn-gold">Envoyer le message</button>
+                    </form>
+                </div>
+            </div>
 
             <div class="contact-column-map">
                 <div class="map-inner">
                     <div id="map-zoom-container">
                         <img src="assets/img/accueil/carte-france-dark.png" class="map-base-img" alt="Carte des implantations IEB">
 
-                        <div class="map-hotspot" style="top: 26%; left: 51%;" 
-                            onclick="showLocation('showroom', this)"></div>
-
-                        <div class="map-hotspot" style="top: 23%; left: 47%;" 
-                            onclick="showLocation('ateliers', this)"></div>
+                        <div class="map-hotspot" style="top: 26%; left: 51%;" onclick="showLocation('showroom', this)"></div>
+                        <div class="map-hotspot" style="top: 23%; left: 47%;" onclick="showLocation('ateliers', this)"></div>
                     </div>
 
                     <div class="map-overlay-gradient"></div>
@@ -253,10 +247,8 @@ include('includes/header.php');
                     infoContent.style.opacity = 0;
                     infoContent.classList.remove('hide');
 
-                    // Mise à jour des textes
                     document.getElementById('loc-title').innerText = data.title;
                     
-                    // Mise à jour du lien d'adresse
                     const addrElement = document.getElementById('loc-addr');
                     addrElement.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${data.addr} <i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-left: 5px;"></i>`;
                     addrElement.href = data.mapUrl;
@@ -270,7 +262,7 @@ include('includes/header.php');
                 }
             }
 
-            // Dézoomer
+            // Réinitialisation du zoom au clic sur le fond de la carte
             document.getElementById('map-zoom-container').addEventListener('click', function(e) {
                 if (e.target.classList.contains('map-base-img')) {
                     this.style.transform = "scale(1)";
@@ -280,9 +272,7 @@ include('includes/header.php');
                 }
             });
             </script>
-
     </section>
-
 </main>
 
 <?php include('includes/footer.php'); ?>
