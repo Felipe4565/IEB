@@ -14,137 +14,173 @@
 
 .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
-/* --- SECTION 1 : HERO (VERSION STABLE & AFFICHAGE COMPLET) --- */
+/* ==========================================================================
+   SECTION HERO AVIS - DESIGN LUXE ULTIME (IEB)
+   ========================================================================== */
+
+:root {
+    --gold-ieb: #C5A059;
+    --gold-light: #e2c997;
+    --dark-deep: #0A0A0A;
+    --white: #FFFFFF;
+}
+
 .hero-score {
     position: relative;
-    padding: 160px 0 100px; 
+    min-height: 100vh; /* Pour occuper l'écran comme sur l'image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    background: 
-        linear-gradient(to bottom, rgba(10, 10, 10, 0.4) 0%, #0A0A0A 100%), 
-        url('../assets/img/avis/matiere.jpg');
+    padding: 100px 0;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Effet parallaxe */
     overflow: hidden;
+}
+
+/* Overlay pour assurer la lisibilité tout en voyant le décor */
+.hero-score::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0.6) 0%, 
+        rgba(10, 10, 10, 0.4) 50%, 
+        rgba(10, 10, 10, 0.8) 100%);
+    z-index: 1;
 }
 
 .hero-score .container {
     position: relative;
     z-index: 2;
-    animation: fadeInLuxeSimple 1.2s ease-out forwards;
+    max-width: 1100px;
+    padding: 0 20px;
 }
 
-.serif-gold {
+/* TITRE PRINCIPAL */
+.main-hero-title {
     font-family: 'Playfair Display', serif;
-    color: #C5A059;
-    
-    font-size: clamp(2rem, 3.5vw, 2.5rem); /* Au lieu de (1.6rem, 3vw, 2.2rem) */
-    
-    letter-spacing: 5px; /* Au lieu de 7px */
-    
+    color: var(--white);
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    letter-spacing: 10px; /* Très espacé pour le luxe */
     text-transform: uppercase;
     font-weight: 400;
-    margin: 0 auto 30px; 
-    display: block;
-    text-rendering: optimizeLegibility;
-    
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+    margin-bottom: 5px;
+    line-height: 1.2;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
 }
 
-/* LE CHIFFRE 5.0 - CORRIGÉ POUR ÉVITER LA COUPURE */
+/* SOUS-TITRE (Tagline Or) */
+.hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-ieb);
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 40px;
+    display: block;
+}
+
+/* LE CHIFFRE 5.0 */
 .score-number {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(7rem, 12vw, 10rem);
-    font-weight: 700;
-    /* On augmente le line-height pour ne pas couper le haut/bas des chiffres */
-    line-height: 1.1; 
-    margin: 0;
-    /* On ajoute un léger padding vertical pour laisser de la place au dégradé */
-    padding: 10px 0;
-    
-    background: linear-gradient(180deg, #FFFFFF 30%, #c5a67c 100%);
+    font-size: clamp(8rem, 20vw, 14rem); /* Taille massive */
+    font-weight: 400;
+    line-height: 0.85;
+    margin: 10px 0;
+    /* Dégradé vertical Blanc vers Or comme sur l'image */
+    background: linear-gradient(180deg, #FFFFFF 40%, var(--gold-ieb) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
-    /* On utilise drop-shadow sur le parent ou on réduit l'intensité pour éviter les artefacts */
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8));
-    display: inline-block; /* Crucial pour que le padding et le clip fonctionnent ensemble */
-}
-
-/* Étoiles : On ajuste la marge haute puisque le line-height du chiffre a augmenté */
-.stars-row.unifie {
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
     display: block;
-    color: #C5A059;
-    font-size: 1.1rem; 
-    letter-spacing: 25px; 
-    margin-top: 30px; /* Réduit car le line-height du chiffre est plus grand */
-    margin-bottom: 80px; 
-    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.4));
 }
 
-/* --- LE BADGE GOOGLE (STABLE) --- */
+/* ÉTOILES */
+.stars-row.unifie {
+    color: var(--gold-ieb);
+    font-size: 1.2rem;
+    letter-spacing: 15px; /* Écartement précis */
+    margin: 20px 0 45px;
+    opacity: 0.9;
+}
+
+/* BADGE GOOGLE (Le bouton pilule) */
 .google-badge-link {
     text-decoration: none !important;
     display: inline-flex;
-    transition: transform 0.4s ease;
-    outline: none;
-}
-
-.google-badge-link:hover {
-    transform: translateY(-5px);
+    margin-bottom: 40px;
 }
 
 .google-badge {
-    position: relative;
-    overflow: hidden; 
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 12px 25px;
-    border: 1px solid rgba(197, 160, 89, 0.25);
+    padding: 12px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
-    background: rgba(10, 10, 10, 0.5);
-    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
 }
 
-.google-badge img { 
-    width: 20px !important;  
-    height: 20px !important; 
-    object-fit: contain;     
-    flex-shrink: 0;         
-    filter: brightness(1.1);
+.google-badge img {
+    width: 18px;
+    height: auto;
 }
 
 .google-badge span {
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    color: #E5E5E5 !important;
-    white-space: nowrap;
-}
-
-.google-badge strong {
-    color: #C5A059 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    color: var(--white);
     text-transform: uppercase;
 }
 
-.google-badge::after {
-    content: "";
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transform: skewX(-25deg);
-    transition: 0.6s;
+.google-badge strong {
+    color: var(--white);
+    font-weight: 700;
+    margin-left: 5px;
 }
 
-.google-badge-link:hover .google-badge::after {
-    left: 150%;
+/* PHRASE FINALE (Italique bas) */
+.hero-tagline {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    max-width: 700px;
+    margin: 20px auto 0;
 }
 
-@keyframes fadeInLuxeSimple {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* INTERACTIONS */
+.google-badge:hover {
+    border-color: var(--gold-ieb);
+    background: rgba(197, 160, 89, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
+
+/* --- SECTION AVANT/APRÈS (Harmonisation) --- */
+.section-transformation {
+    background: var(--dark-deep);
+    padding: 100px 0;
+}
+
+.comparison-card {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* Texte à droite comme souvent dans le luxe */
+    gap: 50px;
+    align-items: center;
+    background: #111;
+    border: 1px solid rgba(197, 160, 89, 0.1);
+}
+
 
 /* --- SECTION AVANT/APRÈS (VERSION FINALE & RÉPARÉE) --- */
 .section-transformation {

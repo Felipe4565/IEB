@@ -140,3 +140,76 @@
     border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* --- ADAPTATION MOBILE COMPLETE --- */
+@media (max-width: 992px) {
+    .section-padding {
+        padding: 60px 40px;
+    }
+
+    .member-container {
+        grid-template-columns: 1fr; /* Passage sur une seule colonne */
+        gap: 60px;
+    }
+
+    .member-image {
+        max-width: 450px;
+        margin: 0 auto 20px auto; /* Centre l'image et compense le cadre arrière */
+    }
+
+    .member-info {
+        text-align: center;
+    }
+
+    .member-info p.member-bio {
+        max-width: 650px;
+        margin: 0 auto 35px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .member-cards {
+        flex-direction: column; /* Les mini-cartes s'empilent verticalement */
+        gap: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-padding {
+        padding: 40px 20px;
+    }
+
+    .back-button {
+        display: block;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* Sécurité anti-débordement pour le cadre doré */
+    .member-image {
+        max-width: 90%; 
+    }
+
+    .member-image::after {
+        top: 20px;
+        left: -20px; /* Réduction du décalage pour ne pas sortir de l'écran */
+    }
+
+    .member-info h1 {
+        font-size: 2.2rem; /* Taille adaptée aux écrans de smartphones */
+    }
+
+    .member-info h2 {
+        font-size: 0.95rem;
+        letter-spacing: 3px;
+        margin-bottom: 25px;
+    }
+
+    .member-info p.member-bio {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .member-card {
+        padding: 20px;
+    }
+}

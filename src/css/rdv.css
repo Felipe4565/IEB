@@ -170,9 +170,95 @@
     transform: translateY(-3px);
 }
 
-/* responsive */
+/* --- ADAPTATION MOBILE COMPLETE --- */
 @media (max-width: 992px) {
-    .rdv-hero-split { flex-direction: column; }
-    .hero-image-side { height: 40vh; }
-    .philosophy-grid { grid-template-columns: 1fr; gap: 40px; }
+    .rdv-hero-split { 
+        flex-direction: column-reverse; 
+        min-height: auto;
+    }
+    
+    .hero-text-side {
+        padding: 60px 40px 80px 40px;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .hero-image-side { 
+        height: 45vh; 
+    }
+
+    /* Le dégradé passe du haut vers le bas pour épouser le bloc de texte */
+    .image-overlay {
+        background: linear-gradient(to bottom, transparent, #0a0b0a);
+    }
+
+    .gold-intro {
+        margin: 0 auto 40px auto;
+    }
+
+    .philosophy-grid { 
+        grid-template-columns: 1fr; 
+        gap: 50px; 
+        padding: 0 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-text-side {
+        padding: 40px 20px 60px 20px;
+    }
+
+    .serif-gold {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+
+    .gold-intro {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    /* Transformation du bouton en bloc responsive pour éviter les débordements */
+    .btn-submit-gold-full {
+        display: block;
+        padding: 18px 20px;
+        letter-spacing: 2px;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .rdv-philosophy {
+        padding: 80px 0;
+    }
+
+    .philosophy-grid {
+        padding: 0 20px;
+        gap: 40px;
+    }
+
+    .philo-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+
+    .rdv-booking-frame {
+        padding: 80px 15px;
+    }
+
+    .frame-decoration {
+        margin-bottom: 40px;
+    }
+
+    .calendly-container-premium {
+        padding: 10px;
+    }
+
+    /* Force une hauteur adaptée au défilement du widget Calendly sur smartphone */
+    .calendly-container-premium iframe {
+        height: 680px !important;
+    }
+
+    .rdv-faq-teaser {
+        padding: 80px 20px;
+    }
 }

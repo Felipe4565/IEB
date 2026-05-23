@@ -1,6 +1,7 @@
 <?php
 require_once('includes/db.php'); 
 
+// Récupération des images
 $query_img = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'service_%'");
 $images_services = $query_img->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -12,6 +13,7 @@ $img_matiere   = $images_services['service_matiere']   ?? 'assets/img/services/m
 $img_card_ext  = $images_services['service_card_exterieur'] ?? 'assets/img/services/exterieur.jpg';
 $img_card_int  = $images_services['service_card_interieur'] ?? 'assets/img/services/interieur.jpg';
 
+// Récupération des textes
 $query_txt = $pdo->query("SELECT cle, valeur FROM contenus WHERE cle LIKE 'services_%'");
 $textes = $query_txt->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -75,7 +77,7 @@ include('includes/header.php');
                 <span class="subtitle"><?= $txt_show_subtitle ?></span>
                 <h2><?= $txt_show_title ?></h2>
                 <p><?= $txt_show_text ?></p>
-                <a href="#contact" class="btn-gold"><?= $txt_show_btn ?></a>
+                <a href="#" id="open-vip-modal" class="btn-gold"><?= $txt_show_btn ?></a>
             </div>
         </div>
     </section>
@@ -205,6 +207,92 @@ include('includes/header.php');
             </div>
         </div>
     </section>
+
+    <div id="vip-modal" class="vip-modal-container">
+        <div class="vip-modal-overlay"></div>
+        <div class="vip-modal-box">
+            <button class="vip-modal-close" aria-label="Fermer">&times;</button>
+            <div class="vip-modal-content">
+                <span class="vip-subtitle">ACCÈS PRIVILÈGE</span>
+                <h3>Rejoindre la Liste Privée</h3>
+                <p>Le Showroom IEB ouvrira prochainement ses portes. Inscrivez-vous pour recevoir votre invitation personnelle et bénéficier d'un <strong>accès exclusif 48h</strong> avant l'ouverture officielle.</p>
+                <form id="vip-showroom-form">
+                    <div class="vip-input-group">
+                        <input type="email" id="vip-email" name="email" placeholder="Votre adresse email" required>
+                    </div>
+                        <button type="submit" class="btn-submit-gold-full">
+                            <span class="btn-text">RÉSERVER MON INVITATION</span>
+                            <span class="btn-icon"><i class="fas fa-chevron-right"></i></span>
+                            <div class="shimmer"></div>
+                        </button>
+                    <div id="vip-form-response" class="vip-response-message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('vip-modal');
+    const openBtn = document.getElementById('open-vip-modal');
+    const closeBtn = document.querySelector('.vip-modal-close');
+    const overlay = document.querySelector('.vip-modal-overlay');
+    const form = document.getElementById('vip-showroom-form');
+    const responseMsg = document.getElementById('vip-form-response');
+
+    if(openBtn) {
+        openBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        form.reset();
+        responseMsg.className = 'vip-response-message';
+        responseMsg.textContent = '';
+    }
+
+    if(closeBtn) closeBtn.addEventListener('click', closeModal);
+    if(overlay) overlay.addEventListener('click', closeModal);
+
+    if(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailValue = document.getElementById('vip-email').value;
+            const formData = new FormData();
+            formData.append('email', emailValue);
+
+            responseMsg.textContent = "Traitement en cours...";
+            responseMsg.className = "vip-response-message info";
+
+            fetch('ajax_showroom_lead.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    responseMsg.className = "vip-response-message success";
+                    responseMsg.textContent = data.message;
+                    form.querySelector('.vip-input-group').style.display = 'none';
+                    form.querySelector('button[type="submit"]').style.display = 'none';
+                } else {
+                    responseMsg.className = "vip-response-message error";
+                    responseMsg.textContent = data.message;
+                }
+            })
+            .catch(error => {
+                responseMsg.className = "vip-response-message error";
+                responseMsg.textContent = "Erreur de connexion au serveur.";
+            });
+        });
+    }
+});
+</script>
 
 <?php include('includes/footer.php'); ?>

@@ -106,6 +106,25 @@ include('../includes/header.php');
                 </div>
             </div>
 
+            <div class="card-premium">
+                <div class="card-icon" style="margin-top: 10px; margin-bottom: 20px;">
+                    <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M12 4h9"></path>
+                        <path d="M4 9h16"></path>
+                        <path d="M4 15h16"></path>
+                    </svg>
+                </div>
+                
+                <h3 style="color: var(--gold-accent); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">
+                    Liste privée Showroom
+                </h3>
+
+                <div style="margin-top: 25px;">
+                    <a href="admin_showroom_lead.php" class="btn-action">Voir la liste →</a>
+                </div>
+            </div>
+
         </div>
 
         <div class="admin-footer-actions" style="margin-top: 60px; padding: 40px 0; border-top: 1px solid rgba(197, 166, 124, 0.1); display: flex; justify-content: center;">

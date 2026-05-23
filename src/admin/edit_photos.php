@@ -1,22 +1,28 @@
 <?php
-require_once('includes/auth_check.php'); // Contient déjà session_start()
+// 1. EN PREMIER : Authentification et Base de données
+require_once('includes/auth_check.php'); // Contient session_start()
 require_once('../includes/db.php');
-include('../includes/header.php'); 
 
 $error = "";
 $page_filter = $_GET['page'] ?? 'home';
 $photos = [];
 
-// --- LOGIQUE D'UPLOAD AVEC SESSION ---
+// 2. LOGIQUE DE TRAITEMENT (Avant tout envoi de HTML pour que la redirection fonctionne)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image'])) {
     $id = $_POST['target_id'];
     $table = $_POST['target_table'];
     $file = $_FILES['new_image'];
     
+    // Définition dynamique du dossier
     $folder = ($table === 'avis') ? 'avis/' : (($page_filter === 'services') ? 'services/' : 'accueil/');
     $target_dir = "../assets/img/" . $folder;
     
-    $extension = pathinfo($file["name"], PATHINFO_EXTENSION);
+    // Sécurité : vérification/création du dossier
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0755, true);
+    }
+
+    $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
     $new_name = time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
     $target_file = $target_dir . $new_name;
 
@@ -26,17 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image'])) {
         
         $stmt = $pdo->prepare("UPDATE $table SET $column = ? WHERE id = ?");
         if ($stmt->execute([$db_path, $id])) {
-            // On stocke le message en session pour le système de pop-up
             $_SESSION['success'] = "Image mise à jour avec succès !";
             
-            // Redirection pour éviter le renvoi du formulaire et afficher la notif
-            header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . $page_filter);
+            // Redirection immédiate
+            header("Location: editeur.php?page=" . $page_filter);
             exit();
         }
+    } else {
+        $error = "Erreur lors du transfert du fichier.";
     }
 }
 
-// --- LOGIQUE DE RÉCUPÉRATION DES PHOTOS ---
+// 3. RÉCUPÉRATION DES DONNÉES (Pour l'affichage)
 if ($page_filter === 'home') {
     $types = "'home_interieur', 'home_exterieur', 'home_mobilier', 'home_meuble', 'home_meuble_close', 'home_meuble_open1', 'home_meuble_open2', 'home_meuble_open3'";
     $stmt = $pdo->prepare("SELECT id, image_url as url, type as label, 'images_projets' as origin FROM images_projets WHERE type IN ($types)");
@@ -52,7 +59,8 @@ if ($page_filter === 'home') {
     $stmt->execute();
     $photos = $stmt->fetchAll();
 } elseif ($page_filter === 'avis') {
-    $stmt = $pdo->prepare("SELECT id, image_url as url, type as label, 'images_projets' as origin FROM images_projets WHERE type IN ('avis_avant', 'avis_apres')");
+    // Inclusion de 'avis_hero' pour qu'il soit visible dans l'admin
+    $stmt = $pdo->prepare("SELECT id, image_url as url, type as label, 'images_projets' as origin FROM images_projets WHERE type IN ('avis_avant', 'avis_apres', 'avis_hero')");
     $stmt->execute();
     $photos = $stmt->fetchAll();
     
@@ -60,12 +68,14 @@ if ($page_filter === 'home') {
     $stmt2->execute();
     $photos = array_merge($photos, $stmt2->fetchAll());
 }
+
+// 4. DÉBUT DE L'AFFICHAGE HTML
+include('../includes/header.php'); 
 ?>
 
 <link rel="stylesheet" href="../css/admin.css">
 
 <main class="admin-main">
-    <!-- INCLUSION DU SYSTÈME DE NOTIFICATION GLOBAL[cite: 3] -->
     <?php include('includes/notifications.php'); ?>
 
     <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
@@ -74,7 +84,6 @@ if ($page_filter === 'home') {
             <a href="editeur.php" class="btn-gold" style="text-decoration:none; width:auto; padding:12px 25px;">← Editeur</a>
         </div>
 
-        <!-- Système de Filtres -->
         <nav class="filter-nav">
             <?php 
             $nav = ['home' => 'Accueil', 'services' => 'Services', 'atelier' => 'Atelier', 'avis' => 'Avis'];
@@ -85,7 +94,10 @@ if ($page_filter === 'home') {
             <?php endforeach; ?>
         </nav>
 
-        <!-- Grille d'images -->
+        <?php if (!empty($error)): ?>
+            <p style="color: #ff4d4d; margin-bottom: 20px;"><?= $error ?></p>
+        <?php endif; ?>
+
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
             <?php foreach($photos as $p): ?>
                 <div class="card-premium" style="padding: 15px;">
@@ -93,8 +105,8 @@ if ($page_filter === 'home') {
                         <?= strtoupper(str_replace(['home_', 'avis_'], '', $p['label'])) ?>
                     </span>
                     
-                    <div style="width: 100%; height: 160px; overflow: hidden; margin-bottom: 15px;">
-                        <img src="../<?= $p['url'] ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="width: 100%; height: 160px; overflow: hidden; margin-bottom: 15px; background: #1a1a1a;">
+                        <img src="../<?= $p['url'] ?>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../assets/img/placeholder.jpg';">
                     </div>
 
                     <form method="POST" enctype="multipart/form-data">

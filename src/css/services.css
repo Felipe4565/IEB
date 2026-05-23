@@ -442,6 +442,206 @@ background: linear-gradient(rgba(27, 32, 29, 0.8), rgba(27, 32, 29, 0.8)),
     margin: 0 auto;
 }
 
+/* --- MODAL LISTE PRIVÉE VIP --- */
+
+/* --- BOUTON VIP LUXE --- */
+.btn-submit-gold-full {
+    position: relative;
+    width: 100%;
+    background: #c5a67c;
+    color: #000;
+    border: none;
+    padding: 20px 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-submit-gold-full .btn-text {
+    z-index: 2;
+}
+
+.btn-submit-gold-full .btn-icon {
+    font-size: 0.7rem;
+    transition: transform 0.4s ease;
+    z-index: 2;
+}
+
+/* Effet Shimmer (Reflet blanc qui passe) */
+.btn-submit-gold-full .shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: none;
+}
+
+/* INTERACTIONS HOVER */
+.btn-submit-gold-full:hover {
+    background: #d4bc96; /* Or plus clair */
+    box-shadow: 0 10px 20px rgba(197, 166, 124, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-submit-gold-full:hover .shimmer {
+    left: 150%;
+    transition: all 0.8s ease-in-out;
+}
+
+.btn-submit-gold-full:hover .btn-icon {
+    transform: translateX(5px);
+}
+
+.btn-submit-gold-full:active {
+    transform: translateY(0);
+}
+
+/* État désactivé pendant l'envoi */
+.btn-submit-gold-full:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.vip-modal-container {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.vip-modal-container.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.vip-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+}
+
+.vip-modal-box {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+    background: #0d0e0a; /* Teinte Dark Wood */
+    border: 1px solid rgba(197, 166, 124, 0.3); /* Bordure Or subtile */
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    transform: translateY(30px);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 20px;
+}
+
+.vip-modal-container.active .vip-modal-box {
+    transform: translateY(0);
+}
+
+/* Bouton Fermer */
+.vip-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.vip-modal-close:hover { color: #c5a67c; }
+
+/* Contenu textuel */
+.vip-subtitle {
+    color: #c5a67c;
+    letter-spacing: 4px;
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.vip-modal-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.vip-modal-content p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+/* Formulaire */
+.vip-input-group {
+    margin-bottom: 20px;
+}
+
+.vip-input-group input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(197, 166, 124, 0.2);
+    padding: 18px 20px;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.vip-input-group input:focus {
+    outline: none;
+    border-color: #c5a67c;
+    background: rgba(197, 166, 124, 0.05);
+}
+
+/* Messages de retour */
+.vip-response-message {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.vip-response-message.success { color: #c5a67c; }
+.vip-response-message.error { color: #ff6b6b; }
+.vip-response-message.info { color: rgba(255,255,255,0.4); }
+
+/* Adaptation Mobile */
+@media (max-width: 576px) {
+    .vip-modal-box {
+        padding: 40px 20px;
+    }
+    .vip-modal-content h3 {
+        font-size: 1.7rem;
+    }
+}
+
 /* =========================================
    ADAPTATION MOBILE SERVICES (OPTIMISÉ)
    ========================================= */
