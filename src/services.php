@@ -136,15 +136,15 @@ include('includes/header.php');
                         <div class="expertise-lists">
                             <ul>
                                 <li><strong><?= $txt_ext_l1_h ?></strong></li>
-                                <li><?= $txt_ext_l1_i1 ?></li>
-                                <li><?= $txt_ext_l1_i2 ?></li>
-                                <li><?= $txt_ext_l1_i3 ?></li>
+                                <li><a href="realisations.php?filter=exterieur"><?= $txt_ext_l1_i1 ?></a></li>
+                                <li><a href="realisations.php?filter=exterieur"><?= $txt_ext_l1_i2 ?></a></li>
+                                <li><a href="realisations.php?filter=exterieur"><?= $txt_ext_l1_i3 ?></a></li>
                             </ul>
                             <ul>
                                 <li><strong><?= $txt_ext_l2_h ?></strong></li>
-                                <li><?= $txt_ext_l2_i1 ?></li>
-                                <li><?= $txt_ext_l2_i2 ?></li>
-                                <li><?= $txt_ext_l2_i3 ?></li>
+                                <li><a href="realisations.php?filter=exterieur"><?= $txt_ext_l2_i1 ?></a></li>
+                                <li><a href="realisations.php?filter=exterieur"><?= $txt_ext_l2_i2 ?></a></li>
+                                <li><a href="realisations.php?filter=exterieur"><?= $txt_ext_l2_i3 ?></a></li>
                             </ul>
                         </div>
                     </div>
@@ -164,15 +164,15 @@ include('includes/header.php');
                         <div class="expertise-lists">
                             <ul>
                                 <li><strong><?= $txt_int_l1_h ?></strong></li>
-                                <li><?= $txt_int_l1_i1 ?></li>
-                                <li><?= $txt_int_l1_i2 ?></li>
-                                <li><?= $txt_int_l1_i3 ?></li>
+                                <li><a href="realisations.php?filter=interieur"><?= $txt_int_l1_i1 ?></a></li>
+                                <li><a href="realisations.php?filter=interieur"><?= $txt_int_l1_i2 ?></a></li>
+                                <li><a href="realisations.php?filter=interieur"><?= $txt_int_l1_i3 ?></a></li>
                             </ul>
                             <ul>
                                 <li><strong><?= $txt_int_l2_h ?></strong></li>
-                                <li><?= $txt_int_l2_i1 ?></li>
-                                <li><?= $txt_int_l2_i2 ?></li>
-                                <li><?= $txt_int_l2_i3 ?></li>
+                                <li><a href="realisations.php?filter=interieur"><?= $txt_int_l2_i1 ?></a></li>
+                                <li><a href="realisations.php?filter=interieur"><?= $txt_int_l2_i2 ?></a></li>
+                                <li><a href="realisations.php?filter=interieur"><?= $txt_int_l2_i3 ?></a></li>
                             </ul>
                         </div>
                     </div>
@@ -212,19 +212,33 @@ include('includes/header.php');
         <div class="vip-modal-overlay"></div>
         <div class="vip-modal-box">
             <button class="vip-modal-close" aria-label="Fermer">&times;</button>
+            
             <div class="vip-modal-content">
                 <span class="vip-subtitle">ACCÈS PRIVILÈGE</span>
                 <h3>Rejoindre la Liste Privée</h3>
                 <p>Le Showroom IEB ouvrira prochainement ses portes. Inscrivez-vous pour recevoir votre invitation personnelle et bénéficier d'un <strong>accès exclusif 48h</strong> avant l'ouverture officielle.</p>
+                
                 <form id="vip-showroom-form">
                     <div class="vip-input-group">
                         <input type="email" id="vip-email" name="email" placeholder="Votre adresse email" required>
                     </div>
-                        <button type="submit" class="btn-submit-gold-full">
-                            <span class="btn-text">RÉSERVER MON INVITATION</span>
-                            <span class="btn-icon"><i class="fas fa-chevron-right"></i></span>
-                            <div class="shimmer"></div>
-                        </button>
+
+                    <div class="rgpd-container" style="text-align: left; margin-bottom: 25px;">
+                        <label class="rgpd-label" style="display: flex; align-items: flex-start; cursor: pointer; gap: 12px;">
+                            <input type="checkbox" name="rgpd_consent" id="rgpd_consent" required style="margin-top: 5px; accent-color: #c5a67c;">
+                            <span style="color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.4;">
+                                J'accepte que mes données soient collectées pour être recontacté. 
+                                Consultez notre <a href="politique-confidentialite.php" target="_blank" style="color: #c5a67c; text-decoration: underline;">Politique de Confidentialité</a>.
+                            </span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit-gold-full">
+                        <span class="btn-text">RÉSERVER MON INVITATION</span>
+                        <span class="btn-icon"><i class="fas fa-chevron-right"></i></span>
+                        <div class="shimmer"></div>
+                    </button>
+
                     <div id="vip-form-response" class="vip-response-message"></div>
                 </form>
             </div>
@@ -235,41 +249,63 @@ include('includes/header.php');
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('vip-modal');
-    const openBtn = document.getElementById('open-vip-modal');
+    const openBtn = document.getElementById('open-vip-modal'); // Assure-toi que ton bouton d'ouverture a cet ID
     const closeBtn = document.querySelector('.vip-modal-close');
     const overlay = document.querySelector('.vip-modal-overlay');
     const form = document.getElementById('vip-showroom-form');
     const responseMsg = document.getElementById('vip-form-response');
 
+    // 1. Ouverture du modal
     if(openBtn) {
         openBtn.addEventListener('click', function(e) {
             e.preventDefault();
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Bloque le scroll derrière
         });
     }
 
+    // 2. Fermeture du modal
     function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
         form.reset();
         responseMsg.className = 'vip-response-message';
         responseMsg.textContent = '';
+        
+        // Réafficher les éléments au cas où ils étaient cachés par un succès précédent
+        form.querySelectorAll('.vip-input-group, .rgpd-container, .btn-submit-gold-full').forEach(el => {
+            el.style.display = '';
+        });
     }
 
     if(closeBtn) closeBtn.addEventListener('click', closeModal);
     if(overlay) overlay.addEventListener('click', closeModal);
 
+    // 3. Gestion de la soumission du formulaire
     if(form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const emailValue = document.getElementById('vip-email').value;
+            const rgpdConsent = document.getElementById('rgpd_consent');
+
+            // Vérification sécurité RGPD (en plus du 'required' HTML)
+            if(!rgpdConsent.checked) {
+                responseMsg.textContent = "Veuillez accepter les conditions pour continuer.";
+                responseMsg.className = "vip-response-message error";
+                return;
+            }
+
+            // Préparation des données
             const formData = new FormData();
             formData.append('email', emailValue);
+            formData.append('rgpd_consent', 'OUI'); // Preuve de consentement transmise au PHP
 
+            // UI Feedback
             responseMsg.textContent = "Traitement en cours...";
             responseMsg.className = "vip-response-message info";
 
+            // Envoi AJAX
             fetch('ajax_showroom_lead.php', {
                 method: 'POST',
                 body: formData
@@ -279,8 +315,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data.success) {
                     responseMsg.className = "vip-response-message success";
                     responseMsg.textContent = data.message;
+                    
+                    // Cacher les champs pour confirmer le succès
                     form.querySelector('.vip-input-group').style.display = 'none';
-                    form.querySelector('button[type="submit"]').style.display = 'none';
+                    form.querySelector('.rgpd-container').style.display = 'none';
+                    form.querySelector('.btn-submit-gold-full').style.display = 'none';
                 } else {
                     responseMsg.className = "vip-response-message error";
                     responseMsg.textContent = data.message;
@@ -289,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => {
                 responseMsg.className = "vip-response-message error";
                 responseMsg.textContent = "Erreur de connexion au serveur.";
+                console.error('Error:', error);
             });
         });
     }

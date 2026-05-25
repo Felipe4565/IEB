@@ -271,6 +271,15 @@ textarea::-webkit-input-placeholder {
     line-height: 1.6;
 }
 
+/* Réduire la taille de la checkbox RGPD */
+#rgpd_consent, #rgpd_consent_devis {
+    width: 14px !important;  /* Ajuste selon ton goût */
+    height: 14px !important;
+    cursor: pointer;
+    margin-top: 3px; /* Pour bien l'aligner avec la première ligne de texte */
+    flex-shrink: 0;  /* Empêche la case de s'écraser si le texte est long */
+}
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 992px) {

@@ -180,6 +180,16 @@ include('includes/header.php');
                         <input type="text" name="sujet" placeholder="Sujet de votre message" required>
                         <textarea name="message" rows="4" placeholder="Décrivez votre projet..." required></textarea>
                         
+                         <div class="rgpd-container" style="text-align: left; margin: 15px 0 25px 0;">
+                            <label style="display: flex; align-items: flex-start; cursor: pointer; gap: 10px;">
+                                <input type="checkbox" name="rgpd_consent" id="rgpd_contact" required class="custom-rgpd-checkbox">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 0.8rem; line-height: 1.4;">
+                                    J'accepte que mes données soient traitées pour répondre à ma demande. 
+                                    Consultez notre <a href="politique-confidentialite.php" target="_blank" style="color: #C5A67C; text-decoration: underline;">Politique de Confidentialité</a>.
+                                </span>
+                            </label>
+                        </div>
+
                         <button type="submit" class="btn-gold">Envoyer le message</button>
                     </form>
                 </div>

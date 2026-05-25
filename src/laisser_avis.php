@@ -62,6 +62,7 @@
                 </div>
 
                 <div class="file-upload" id="drop-zone">
+                <div class="file-upload" id="drop-zone">
                     <label for="photo-chantier" class="file-label">
                         <div class="upload-icon">
                             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -69,9 +70,20 @@
                         <span class="text" id="file-label-text">Ajoutez une ou plusieurs photos de votre projet</span>
                     </label>
                     <input type="file" id="photo-chantier" name="photos[]" accept="image/*" multiple style="display:none;">
-                    
                     <div id="thumbnails-container" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; justify-content: center;"></div>
                 </div>
+
+                <div class="rgpd-container" style="text-align: left; margin: 25px 0;">
+                    <label style="display: flex; align-items: flex-start; cursor: pointer; gap: 12px;">
+                        <input type="checkbox" name="rgpd_consent" id="rgpd_avis" required class="custom-rgpd-checkbox">
+                        <span style="color: rgba(255,255,255,0.6); font-size: 0.8rem; line-height: 1.4;">
+                            J'autorise IEB à publier mon témoignage et les photos associées sur son site internet. 
+                            Consultez notre <a href="politique-confidentialite.php" target="_blank" style="color: #C5A67C; text-decoration: underline;">Politique de Confidentialité</a>.
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit-gold" id="submit-btn">Publier mon avis</button>
 
                 <button type="submit" class="btn-submit-gold" id="submit-btn">Publier mon avis</button>
             </form>
@@ -192,32 +204,31 @@ document.addEventListener('DOMContentLoaded', function() {
         labelText.innerText = count > 0 ? `${count} photo(s) prête(s) (Ajouter +)` : "Ajoutez une ou plusieurs photos";
     }
 
-    // 7. VALIDATION FINALE
+    // 7. VALIDATION FINALE (Mise à jour avec RGPD)
     form.addEventListener('submit', function(e) {
         let errors = [];
+        const rgpdCheck = document.getElementById('rgpd_avis');
+
+        // Vérifications classiques
         if (!document.querySelector('input[name="rating"]:checked')) errors.push("Note");
         if (nomInput.value.trim() === "") errors.push("Nom");
         if (!hiddenInput.value) errors.push("Réalisation");
         if (messageInput.value.trim() === "") errors.push("Message");
+        
+        // Vérification RGPD
+        if (rgpdCheck && !rgpdCheck.checked) {
+            errors.push("Acceptation des conditions (RGPD)");
+        }
 
         if (errors.length > 0) {
             e.preventDefault();
-            alert("Champs manquants : " + errors.join(", "));
+            alert("Veuillez compléter les points suivants : \n- " + errors.join("\n- "));
             return false;
         }
 
         submitBtn.classList.add('sending');
-        submitBtn.innerText = "Envoi en cours...";
+        submitBtn.innerText = "Publication en cours...";
     });
-
-    // 8. DRAG & DROP
-    ['dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, e => {
-            e.preventDefault();
-            dropZone.style.background = (eventName === 'dragover') ? "rgba(197, 160, 89, 0.1)" : "transparent";
-        });
-    });
-});
 </script>
 
 <?php include('includes/footer.php'); ?>

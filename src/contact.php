@@ -97,22 +97,31 @@ include('includes/header.php');
                     </div>
                 </div>
 
-                <div class="form-step" id="step-3">
-                    <p class="label-gold">Étape 3 : Vos Préférences</p>
-                    
-                    <div class="input-group">
-                        <input type="text" name="echeance" placeholder="ÉCHÉANCE SOUHAITÉE (EX: SEPTEMBRE 2024)" required>
-                    </div>
-
-                    <div class="info-note">
-                        <p>Une réponse détaillée vous sera adressée sous 48h par l'un de nos artisans experts.</p>
-                    </div>
-
-                    <div class="step-actions dual">
-                        <button type="button" class="btn-back" onclick="changeStep(2)">RETOUR</button>
-                        <button type="submit" class="btn-submit-gold">ENVOYER LA DEMANDE</button>
-                    </div>
+            <div class="form-step" id="step-3">
+                <p class="label-gold">Étape 3 : Vos Préférences</p>
+                
+                <div class="input-group">
+                    <input type="text" name="echeance" placeholder="ÉCHÉANCE SOUHAITÉE (EX: SEPTEMBRE 2024)" required>
                 </div>
+
+                <div class="rgpd-container" style="text-align: left; margin: 30px 0;">
+                    <label style="display: flex; align-items: flex-start; cursor: pointer; gap: 12px;">
+                        <input type="checkbox" id="rgpd_consent_devis" name="rgpd_consent" required style="margin-top: 4px; accent-color: #c5a67c; width: 14px; height: 14px; transform: scale(0.9); cursor: pointer;">                        <span style="color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.4;">
+                            En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées par IEB dans le cadre de ma demande de devis et de la relation commerciale qui peut en découler. 
+                            Consultez notre <a href="politique-confidentialite.php" target="_blank" style="color: #c5a67c; text-decoration: underline;">Politique de Confidentialité</a>.
+                        </span>
+                    </label>
+                </div>
+
+                <div class="info-note">
+                    <p>Une réponse détaillée vous sera adressée sous 48h par l'un de nos artisans experts.</p>
+                </div>
+
+                <div class="step-actions dual">
+                    <button type="button" class="btn-back" onclick="changeStep(2)">RETOUR</button>
+                    <button type="submit" class="btn-submit-gold">ENVOYER LA DEMANDE</button>
+                </div>
+            </div>
 
             </form>
         </div>
@@ -226,6 +235,26 @@ include('includes/header.php');
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('multiStepForm');
+        
+        if(form) {
+            form.addEventListener('submit', function(e) {
+                // On récupère la checkbox RGPD par son ID (assure-toi qu'il correspond à ton HTML)
+                const rgpdCheck = document.getElementById('rgpd_consent_devis');
+                
+                if (rgpdCheck && !rgpdCheck.checked) {
+                    e.preventDefault(); // On bloque l'envoi
+                    alert("Veuillez accepter la politique de confidentialité pour envoyer votre demande.");
+                    return false;
+                }
+                
+                // Si OK, le formulaire s'envoie normalement vers process.php
+                console.log("Formulaire valide, envoi en cours...");
+            });
+        }
+    });
 </script>
 
 <?php include('includes/footer.php'); ?>

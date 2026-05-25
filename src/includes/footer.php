@@ -68,6 +68,7 @@ $img_open3 = $meuble_images['home_meuble_open3'] ?? $base_path . 'assets/img/acc
                         <li><a href="<?php echo $base_path; ?>admin/login.php">Espace Pro</a></li>
                     </ul>
                     <ul class="clean-list">
+                        <li><a href="<?php echo $base_path; ?>politique-confidentialite.php">Politique de Confidentialité</a></li>
                         <li><a href="<?php echo $base_path; ?>contact.php">Devis gratuit</a></li>
                         <li><a href="<?php echo $base_path; ?>mentions_legales.php">Légal</a></li>
                         <li><a href="<?php echo $base_path; ?>cgv.php">CGV</a></li>

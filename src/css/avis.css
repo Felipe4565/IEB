@@ -15,155 +15,175 @@
 .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
 /* ==========================================================================
-   SECTION HERO AVIS - DESIGN LUXE ULTIME (IEB)
+   SECTION HERO AVIS - SIGNATURE ÉPURÉE (CORRIGÉE & ÉLÉGANTE)
    ========================================================================== */
-
-:root {
-    --gold-ieb: #C5A059;
-    --gold-light: #e2c997;
-    --dark-deep: #0A0A0A;
-    --white: #FFFFFF;
-}
 
 .hero-score {
     position: relative;
-    min-height: 100vh; /* Pour occuper l'écran comme sur l'image */
+    min-height: 90vh; 
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 100px 0;
+    padding: 160px 0 100px;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Effet parallaxe */
-    overflow: hidden;
+    background-attachment: fixed;
+    overflow: visible; /* Changé de hidden à visible pour ne plus couper le texte */
 }
 
-/* Overlay pour assurer la lisibilité tout en voyant le décor */
+/* Overlay optimisé pour le contraste sur image claire */
 .hero-score::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(180deg, 
-        rgba(0, 0, 0, 0.6) 0%, 
-        rgba(10, 10, 10, 0.4) 50%, 
-        rgba(10, 10, 10, 0.8) 100%);
+        rgba(0, 0, 0, 0.7) 0%,   
+        rgba(10, 10, 10, 0.2) 50%, 
+        rgba(10, 10, 10, 0.85) 100%);
     z-index: 1;
 }
 
 .hero-score .container {
     position: relative;
     z-index: 2;
-    max-width: 1100px;
-    padding: 0 20px;
+    max-width: 1200px;
 }
 
 /* TITRE PRINCIPAL */
 .main-hero-title {
     font-family: 'Playfair Display', serif;
     color: var(--white);
-    font-size: clamp(1.8rem, 4vw, 3.2rem);
-    letter-spacing: 10px; /* Très espacé pour le luxe */
+    font-size: clamp(2rem, 5vw, 3.8rem); 
+    letter-spacing: 12px; 
     text-transform: uppercase;
     font-weight: 400;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     line-height: 1.2;
-    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
 }
 
-/* SOUS-TITRE (Tagline Or) */
+/* SOUS-TITRE */
 .hero-subtitle {
     font-family: 'Playfair Display', serif;
     color: var(--gold-ieb);
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
-    letter-spacing: 5px;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    letter-spacing: 6px;
     text-transform: uppercase;
-    font-weight: 400;
     margin-bottom: 40px;
     display: block;
-}
-
-/* LE CHIFFRE 5.0 */
-.score-number {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(8rem, 20vw, 14rem); /* Taille massive */
-    font-weight: 400;
-    line-height: 0.85;
-    margin: 10px 0;
-    /* Dégradé vertical Blanc vers Or comme sur l'image */
-    background: linear-gradient(180deg, #FFFFFF 40%, var(--gold-ieb) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
-    display: block;
-}
-
-/* ÉTOILES */
-.stars-row.unifie {
-    color: var(--gold-ieb);
-    font-size: 1.2rem;
-    letter-spacing: 15px; /* Écartement précis */
-    margin: 20px 0 45px;
     opacity: 0.9;
 }
 
-/* BADGE GOOGLE (Le bouton pilule) */
+/* --- LE SCORE "SIGNATURE" (CORRECTIF CHIFFRE COUPÉ) --- */
+.score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(6rem, 15vw, 9rem); /* Taille plus chic et moins écrasante */
+    font-weight: 400;
+    line-height: 1.2; /* Augmenté pour éviter que le bas ne soit coupé */
+    margin: 0;
+    color: #f4f1ea; /* Blanc cassé soyeux pour la visibilité */
+    position: relative;
+    display: inline-block;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+}
+
+/* Lignes dorées fines de prestige au-dessus et en-dessous */
+.score-number::before,
+.score-number::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: var(--gold-ieb);
+    opacity: 0.5;
+}
+.score-number::before { top: 0; }
+.score-number::after { bottom: 5px; }
+
+/* ÉTOILES : Plus fines et aérées */
+.stars-row.unifie {
+    color: var(--gold-ieb);
+    font-size: 1rem;
+    letter-spacing: 15px;
+    margin: 15px 0 35px;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+}
+
+/* LE BADGE GOOGLE (Format Pilule Raffiné) */
 .google-badge-link {
     text-decoration: none !important;
     display: inline-flex;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .google-badge {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 12px 30px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    gap: 12px;
+    padding: 8px 24px;
+    border: 1px solid rgba(197, 160, 89, 0.3);
     border-radius: 50px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(10, 10, 10, 0.5);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: all 0.4s ease;
 }
 
+.google-badge:hover {
+    border-color: var(--gold-ieb);
+    background: rgba(197, 160, 89, 0.1);
+}
+
 .google-badge img {
-    width: 18px;
-    height: auto;
+    width: 15px;
+    height: 15px;
 }
 
 .google-badge span {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 1.5px;
-    color: var(--white);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: #FFFFFF;
     text-transform: uppercase;
 }
 
-.google-badge strong {
-    color: var(--white);
-    font-weight: 700;
-    margin-left: 5px;
-}
-
-/* PHRASE FINALE (Italique bas) */
+/* PHRASE FINALE (Effet Galerie) */
 .hero-tagline {
     font-family: 'Montserrat', sans-serif;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-    font-style: italic;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    font-style: normal;
     font-weight: 300;
-    letter-spacing: 1.5px;
-    max-width: 700px;
-    margin: 20px auto 0;
+    letter-spacing: 5px; /* Très aéré pour le luxe */
+    text-transform: uppercase;
+    max-width: 800px;
+    margin: 60px auto 0;
 }
 
-/* INTERACTIONS */
-.google-badge:hover {
-    border-color: var(--gold-ieb);
-    background: rgba(197, 160, 89, 0.1);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .hero-score {
+        min-height: 75vh;
+        padding: 120px 0 60px;
+    }
+    .main-hero-title {
+        font-size: 1.8rem;
+        letter-spacing: 6px;
+    }
+    .score-number {
+        font-size: 5rem;
+    }
+    .score-number::before, .score-number::after {
+        width: 50px;
+    }
+    .hero-tagline {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        margin-top: 40px;
+    }
 }
 
 /* --- SECTION AVANT/APRÈS (Harmonisation) --- */
@@ -439,16 +459,29 @@
     }
 
     .google-badge {
-        padding: 10px 20px;
-        flex-wrap: nowrap; /* Garde l'icône et le texte alignés */
-        gap: 10px;
+        display: flex;
+        align-items: center;    /* Centre verticalement */
         justify-content: center;
+        gap: 10px;              /* Espace entre le logo et le texte */
+        padding: 8px 24px;
+        border: 1px solid rgba(197, 160, 89, 0.3);
+        border-radius: 50px;
+        background: rgba(10, 10, 10, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 
     .google-badge span {
         font-size: 0.7rem; /* Plus petit pour tenir sur une ligne */
         white-space: normal; /* Permet le retour à la ligne si vraiment trop étroit */
         text-align: left;
+    }
+
+    .google-badge img {
+    height: 18px;          /* On fixe la hauteur pour l'aligner au texte */
+    width: auto;            /* La largeur s'adapte toute seule pour garder le ratio */
+    object-fit: contain;    /* Sécurité pour éviter toute déformation */
+    display: block;
     }
 
     /* 3. SUPPRESSION TOTALE DE LA SECTION MÉTAMORPHOSE */

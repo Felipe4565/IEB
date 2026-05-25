@@ -642,6 +642,35 @@ background: linear-gradient(rgba(27, 32, 29, 0.8), rgba(27, 32, 29, 0.8)),
     }
 }
 
+
+.expertise-ieb .expertise-lists ul li a, 
+.expertise-ieb .expertise-lists ul li a:link, 
+.expertise-ieb .expertise-lists ul li a:visited,
+.expertise-ieb .expertise-lists ul li a:active {
+    text-decoration: none !important;
+    color: #ffffff !important; /* Force le blanc pur */
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* État au survol : on passe au doré */
+.expertise-ieb .expertise-lists ul li a:hover {
+    color: #c5a67c !important; /* Votre variable --gold en dur pour être sûr */
+    opacity: 1 !important;
+    transform: translateX(5px);
+}
+
+/* Style des titres de catégories (non cliquables) */
+.expertise-ieb .expertise-lists ul li strong {
+    color: #c5a67c !important;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
 /* =========================================
    ADAPTATION MOBILE SERVICES (OPTIMISÉ)
    ========================================= */

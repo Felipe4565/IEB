@@ -1,0 +1,134 @@
+/* --- Section Politique de Confidentialité --- */
+.legal-section {
+    padding: 150px 0 100px; /* Plus d'espace pour laisser respirer le luxe */
+    background-color: #0d0e0a;
+    color: rgba(244, 241, 234, 0.9); /* Blanc cassé plus lisible */
+    line-height: 1.9;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ajout d'un léger voile de lumière en arrière-plan */
+.legal-section::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(197, 166, 124, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.legal-container {
+    max-width: 850px; /* Un peu plus étroit pour une meilleure lecture */
+    margin: 0 auto;
+    padding: 0 25px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Titre Principal */
+.legal-section h1 {
+    font-family: 'Playfair Display', serif;
+    color: #c5a67c;
+    font-size: clamp(2.5rem, 5vw, 3.8rem); /* Fluide selon l'écran */
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: -1px;
+}
+
+/* Petite ligne dorée sous le H1 */
+.legal-section h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #c5a67c;
+    margin: 25px auto 50px;
+}
+
+/* Sous-titres */
+.legal-section h2 {
+    font-family: 'Playfair Display', serif;
+    color: #c5a67c;
+    font-size: 1.8rem;
+    margin-top: 60px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Ligne élégante à côté du H2 */
+.legal-section h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(197, 166, 124, 0.3), transparent);
+}
+
+.legal-section p {
+    margin-bottom: 25px;
+    font-weight: 300;
+    font-size: 1.05rem;
+    letter-spacing: 0.2px;
+}
+
+/* Listes stylisées */
+.legal-section ul {
+    margin: 30px 0;
+    padding-left: 5px;
+}
+
+.legal-section ul li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+/* Puce personnalisée (petit losange doré) */
+.legal-section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    background: #c5a67c;
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px rgba(197, 166, 124, 0.5);
+}
+
+/* Box Gold (Carton d'information) */
+.gold-box {
+    border: 1px solid rgba(197, 166, 124, 0.3);
+    padding: 40px;
+    margin: 50px 0;
+    background: linear-gradient(135deg, rgba(197, 166, 124, 0.03) 0%, rgba(197, 166, 124, 0.08) 100%);
+    backdrop-filter: blur(5px);
+    border-radius: 2px;
+    position: relative;
+}
+
+/* Liens dans le texte */
+.legal-section a {
+    color: #c5a67c;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.legal-section a:hover {
+    border-bottom: 1px solid #c5a67c;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .legal-section { padding: 100px 0 60px; }
+    .legal-section h2 { font-size: 1.5rem; }
+    .gold-box { padding: 25px; }
+}

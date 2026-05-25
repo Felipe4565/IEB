@@ -219,16 +219,18 @@ body {
     transition: all 0.3s ease;
 }
 
-.btn-more:hover {
-    background: var(--text-gold);
-    color: #0d0e0a; /* Le texte passe en noir/sombre pour être lisible sur le fond gold */
-    border-color: var(--text-gold);
-    box-shadow: 0 5px 15px rgba(197, 166, 124, 0.2); /* Légère lueur dorée */
-}
+@media (hover: hover) {
+    .btn-more:hover {
+        background: var(--text-gold);
+        color: #0d0e0a; /* Le texte passe en noir/sombre pour être lisible sur le fond gold */
+        border-color: var(--text-gold);
+        box-shadow: 0 5px 15px rgba(197, 166, 124, 0.2); /* Légère lueur dorée */
+    }
 
-/* Hover sur la carte */
-.card:hover img {
-    transform: scale(1.05);
+    /* Hover sur la carte */
+    .card:hover img {
+        transform: scale(1.05);
+    }
 }
 
 /* --- Transition Douce Footer --- */
