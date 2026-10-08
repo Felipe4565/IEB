@@ -28,7 +28,7 @@ $sections_privacy = [
     ],
     [
         "titre" => "CONTACT RESPONSABLE", 
-        "texte" => "Pour toute question concernant vos données ou pour exercer vos droits, vous pouvez nous contacter directement par email à : [TON_EMAIL] ou par courrier postal à l'adresse de notre atelier."
+        "texte" => "Pour toute question concernant vos données ou pour exercer vos droits, vous pouvez nous contacter directement par email à : felialvariza@gmail.com."
     ]
 ];
 ?>

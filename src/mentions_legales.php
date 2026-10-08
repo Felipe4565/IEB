@@ -5,13 +5,13 @@
 $sections_legales = [
     [
         "titre" => "INFORMATIONS GÉNÉRALES",
-        "sous_titre" => "Nom de l'entreprise : IEB Intérieur Bois",
-        "texte" => "Adresse de l'Intérieur Bois<br>77340 PONTAULT-COMBAULT<br>Capital : 2 200 000,09€<br>SIRET : XXX XXX XXX XXXXX",
+        "sous_titre" => "Nom de l'entreprise : IEB Intérieur Extérieur Bois",
+        "texte" => "Adresse de l'Intérieur Extérieur Bois<br>77340 PONTAULT-COMBAULT<br>Capital : 2 200 000,09€<br>SIRET : 437 635 154 00028",
     ],
     [
         "titre" => "RESPONSABLE DE LA PUBLICATION",
-        "sous_titre" => "Marc-Antoine - Gérant",
-        "texte" => "Pour toute question relative au site : contact@ieb-interieurbois.fr<br>Téléphone : 06 31 09 66 22",
+        "sous_titre" => "Freddy Léonardo Alvariza, Gérant de IEB",
+        "texte" => "Pour toute question relative au site : felialvariza@gmail.com<br>Téléphone : 07 70 29 30 33",
     ],
     [
         "titre" => "HÉBERGEMENT",

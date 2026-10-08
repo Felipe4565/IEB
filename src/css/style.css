@@ -816,7 +816,7 @@ html, body {
 
 @media (max-width: 992px) {
     
-    /* 1. Suppression du Meuble Interactif (Trop complexe sur mobile) */
+    /* 1. Suppression du Meuble Interactif (Trop complexe sur mobile */
     .furniture-experience {
         display: none !important;
     }
@@ -839,7 +839,7 @@ html, body {
     }
 
     .hero-btns {
-        flex-direction: column; /* On empile les boutons */
+        flex-direction: column; 
         gap: 15px;
     }
 
