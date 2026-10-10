@@ -9,3 +9,7 @@ mysql_data/
 # Logs et temporaires
 *.log
 .vscode/
+
+.env
+*.sql
+src/includes/config.local.php

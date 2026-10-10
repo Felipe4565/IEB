@@ -1,25 +1,29 @@
 <?php
-if ($_SERVER['HTTP_HOST'] !== 'localhost' && $_SERVER['HTTP_HOST'] !== '127.0.0.1') {
-    ini_set('display_errors', 0);
-    ini_set('log_errors', 1);
-} else {
-    ini_set('display_errors', 1);
-}
+$env = getenv('APP_ENV') ?: 'production';
+ini_set('display_errors', $env === 'local' ? '1' : '0');
+ini_set('log_errors', '1');
 
-$host = "db";
-$dbname = "ieb_site";
-$user = "root";
-$password = "root_password";
+// Config pour l'hébergement mutualisé (fichier NON versionné)
+$local = __DIR__ . '/config.local.php';
+$cfg = file_exists($local) ? require $local : [];
+
+$host     = getenv('DB_HOST')     ?: ($cfg['host'] ?? 'localhost');
+$dbname   = getenv('DB_NAME')     ?: ($cfg['name'] ?? '');
+$user     = getenv('DB_USER')     ?: ($cfg['user'] ?? '');
+$password = getenv('DB_PASSWORD') ?: ($cfg['pass'] ?? '');
 
 try {
-    // Connexion avec charset sécurisé
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $user,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+    );
 } catch (PDOException $e) {
-
     error_log("Erreur de connexion DB : " . $e->getMessage());
-    
-    // 2. On affiche un message propre et pro au client
+    http_response_code(500);
     die("Une erreur technique est survenue. Veuillez réessayer plus tard.");
 }
