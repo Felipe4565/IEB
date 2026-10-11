@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/includes/session.php';
 require_once 'includes/db.php'; // Assurez-vous que le chemin est correct
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

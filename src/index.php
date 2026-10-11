@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/includes/session.php';
 require_once('includes/db.php');
 
 $query_img = $pdo->query("SELECT image_url, type FROM images_projets WHERE type LIKE 'home_%'");
@@ -166,14 +166,14 @@ include('includes/header.php');
                     
                     <?php if (isset($_SESSION['success_contact'])): ?>
                         <div style="background: rgba(197, 164, 126, 0.1); border: 1px solid #C5A059; color: #C5A059; padding: 15px; margin-bottom: 20px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.9rem;">
-                            <?= $_SESSION['success_contact']; unset($_SESSION['success_contact']); ?>
+                            <?= htmlspecialchars($_SESSION['success_contact']); unset($_SESSION['success_contact']); ?>
                         </div>
                     <?php endif; ?>
 
                     <form class="premium-dark-form" action="process_contact.php" method="POST">
-                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                        <?= csrf_field() ?>
                         <div style="display:none;">
-                            <input type="text" name="hp_field_verify" autocomplete="off">
+                            <input type="text" name="hp_check_url" autocomplete="off">
                         </div>
                         <input type="text" name="nom" placeholder="Votre Nom" required>
                         <input type="email" name="email" placeholder="Votre Email" required>
