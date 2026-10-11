@@ -1,61 +1,69 @@
 <?php
 require_once('includes/auth_check.php'); // Assure le démarrage de la session et la protection
 require_once('../includes/db.php');
+require_once('../includes/upload.php');
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $stmt = $pdo->prepare("SELECT * FROM equipe WHERE id = ?");
 $stmt->execute([$id]);
 $m = $stmt->fetch();
 
-if (!$m) { 
+if (!$m) {
     $_SESSION['error'] = "Ce membre est introuvable.";
-    header('Location: equipe.php'); 
-    exit(); 
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $prenom = $_POST['prenom'];
-    $nom = $_POST['nom'];
-    $poste = $_POST['poste'];
-    $description = $_POST['description'];
-    $statut = $_POST['statut'];
-    $photo_path = $m['photo']; // On garde l'ancienne par défaut
-
-    // Gestion d'une nouvelle photo
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
-        $upload_dir = '../assets/img/equipe/';
-        $extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-        $filename = strtolower($prenom . '-' . $nom) . '-' . uniqid() . '.' . $extension;
-        $target = $upload_dir . $filename;
-
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-            // Supprimer l'ancienne photo si elle existe et n'est pas celle par défaut
-            if ($m['photo'] && $m['photo'] != 'assets/img/equipe/default.jpg') {
-                $old_file = '../' . $m['photo'];
-                if (file_exists($old_file)) unlink($old_file);
-            }
-            $photo_path = 'assets/img/equipe/' . $filename;
-        }
-    }
-
-    $sql = "UPDATE equipe SET prenom = ?, nom = ?, poste = ?, description = ?, photo = ?, statut = ? WHERE id = ?";
-    $stmt_update = $pdo->prepare($sql);
-    
-    // TENTATIVE D'EXÉCUTION ET NOTIFICATION POUR LE POP-UP
-    if ($stmt_update->execute([$prenom, $nom, $poste, $description, $photo_path, $statut, $id])) {
-        $_SESSION['success'] = "Le profil de " . htmlspecialchars($prenom) . " " . htmlspecialchars($nom) . " a été mis à jour.";
-    } else {
-        $_SESSION['error'] = "Une erreur est survenue lors de la mise à jour.";
-    }
-        
     header('Location: equipe.php');
     exit();
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $prenom      = trim($_POST['prenom'] ?? '');
+    $nom         = trim($_POST['nom'] ?? '');
+    $poste       = trim($_POST['poste'] ?? '');
+    $description = $_POST['description'] ?? '';
+    $statut      = in_array($_POST['statut'] ?? '', ['actif', 'brouillon'], true) ? $_POST['statut'] : $m['statut'];
+    $photo_path  = $m['photo']; // On garde l'ancienne par défaut
+
+    if ($prenom === '' || $nom === '' || $poste === '') {
+        $_SESSION['error'] = "Prénom, nom et poste sont obligatoires.";
+        header('Location: edit_membre.php?id=' . $id);
+        exit();
+    }
+
+    // Gestion d'une nouvelle photo (validée)
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $saved = save_image($_FILES['photo'], __DIR__ . '/../assets/img/equipe/', 'membre-');
+        if ($saved === null) {
+            $_SESSION['error'] = "Photo invalide (JPG, PNG ou WebP, 5 Mo max).";
+            header('Location: edit_membre.php?id=' . $id);
+            exit();
+        }
+        // Supprimer l'ancienne photo si elle existe et n'est pas celle par défaut
+        if ($m['photo'] && $m['photo'] != 'assets/img/equipe/default.jpg') {
+            $old_file = __DIR__ . '/../' . $m['photo'];
+            if (is_file($old_file)) unlink($old_file);
+        }
+        $photo_path = 'assets/img/equipe/' . $saved;
+    }
+
+    $sql = "UPDATE equipe SET prenom = ?, nom = ?, poste = ?, description = ?, photo = ?, statut = ? WHERE id = ?";
+    try {
+        $pdo->prepare($sql)->execute([$prenom, $nom, $poste, $description, $photo_path, $statut, $id]);
+        $_SESSION['success'] = "Le profil de " . $prenom . " " . $nom . " a été mis à jour.";
+    } catch (PDOException $e) {
+        error_log('edit_membre : ' . $e->getMessage());
+        $_SESSION['error'] = "Une erreur est survenue lors de la mise à jour.";
+    }
+
+    header('Location: equipe.php');
+    exit();
+}
+
+include('../includes/header.php');
 ?>
 
 <link rel="stylesheet" href="../css/admin.css">
 
 <main class="admin-main">
+    <?php include('includes/notifications.php'); ?>
     <div class="container" style="max-width: 900px;">
         <header style="margin-bottom: 40px; border-bottom: 1px solid rgba(197, 166, 124, 0.2); padding-bottom: 20px;">
             <a href="equipe.php" class="btn-action" style="margin-bottom: 20px; display: inline-block; text-decoration:none;">← Retour à l'équipe</a>
@@ -103,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="display: flex; align-items: center; gap: 30px; padding: 20px; border: 1px dashed rgba(197, 166, 124, 0.3); margin-bottom: 30px; background: rgba(0,0,0,0.1);">
                 <div style="text-align: center;">
                     <p style="font-size: 0.6rem; color: var(--gold-accent); margin-bottom: 5px; text-transform: uppercase;">Actuelle</p>
-                    <img src="../<?= $m['photo'] ?>" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--gold-accent);">
+                    <img src="../<?= htmlspecialchars($m['photo']) ?>" style="width: 80px; height: 80px; object-fit: cover; border: 1px solid var(--gold-accent);">
                 </div>
                 <div style="flex-grow: 1;">
                     <p style="font-size: 0.8rem; margin-bottom: 10px; opacity: 0.7;">Remplacer la photo de profil</p>

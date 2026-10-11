@@ -1,51 +1,53 @@
 <?php
-require_once('includes/auth_check.php'); // Assure la session et la protection[cite: 1]
+require_once('includes/auth_check.php'); // Assure la session et la protection
 require_once('../includes/db.php');
+require_once('../includes/upload.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $prenom = $_POST['prenom'];
-    $nom = $_POST['nom'];
-    $poste = $_POST['poste'];
-    $description = $_POST['description'];
-    $statut = $_POST['statut'];
+    $prenom      = trim($_POST['prenom'] ?? '');
+    $nom         = trim($_POST['nom'] ?? '');
+    $poste       = trim($_POST['poste'] ?? '');
+    $description = $_POST['description'] ?? '';
+    $statut      = in_array($_POST['statut'] ?? '', ['actif', 'brouillon'], true) ? $_POST['statut'] : 'brouillon';
 
-    // Gestion de l'image
-    $photo_path = 'assets/img/equipe/default.jpg'; 
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === 0) {
-        $upload_dir = '../assets/img/equipe/';
-        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
-        
-        $extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-        $filename = strtolower($prenom . '-' . $nom) . '-' . uniqid() . '.' . $extension;
-        $target = $upload_dir . $filename;
-
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $target)) {
-            $photo_path = 'assets/img/equipe/' . $filename;
-        }
+    if ($prenom === '' || $nom === '' || $poste === '') {
+        $_SESSION['error'] = "Prénom, nom et poste sont obligatoires.";
+        header('Location: add_membre.php');
+        exit();
     }
 
+    // Photo (obligatoire, validée : nom de fichier aléatoire, plus de ../ possible)
+    $saved = isset($_FILES['photo']) ? save_image($_FILES['photo'], __DIR__ . '/../assets/img/equipe/', 'membre-') : null;
+    if ($saved === null) {
+        $_SESSION['error'] = "Photo invalide (JPG, PNG ou WebP, 5 Mo max).";
+        header('Location: add_membre.php');
+        exit();
+    }
+    $photo_path = 'assets/img/equipe/' . $saved;
+
     // Préparation de l'insertion
-    $sql = "INSERT INTO equipe (prenom, nom, poste, description, photo, statut, ordre) 
+    $sql = "INSERT INTO equipe (prenom, nom, poste, description, photo, statut, ordre)
             VALUES (?, ?, ?, ?, ?, ?, 99)";
-    
-    $stmt = $pdo->prepare($sql);
-    
-    // Tentative d'exécution et création de la notification pour le pop-up
-    if ($stmt->execute([$prenom, $nom, $poste, $description, $photo_path, $statut])) {
+
+    try {
+        $pdo->prepare($sql)->execute([$prenom, $nom, $poste, $description, $photo_path, $statut]);
         $_SESSION['success'] = "L'artisan a été ajouté avec succès à l'équipe.";
-    } else {
+    } catch (PDOException $e) {
+        error_log('add_membre : ' . $e->getMessage());
         $_SESSION['error'] = "Une erreur technique est survenue lors de l'ajout.";
     }
 
-    // Redirection vers la liste qui contient le fichier notifications.php
     header('Location: equipe.php');
     exit();
 }
+
+include('../includes/header.php');
 ?>
 
 <link rel="stylesheet" href="../css/admin.css">
 
 <main class="admin-main">
+    <?php include('includes/notifications.php'); ?>
     <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
         
         <header style="margin-bottom: 40px; border-bottom: 1px solid rgba(197, 166, 124, 0.2); padding-bottom: 20px;">

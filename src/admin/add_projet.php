@@ -1,6 +1,7 @@
 <?php
 require_once('includes/auth_check.php');
 require_once('../includes/db.php');
+require_once('../includes/upload.php');
 
 function slugify($text) {
     $text = preg_replace('~[^\pL\d]+~u', '-', $text);
@@ -14,122 +15,99 @@ function slugify($text) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // =========================
-    // DONNÉES FORM
+    // DONNÉES FORM (validées)
     // =========================
-    $titre = $_POST['titre'] ?? '';
-    $slug = slugify($titre);
-    $type = $_POST['type'] ?? '';
-    $description = $_POST['description'] ?? '';
+    $categories = ['interieur', 'exterieur', 'sur-mesure', 'pro', 'renovation'];
+
+    $titre        = trim($_POST['titre'] ?? '');
+    $type         = in_array($_POST['type'] ?? '', $categories, true) ? $_POST['type'] : 'interieur';
+    $description  = $_POST['description'] ?? '';
     $localisation = $_POST['localisation'] ?? '';
-    $surface = $_POST['surface'] ?? '';
-    $materiaux = $_POST['materiaux'] ?? '';
-    $duree = $_POST['duree'] ?? '';
-    $statut = $_POST['statut'] ?? 'brouillon';
+    $surface      = $_POST['surface'] ?? '';
+    $materiaux    = $_POST['materiaux'] ?? '';
+    $duree        = $_POST['duree'] ?? '';
+    $statut       = in_array($_POST['statut'] ?? '', ['publie', 'brouillon'], true) ? $_POST['statut'] : 'brouillon';
+
+    if ($titre === '') {
+        $_SESSION['error'] = "Le titre est obligatoire.";
+        header('Location: add_projet.php');
+        exit();
+    }
+
+    // Slug unique (projet_detail.php s'appuie dessus)
+    $slug = slugify($titre);
+    $check = $pdo->prepare("SELECT COUNT(*) FROM projets WHERE slug = ?");
+    $check->execute([$slug]);
+    if ($check->fetchColumn() > 0) {
+        $slug .= '-' . bin2hex(random_bytes(3));
+    }
 
     // =========================
-    // UPLOAD PATH
+    // UPLOAD
     // =========================
-    $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/assets/img/realisations/';
+    $upload_dir  = __DIR__ . '/../assets/img/realisations/';
     $public_path = 'assets/img/realisations/';
 
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
+    // IMAGE PRINCIPALE (obligatoire, validée)
+    $saved = isset($_FILES['image']) ? save_image($_FILES['image'], $upload_dir, 'main-') : null;
+    if ($saved === null) {
+        $_SESSION['error'] = "Image principale invalide (JPG, PNG ou WebP, 5 Mo max).";
+        header('Location: add_projet.php');
+        exit();
     }
-
-    // =========================
-    // IMAGE PRINCIPALE
-    // =========================
-    $image_path = $public_path . 'default.jpg';
-
-    if (
-        isset($_FILES['image']) &&
-        $_FILES['image']['error'] === UPLOAD_ERR_OK &&
-        is_uploaded_file($_FILES['image']['tmp_name'])
-    ) {
-        $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-        $filename = 'main-' . $slug . '-' . uniqid() . '.' . $ext;
-
-        $destination = $upload_dir . $filename;
-
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
-            die("❌ Erreur upload image principale");
-        }
-
-        $image_path = $public_path . $filename;
-    }
+    $image_path = $public_path . $saved;
 
     // =========================
     // INSERT PROJET
     // =========================
-    $sql = "INSERT INTO projets 
-        (titre, slug, description, type, localisation, surface, materiaux, duree, image_principale, statut, date_creation)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-
-    $stmt = $pdo->prepare($sql);
-
-    if (!$stmt->execute([
-        $titre, $slug, $description, $type,
-        $localisation, $surface, $materiaux,
-        $duree, $image_path, $statut
-    ])) {
-        die("❌ Erreur SQL projet");
+    try {
+        $sql = "INSERT INTO projets
+            (titre, slug, description, type, localisation, surface, materiaux, duree, image_principale, statut, date_creation)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        $pdo->prepare($sql)->execute([
+            $titre, $slug, $description, $type,
+            $localisation, $surface, $materiaux,
+            $duree, $image_path, $statut
+        ]);
+    } catch (PDOException $e) {
+        error_log('add_projet : ' . $e->getMessage());
+        $_SESSION['error'] = "Erreur lors de l'enregistrement du projet.";
+        header('Location: add_projet.php');
+        exit();
     }
 
-    $projet_id = $pdo->lastInsertId();
+    $projet_id = (int)$pdo->lastInsertId();
 
     // =========================
-    // GALERIE
+    // GALERIE (chaque photo validée)
     // =========================
-    if (
-        isset($_FILES['galerie']) &&
-        isset($_FILES['galerie']['name']) &&
-        is_array($_FILES['galerie']['name'])
-    ) {
+    $refused = 0;
+    if (isset($_FILES['galerie']) && is_array($_FILES['galerie']['name'])) {
+        foreach ($_FILES['galerie']['name'] as $i => $_) {
+            if ($_FILES['galerie']['error'][$i] === UPLOAD_ERR_NO_FILE) continue;
 
-        foreach ($_FILES['galerie']['name'] as $i => $name) {
+            $saved = save_image(file_at($_FILES['galerie'], $i), $upload_dir, 'gal-' . $projet_id . '-');
+            if ($saved === null) { $refused++; continue; }
 
-            if (!isset($_FILES['galerie']['error'][$i]) ||
-                $_FILES['galerie']['error'][$i] !== UPLOAD_ERR_OK) {
-                continue;
-            }
-
-            $tmp = $_FILES['galerie']['tmp_name'][$i];
-
-            if (!is_uploaded_file($tmp)) {
-                continue;
-            }
-
-            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-            $filename = 'gal-' . $projet_id . '-' . uniqid() . '.' . $ext;
-
-            $destination = $upload_dir . $filename;
-
-            if (!move_uploaded_file($tmp, $destination)) {
-                continue;
-            }
-
-            $gal_path = $public_path . $filename;
-
-            $stmt_gal = $pdo->prepare("
-                INSERT INTO images_projets (projet_id, image_url)
-                VALUES (?, ?)
-            ");
-
-            $stmt_gal->execute([$projet_id, $gal_path]);
+            $pdo->prepare("INSERT INTO images_projets (projet_id, image_url) VALUES (?, ?)")
+                ->execute([$projet_id, $public_path . $saved]);
         }
     }
 
     $_SESSION['success'] = "Projet créé avec succès";
+    if ($refused > 0) {
+        $_SESSION['error'] = $refused . " photo(s) de galerie refusée(s) (JPG, PNG ou WebP, 5 Mo max).";
+    }
     header('Location: projets.php');
     exit();
 }
+include('../includes/header.php');
 ?>
-
-    <?php include('../includes/header.php'); ?>
 
     <link rel="stylesheet" href="../css/admin.css">
 
     <main class="admin-main">
+    <?php include('includes/notifications.php'); ?>
         <div class="container" style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
             
             <header style="margin-bottom: 40px; border-bottom: 1px solid rgba(197, 166, 124, 0.2); padding-bottom: 20px;">

@@ -2,44 +2,51 @@
 // 1. EN PREMIER : Authentification et Base de données
 require_once('includes/auth_check.php'); // Contient session_start()
 require_once('../includes/db.php');
+require_once('../includes/upload.php');
 
 $error = "";
-$page_filter = $_GET['page'] ?? 'home';
+$allowed_pages = ['home', 'services', 'atelier', 'avis'];
+$requested_page = $_GET['page'] ?? 'home';
+$page_filter = in_array($requested_page, $allowed_pages, true) ? $requested_page : 'home';
 $photos = [];
 
 // 2. LOGIQUE DE TRAITEMENT (Avant tout envoi de HTML pour que la redirection fonctionne)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image'])) {
-    $id = $_POST['target_id'];
-    $table = $_POST['target_table'];
-    $file = $_FILES['new_image'];
-    
-    // Définition dynamique du dossier
-    $folder = ($table === 'avis') ? 'avis/' : (($page_filter === 'services') ? 'services/' : 'accueil/');
-    $target_dir = "../assets/img/" . $folder;
-    
-    // Sécurité : vérification/création du dossier
-    if (!is_dir($target_dir)) {
-        mkdir($target_dir, 0755, true);
+    $id    = (int)($_POST['target_id'] ?? 0);
+    $table = $_POST['target_table'] ?? '';
+
+    // Liste blanche : table => colonne (plus d'injection possible)
+    $allowed = ['images_projets' => 'image_url', 'avis' => 'image'];
+    if (!isset($allowed[$table]) || $id <= 0) {
+        $_SESSION['error'] = "Requête invalide.";
+        header('Location: edit_photos.php?page=' . urlencode($page_filter));
+        exit();
+    }
+    $column = $allowed[$table];
+
+    // Dossier de destination
+    if ($table === 'avis') {
+        $folder = 'avis/';
+    } elseif ($page_filter === 'services') {
+        $folder = 'services/';
+    } elseif ($page_filter === 'atelier') {
+        $folder = 'atelier/';
+    } else {
+        $folder = 'accueil/';
     }
 
-    $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
-    $new_name = time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
-    $target_file = $target_dir . $new_name;
+    $saved = save_image($_FILES['new_image'], __DIR__ . '/../assets/img/' . $folder, 'img-');
 
-    if (move_uploaded_file($file["tmp_name"], $target_file)) {
-        $db_path = "assets/img/" . $folder . $new_name;
-        $column = ($table === 'avis') ? 'image' : 'image_url';
-        
+    if ($saved === null) {
+        $error = "Image refusée (JPG, PNG ou WebP, 5 Mo max).";
+    } else {
         $stmt = $pdo->prepare("UPDATE $table SET $column = ? WHERE id = ?");
-        if ($stmt->execute([$db_path, $id])) {
+        if ($stmt->execute(['assets/img/' . $folder . $saved, $id])) {
             $_SESSION['success'] = "Image mise à jour avec succès !";
-            
-            // Redirection immédiate
-            header("Location: editeur.php?page=" . $page_filter);
+            header('Location: edit_photos.php?page=' . urlencode($page_filter));
             exit();
         }
-    } else {
-        $error = "Erreur lors du transfert du fichier.";
+        $error = "Erreur lors de l'enregistrement en base.";
     }
 }
 
@@ -95,22 +102,22 @@ include('../includes/header.php');
         </nav>
 
         <?php if (!empty($error)): ?>
-            <p style="color: #ff4d4d; margin-bottom: 20px;"><?= $error ?></p>
+            <p style="color: #ff4d4d; margin-bottom: 20px;"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
             <?php foreach($photos as $p): ?>
                 <div class="card-premium" style="padding: 15px;">
                     <span class="label-cle" style="display:block; margin-bottom:10px;">
-                        <?= strtoupper(str_replace(['home_', 'avis_'], '', $p['label'])) ?>
+                        <?= htmlspecialchars(strtoupper(str_replace(['home_', 'avis_'], '', $p['label']))) ?>
                     </span>
                     
                     <div style="width: 100%; height: 160px; overflow: hidden; margin-bottom: 15px; background: #1a1a1a;">
-                        <img src="../<?= $p['url'] ?>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../assets/img/placeholder.jpg';">
+                        <img src="../<?= htmlspecialchars($p['url']) ?>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='../assets/img/placeholder.jpg';">
                     </div>
 
                     <form method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="target_id" value="<?= $p['id'] ?>">
+                        <input type="hidden" name="target_id" value="<?= (int)$p['id'] ?>">
                         <input type="hidden" name="target_table" value="<?= $p['origin'] ?>">
                         <label class="btn-mini-gold" style="display: block; text-align: center; cursor: pointer; font-size: 0.7rem;">
                             Remplacer la photo

@@ -1,23 +1,11 @@
-<?php
-if (isset($_SESSION['success'])): ?>
-    <div id="toast" class="toast-notification">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c5a67c" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        <span><?php echo $_SESSION['success']; ?></span>
+<?php foreach (['success', 'error'] as $k): if (isset($_SESSION[$k])): ?>
+    <div class="toast-notification js-toast" <?= $k === 'error' ? 'style="border-left-color:#ff5f40"' : '' ?>>
+        <span><?= htmlspecialchars($_SESSION[$k]) ?></span>
     </div>
-    
-    <script>
-        setTimeout(() => {
-            const toast = document.getElementById('toast');
-            if(toast) {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => toast.remove(), 500);
-            }
-        }, 4000);
-    </script>
-    <?php 
-    unset($_SESSION['success']); 
-    ?>
-<?php endif; ?>
+<?php unset($_SESSION[$k]); endif; endforeach; ?>
+<script>
+    setTimeout(() => document.querySelectorAll('.js-toast').forEach(t => {
+        t.style.opacity = '0'; t.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => t.remove(), 500);
+    }), 4000);
+</script>
