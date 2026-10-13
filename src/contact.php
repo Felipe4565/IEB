@@ -32,6 +32,10 @@ include('includes/header.php');
                 </div>
             </div>
 
+            <?php if (!empty($_SESSION['form_error'])): ?>
+                <p style="color:#ff6b6b; text-align:center; margin-bottom:25px;"><?= htmlspecialchars($_SESSION['form_error']) ?></p>
+            <?php unset($_SESSION['form_error']); endif; ?>
+
             <form id="multiStepForm" action="process.php" method="POST" enctype="multipart/form-data" class="avis-form">
                 
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
@@ -85,9 +89,9 @@ include('includes/header.php');
                     <div class="file-upload">
                         <label for="file" class="file-label">
                             <span class="label-gold">+ AJOUTER DES PLANS OU INSPIRATIONS</span>
-                            <p style="font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 10px;">PDF, JPG, PNG (MAX 10MO)</p>
+                            <p id="file-hint" style="font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 10px;">PDF, JPG, PNG (5 FICHIERS MAX, 10 MO CHACUN)</p>
                         </label>
-                        <input type="file" id="file" name="files[]" multiple style="display:none;" onchange="handleFiles(this.files)">
+                        <input type="file" id="file" name="files[]" multiple style="display:none;" onchange="handleFiles(this)" accept=".pdf,.jpg,.jpeg,.png">
                         <div id="thumbnails-container"></div>
                     </div>
 
@@ -216,24 +220,95 @@ include('includes/header.php');
     }
 
     /**
-     * Gère la prévisualisation des fichiers (Etape 2)
+     * Pièces jointes : on cumule les fichiers à chaque ajout (le champ natif
+     * oublie la sélection précédente), avec aperçu et bouton pour retirer.
      */
-    function handleFiles(files) {
-        const container = document.getElementById('thumbnails-container');
-        container.innerHTML = ''; // On vide les anciennes vignettes
-        
-        Array.from(files).forEach(file => {
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const item = document.createElement('div');
-                    item.className = 'thumbnail-item';
-                    item.innerHTML = `<img src="${e.target.result}">`;
-                    container.appendChild(item);
-                };
-                reader.readAsDataURL(file);
+    const MAX_FILES = 5;
+    const MAX_SIZE  = 10 * 1024 * 1024;
+    const ALLOWED   = ['image/jpeg', 'image/png', 'application/pdf'];
+    let allFiles = new DataTransfer();
+
+    function handleFiles(input) {
+        const problems = [];
+
+        Array.from(input.files).forEach(file => {
+            const doublon = Array.from(allFiles.files).some(f =>
+                f.name === file.name && f.size === file.size && f.lastModified === file.lastModified);
+            if (doublon) return;
+
+            if (allFiles.files.length >= MAX_FILES) {
+                problems.push("5 fichiers maximum par demande.");
+                return;
             }
+            if (!ALLOWED.includes(file.type)) {
+                problems.push(file.name + " : format refusé (PDF, JPG ou PNG uniquement).");
+                return;
+            }
+            if (file.size > MAX_SIZE) {
+                problems.push(file.name + " : fichier trop lourd (10 Mo maximum).");
+                return;
+            }
+            allFiles.items.add(file);
         });
+
+        input.files = allFiles.files;   // le champ envoie bien tous les fichiers cumulés
+        renderFiles();
+
+        if (problems.length) {
+            alert([...new Set(problems)].join("\n"));
+        }
+    }
+
+    function removeFile(index) {
+        const dt = new DataTransfer();
+        Array.from(allFiles.files).forEach((f, i) => { if (i !== index) dt.items.add(f); });
+        allFiles = dt;
+        document.getElementById('file').files = allFiles.files;
+        renderFiles();
+    }
+
+    function renderFiles() {
+        const container = document.getElementById('thumbnails-container');
+        container.innerHTML = '';
+        container.style.cssText = 'display:flex; flex-wrap:wrap; gap:12px; margin-top:20px; justify-content:center;';
+
+        Array.from(allFiles.files).forEach((file, index) => {
+            const item = document.createElement('div');
+            item.className = 'thumbnail-item';
+            item.style.position = 'relative';
+
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.alt = 'Aperçu';
+                img.src = URL.createObjectURL(file);
+                img.onload = () => URL.revokeObjectURL(img.src);
+                item.appendChild(img);
+            } else {
+                item.style.cssText += 'width:80px; height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid rgba(197,166,124,0.5); border-radius:4px; padding:4px; box-sizing:border-box;';
+                const ico = document.createElement('strong');
+                ico.textContent = 'PDF';
+                ico.style.cssText = 'color:#c5a67c; font-size:0.9rem;';
+                const nom = document.createElement('span');
+                nom.textContent = file.name;
+                nom.style.cssText = 'font-size:0.55rem; color:rgba(255,255,255,0.6); max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;';
+                item.appendChild(ico);
+                item.appendChild(nom);
+            }
+
+            const x = document.createElement('div');
+            x.textContent = '×';
+            x.title = 'Retirer ce fichier';
+            x.style.cssText = 'position:absolute; top:-8px; right:-8px; width:20px; height:20px; line-height:18px; text-align:center; border-radius:50%; background:#c5a67c; color:#000; font-size:14px; cursor:pointer; z-index:2;';
+            x.addEventListener('click', () => removeFile(index));
+            item.appendChild(x);
+
+            container.appendChild(item);
+        });
+
+        const n = allFiles.files.length;
+        document.getElementById('file-hint').textContent = n > 0
+            ? n + " fichier(s) prêt(s) sur 5 - cliquez pour en ajouter"
+            : "PDF, JPG, PNG (5 FICHIERS MAX, 10 MO CHACUN)";
     }
 
     document.addEventListener('DOMContentLoaded', function() {

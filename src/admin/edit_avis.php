@@ -22,17 +22,18 @@ $galerie = $stmt_images->fetchAll();
 
 // Mise à jour de l'avis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nom = $_POST['nom'];
-    $commentaire = $_POST['commentaire'];
-    $note = intval($_POST['note']);
-    $statut = $_POST['statut']; 
+    csrf_require_post();
+    $nom         = trim($_POST['nom'] ?? '');
+    $commentaire = $_POST['commentaire'] ?? '';
+    $note        = max(1, min(5, intval($_POST['note'] ?? 5)));
+    $statut      = in_array($_POST['statut'] ?? '', ['affiche', 'attente', 'brouillon'], true) ? $_POST['statut'] : $avis['statut'];
     $est_detaille = isset($_POST['est_detaille']) ? 1 : 0;
 
     $sql = "UPDATE avis SET nom = ?, commentaire = ?, note = ?, statut = ?, est_detaille = ? WHERE id = ?";
     $stmt_update = $pdo->prepare($sql);
     
     if ($stmt_update->execute([$nom, $commentaire, $note, $statut, $est_detaille, $id])) {
-        $_SESSION['success'] = "Le témoignage de " . htmlspecialchars($nom) . " a été mis à jour.";
+        $_SESSION['success'] = "Le témoignage de " . $nom . " a été mis à jour.";
     } else {
         $_SESSION['error'] = "Erreur lors de la mise à jour.";
     }
@@ -57,6 +58,7 @@ include('../includes/header.php');
 
         <div class="card-premium">
             <form method="POST">
+                <?= csrf_field() ?>
                 <div style="margin-bottom: 25px;">
                     <label style="display:block; color:var(--gold-accent); margin-bottom:10px; font-size:0.8rem; text-transform:uppercase;">Nom du Client</label>
                     <input type="text" name="nom" value="<?= htmlspecialchars($avis['nom']) ?>" required 

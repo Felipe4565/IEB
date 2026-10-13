@@ -37,6 +37,7 @@ function delete_devis_files(?string $fichiers): void {
 
 // ACTION : VIDER TOUTE LA CORBEILLE
 if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
+    csrf_require_get();
 
     // --- 1. Galerie des avis ---
     $galerie_items = $pdo->query("
@@ -95,6 +96,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'empty_all') {
 
 // ACTIONS INDIVIDUELLES : RESTAURER OU DÉTRUIRE
 if (isset($_GET['action'], $_GET['id'], $_GET['target'])) {
+    csrf_require_get();
 
     $id     = intval($_GET['id']);
     $table  = $_GET['target'];
@@ -275,7 +277,7 @@ include('../includes/header.php');
 
             <!-- Bouton Vider (Droite) -->
             <?php if ($counts['all'] > 0): ?>
-                <a href="?action=empty_all" 
+                <a href="?action=empty_all&t=<?= csrf_token() ?>" 
                    class="btn-empty-trash" 
                    onclick="return confirm('Vider TOUTE la corbeille définitivement ?')">
                     Vider la corbeille
@@ -307,8 +309,8 @@ include('../includes/header.php');
                             </td>
                             <td style="text-align:right; padding: 15px 0; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
                                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                                    <a href="?action=restore&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>&type=<?= $filter ?>" class="btn-mini-gold" style="text-decoration:none;">Restaurer</a>
-                                    <a href="?action=flush&id=<?= $item['id'] ?>&target=<?= $item['tab'] ?>&type=<?= $filter ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Détruire définitivement ?')">Détruire</a>
+                                    <a href="?action=restore&id=<?= (int)$item['id'] ?>&target=<?= $item['tab'] ?>&type=<?= $filter ?>&t=<?= csrf_token() ?>" class="btn-mini-gold" style="text-decoration:none;">Restaurer</a>
+                                    <a href="?action=flush&id=<?= (int)$item['id'] ?>&target=<?= $item['tab'] ?>&type=<?= $filter ?>&t=<?= csrf_token() ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Détruire définitivement ?')">Détruire</a>
                                 </div>
                             </td>
                         </tr>

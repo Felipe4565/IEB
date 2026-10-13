@@ -219,6 +219,10 @@ include('includes/header.php');
                 <p>Le Showroom IEB ouvrira prochainement ses portes. Inscrivez-vous pour recevoir votre invitation personnelle et bénéficier d'un <strong>accès exclusif 48h</strong> avant l'ouverture officielle.</p>
                 
                 <form id="vip-showroom-form">
+                    <?= csrf_field() ?>
+                    <div style="display:none;">
+                        <input type="text" name="hp_check_url" id="vip-hp" autocomplete="off" tabindex="-1">
+                    </div>
                     <div class="vip-input-group">
                         <input type="email" id="vip-email" name="email" placeholder="Votre adresse email" required>
                     </div>
@@ -227,7 +231,7 @@ include('includes/header.php');
                         <label class="rgpd-label" style="display: flex; align-items: flex-start; cursor: pointer; gap: 12px;">
                             <input type="checkbox" name="rgpd_consent" id="rgpd_consent" required style="margin-top: 5px; accent-color: #c5a67c;">
                             <span style="color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.4;">
-                                J'accepte que mes données soient collectées pour être recontacté. 
+                                J'accepte que mon adresse email soit utilisée par IEB pour m'envoyer l'invitation à l'ouverture du showroom. Je peux me désinscrire à tout moment en écrivant à IEB. 
                                 Consultez notre <a href="politique-confidentialite.php" target="_blank" style="color: #c5a67c; text-decoration: underline;">Politique de Confidentialité</a>.
                             </span>
                         </label>
@@ -300,6 +304,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData();
             formData.append('email', emailValue);
             formData.append('rgpd_consent', 'OUI'); // Preuve de consentement transmise au PHP
+            formData.append('csrf_token', form.querySelector('input[name="csrf_token"]').value);
+            formData.append('hp_check_url', document.getElementById('vip-hp').value);
 
             // UI Feedback
             responseMsg.textContent = "Traitement en cours...";

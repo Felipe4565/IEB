@@ -1,6 +1,7 @@
 <?php
 require_once('includes/auth_check.php'); // Gère le session_start() et la sécurité
 require_once('../includes/db.php');
+csrf_require_get();
 
 // On vérifie qu'un ID est bien passé en paramètre
 if (isset($_GET['id']) && !empty($_GET['id'])) {

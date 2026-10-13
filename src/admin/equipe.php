@@ -55,7 +55,7 @@ include('../includes/header.php');
 
                     <div style="margin-bottom: 25px; position: relative; display: inline-block;">
                         <div style="padding: 6px; border: 1px solid var(--gold-accent); border-radius: 50%; display: inline-block;">
-                            <img src="../<?= $membre['photo'] ?>" alt="<?= htmlspecialchars($membre['prenom']) ?>" 
+                            <img src="../<?= htmlspecialchars($membre['photo']) ?>" alt="<?= htmlspecialchars($membre['prenom']) ?>" 
                                  style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
                         </div>
                     </div>
@@ -74,7 +74,7 @@ include('../includes/header.php');
                             ÉDITER
                         </a>
 
-                        <a href="delete_membre.php?id=<?= $membre['id'] ?>" class="btn-mini-flush" 
+                        <a href="delete_membre.php?id=<?= (int)$membre['id'] ?>&t=<?= csrf_token() ?>" class="btn-mini-flush" 
                            onclick="return confirm('Envoyer ce membre à la corbeille ?')" 
                            style="width: 40px; height: 40px; padding: 0; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; margin: 0; flex-shrink: 0;">
                             ✕

@@ -54,16 +54,16 @@ include('../includes/header.php');
 
             <div style="margin-top: 40px; border-top: 1px solid rgba(197, 166, 124, 0.1); padding-top: 25px; display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; gap: 15px; align-items: center;">
-                    <a href="mailto:<?= $contact['email'] ?>?subject=Réponse IEB : <?= htmlspecialchars($contact['sujet']) ?>" class="btn-gold">Répondre par email</a>
+                    <a href="mailto:<?= htmlspecialchars($contact['email']) ?>?subject=<?= htmlspecialchars(rawurlencode('Réponse IEB : ' . $contact['sujet'])) ?>" class="btn-gold">Répondre par email</a>
                     
-                    <a href="non_lu.php?id=<?= $contact['id'] ?>&type=contact" class="btn-action" style="font-size: 0.75rem;">
+                    <a href="non_lu.php?id=<?= (int)$contact['id'] ?>&type=contact&t=<?= csrf_token() ?>" class="btn-action" style="font-size: 0.75rem;">
                         Marquer comme non lu
                     </a>
                 </div>
 
-                <a href="delete_contact.php?id=<?= $contact['id'] ?>" 
+                <a href="delete_contact.php?id=<?= (int)$contact['id'] ?>&t=<?= csrf_token() ?>" 
                    style="color: #ff5f40; text-decoration: none; font-size: 0.8rem;"
-                   onclick="return confirm('Supprimer ce message ?')">Supprimer ce message</a>
+                   onclick="return confirm('Envoyer ce message à la corbeille ?')">Supprimer ce message</a>
             </div>
         </div>
     </div>

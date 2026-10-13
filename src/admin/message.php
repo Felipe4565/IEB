@@ -97,7 +97,7 @@ include('../includes/header.php');
                             <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
                                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                                     <a href="view_message.php?id=<?= $msg['id'] ?>" class="btn-mini-gold" style="text-decoration:none;">Ouvrir</a>
-                                    <a href="delete_message.php?id=<?= $msg['id'] ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Envoyer ce devis à la corbeille ?')">Supprimer</a>
+                                    <a href="delete_message.php?id=<?= (int)$msg['id'] ?>&t=<?= csrf_token() ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Envoyer ce devis à la corbeille ?')">Supprimer</a>
                                 </div>
                             </td>
                         </tr>

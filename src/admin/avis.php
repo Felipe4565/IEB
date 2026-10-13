@@ -74,7 +74,7 @@ include('../includes/header.php');
                             <td style="text-align: right; padding: 15px 0; border-bottom: 1px solid rgba(197, 166, 124, 0.1);">
                                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                                     <a href="edit_avis.php?id=<?= $a['id'] ?>" class="btn-mini-gold" style="text-decoration:none;">Modifier</a>
-                                    <a href="delete_avis.php?id=<?= $a['id'] ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Envoyer cet avis à la corbeille ?')">
+                                    <a href="delete_avis.php?id=<?= (int)$a['id'] ?>&t=<?= csrf_token() ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Envoyer cet avis à la corbeille ?')">
                                         ✕
                                     </a>
                                 </div>

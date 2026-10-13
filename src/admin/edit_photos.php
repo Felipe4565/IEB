@@ -12,6 +12,7 @@ $photos = [];
 
 // 2. LOGIQUE DE TRAITEMENT (Avant tout envoi de HTML pour que la redirection fonctionne)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['new_image'])) {
+    csrf_require_post();
     $id    = (int)($_POST['target_id'] ?? 0);
     $table = $_POST['target_table'] ?? '';
 
@@ -117,6 +118,7 @@ include('../includes/header.php');
                     </div>
 
                     <form method="POST" enctype="multipart/form-data">
+                <?= csrf_field() ?>
                         <input type="hidden" name="target_id" value="<?= (int)$p['id'] ?>">
                         <input type="hidden" name="target_table" value="<?= $p['origin'] ?>">
                         <label class="btn-mini-gold" style="display: block; text-align: center; cursor: pointer; font-size: 0.7rem;">

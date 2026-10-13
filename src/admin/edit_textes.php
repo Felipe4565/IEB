@@ -2,11 +2,17 @@
 require_once('includes/auth_check.php'); // Contient session_start()[cite: 2]
 require_once('../includes/db.php');
 
-$page_filter = $_GET['page'] ?? 'home';
+$allowed_pages = ['home', 'services', 'atelier', 'avis'];
+$requested_page = $_GET['page'] ?? 'home';
+$page_filter = in_array($requested_page, $allowed_pages, true) ? $requested_page : 'home';
 
 // --- LOGIQUE DE MISE À JOUR AVEC SESSION ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_content'])) {
-    foreach ($_POST['content'] as $cle => $valeur) {
+    csrf_require_post();
+    $content = is_array($_POST['content'] ?? null) ? $_POST['content'] : [];
+    foreach ($content as $cle => $valeur) {
+        // On ne modifie que les textes de la page en cours
+        if (!is_string($cle) || !is_string($valeur) || strpos($cle, $page_filter . '_') !== 0) continue;
         $stmt = $pdo->prepare("UPDATE contenus SET valeur = ? WHERE cle = ?");
         $stmt->execute([$valeur, $cle]);
     }
@@ -15,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_content'])) {
     $_SESSION['success'] = "Les textes ont été mis à jour avec succès !";
     
     // Redirection pour nettoyer le POST et afficher la notification
-    header("Location: " . $_SERVER['PHP_SELF'] . "?page=" . $page_filter);
+    header("Location: edit_textes.php?page=" . urlencode($page_filter));
     exit();
 }
 
@@ -56,15 +62,16 @@ include('../includes/header.php');
 
         <form method="POST">
             <input type="hidden" name="update_content" value="1">
+            <?= csrf_field() ?>
             
             <?php foreach($textes as $t): ?>
                 <div class="text-card">
                     <label class="label-cle"><?= str_replace('_', ' • ', $t['cle']) ?></label>
                     
                     <?php if(strlen($t['valeur']) > 100): ?>
-                        <textarea name="content[<?= $t['cle'] ?>]" class="input-text textarea-text"><?= htmlspecialchars($t['valeur']) ?></textarea>
+                        <textarea name="content[<?= htmlspecialchars($t['cle']) ?>]" class="input-text textarea-text"><?= htmlspecialchars($t['valeur']) ?></textarea>
                     <?php else: ?>
-                        <input type="text" name="content[<?= $t['cle'] ?>]" value="<?= htmlspecialchars($t['valeur']) ?>" class="input-text">
+                        <input type="text" name="content[<?= htmlspecialchars($t['cle']) ?>]" value="<?= htmlspecialchars($t['valeur']) ?>" class="input-text">
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

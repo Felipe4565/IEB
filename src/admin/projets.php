@@ -70,7 +70,7 @@ include('../includes/header.php');
                                 MODIFIER
                             </a>
                             <!-- Redirection vers delete_projet.php pour mise en corbeille -->
-                            <a href="delete_projet.php?id=<?= $p['id'] ?>" class="btn-mini-flush" 
+                            <a href="delete_projet.php?id=<?= (int)$p['id'] ?>&t=<?= csrf_token() ?>" class="btn-mini-flush" 
                                onclick="return confirm('Envoyer cette réalisation à la corbeille ?')" 
                                style="width: 45px; height: 40px; text-decoration: none; display: flex; align-items: center; justify-content: center;">
                                 ✕

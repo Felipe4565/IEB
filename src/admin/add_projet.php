@@ -13,6 +13,7 @@ function slugify($text) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_require_post();
 
     // =========================
     // DONNÉES FORM (validées)
@@ -116,6 +117,7 @@ include('../includes/header.php');
             </header>
 
             <form action="" method="POST" enctype="multipart/form-data" class="card-premium" style="background: rgba(255, 255, 255, 0.02); padding: 30px; border: 1px solid rgba(197, 166, 124, 0.1);">
+                <?= csrf_field() ?>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                     <div>

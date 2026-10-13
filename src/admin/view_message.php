@@ -8,7 +8,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     exit;
 }
 
-$id = $_GET['id'];
+$id = (int)$_GET['id'];
 
 // 2. Marquer comme LU et récupérer les infos
 $pdo->prepare("UPDATE messages SET statut = 'lu' WHERE id = ?")->execute([$id]);
@@ -45,7 +45,7 @@ include('../includes/header.php');
                 <h1 class="serif-gold" style="font-size: 2rem;"><?= htmlspecialchars($msg['nom']) ?></h1>
                 <p style="opacity: 0.6; font-size: 0.9rem;">
                     Reçu le <?= date('d/m/Y à H:i', strtotime($msg['date_envoi'])) ?> | 
-                    Email : <a href="mailto:<?= $msg['email'] ?>" style="color: var(--gold-accent);"><?= htmlspecialchars($msg['email']) ?></a>
+                    Email : <a href="mailto:<?= htmlspecialchars($msg['email']) ?>" style="color: var(--gold-accent);"><?= htmlspecialchars($msg['email']) ?></a>
                 </p>
             </header>
 
@@ -55,14 +55,14 @@ include('../includes/header.php');
 
             <footer style="margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(197, 166, 124, 0.1); display: flex; justify-content: space-between; align-items: center;">
                 <div style="display: flex; gap: 15px; align-items: center;">
-                    <a href="mailto:<?= $msg['email'] ?>?subject=Réponse IEB : <?= $msg['type'] ?>" class="btn-gold">Répondre par email</a>
+                    <a href="mailto:<?= htmlspecialchars($msg['email']) ?>?subject=<?= htmlspecialchars(rawurlencode('Réponse IEB : ' . $msg['type'])) ?>" class="btn-gold">Répondre par email</a>
                     
-                    <a href="non_lu.php?id=<?= $msg['id'] ?>&type=devis" class="btn-action" style="font-size: 0.75rem;">
+                    <a href="non_lu.php?id=<?= (int)$msg['id'] ?>&type=devis&t=<?= csrf_token() ?>" class="btn-action" style="font-size: 0.75rem;">
                         Marquer comme non lu
                     </a>
                 </div>
 
-                <a href="delete_message.php?id=<?= $msg['id'] ?>" class="btn-action" style="color: #ff5f40;" onclick="return confirm('Supprimer définitivement ce devis ?')">Supprimer</a>
+                <a href="delete_message.php?id=<?= (int)$msg['id'] ?>&t=<?= csrf_token() ?>" class="btn-action" style="color: #ff5f40;" onclick="return confirm('Envoyer ce devis à la corbeille ?')">Supprimer</a>
             </footer>
         </article>
     </div>

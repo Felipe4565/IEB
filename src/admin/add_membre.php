@@ -4,6 +4,7 @@ require_once('../includes/db.php');
 require_once('../includes/upload.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_require_post();
     $prenom      = trim($_POST['prenom'] ?? '');
     $nom         = trim($_POST['nom'] ?? '');
     $poste       = trim($_POST['poste'] ?? '');
@@ -56,6 +57,7 @@ include('../includes/header.php');
         </header>
 
         <form action="" method="POST" enctype="multipart/form-data" class="card-premium" style="background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); padding: 40px;">
+                <?= csrf_field() ?>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
                 <!-- Colonne Gauche -->

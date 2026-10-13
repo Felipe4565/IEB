@@ -96,7 +96,7 @@ include('../includes/header.php');
                                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                                     <a href="view_contact.php?id=<?= $c['id'] ?>" class="btn-mini-gold" style="text-decoration:none;">Lire</a>
                                     <!-- Le lien pointe vers ton script de mise en corbeille -->
-                                    <a href="delete_contact.php?id=<?= $c['id'] ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Envoyer ce message à la corbeille ?')">Supprimer</a>
+                                    <a href="delete_contact.php?id=<?= (int)$c['id'] ?>&t=<?= csrf_token() ?>" class="btn-mini-flush" style="text-decoration:none;" onclick="return confirm('Envoyer ce message à la corbeille ?')">Supprimer</a>
                                 </div>
                             </td>
                         </tr>

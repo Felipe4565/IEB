@@ -1,6 +1,7 @@
 <?php
 require_once('includes/auth_check.php'); // Initialise la session et vérifie l'accès
 require_once('../includes/db.php');
+csrf_require_get();
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
