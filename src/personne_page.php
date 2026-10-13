@@ -3,12 +3,12 @@ require_once('includes/db.php');
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$queryMembre = $pdo->prepare("SELECT * FROM equipe WHERE id = ?");
+$queryMembre = $pdo->prepare("SELECT * FROM equipe WHERE id = ? AND statut = 'actif'");
 $queryMembre->execute([$id]);
 $person = $queryMembre->fetch();
 
 if (!$person) {
-    header('Location: atelier.php');
+    header('Location: entreprise.php');
     exit;
 }
 

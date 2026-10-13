@@ -41,7 +41,7 @@ $projets = $query->fetchAll();
                 <div class="card-overlay">
                     <span><?= ucfirst(htmlspecialchars($projet['type'])) ?></span>
                     <h3><?= htmlspecialchars($projet['titre']) ?></h3>
-                    <a href="projet_detail.php?slug=<?= $projet['slug'] ?>" class="btn-more" style="text-decoration:none; display:inline-block;">
+                    <a href="projet_detail.php?slug=<?= htmlspecialchars($projet['slug']) ?>" class="btn-more" style="text-decoration:none; display:inline-block;">
                         En savoir plus
                     </a>
                 </div>

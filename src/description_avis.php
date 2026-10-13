@@ -2,15 +2,20 @@
 require_once 'includes/db.php'; 
 
 // 1. Récupération du slug (par défaut marc-antoine)
-$slug = $_GET['slug'] ?? 'marc-antoine';
+$slug = $_GET['slug'] ?? '';
+if ($slug === '') {
+    header('Location: avis.php');
+    exit();
+}
 
 // 2. Récupération de l'avis précis
-$query = $pdo->prepare("SELECT * FROM avis WHERE slug = :slug");
+$query = $pdo->prepare("SELECT * FROM avis WHERE slug = :slug AND statut = 'affiche'");
 $query->execute(['slug' => $slug]);
 $avis = $query->fetch();
 
 if (!$avis) {
-    die("Avis non trouvé.");
+    header('Location: avis.php');
+    exit();
 }
 
 // 3. Récupération de TOUTES les images associées à cet avis (Galerie)
@@ -36,7 +41,7 @@ include 'includes/header.php';
         <div class="gallery-section">
             <div class="main-images">
                 <div class="img-container">
-                    <img src="<?= htmlspecialchars($avis['image']) ?>" 
+                    <img src="<?= htmlspecialchars((string)$avis['image']) ?>" 
                          id="mainView" 
                          alt="Projet <?= htmlspecialchars($avis['nom']) ?>" 
                          class="img-large">

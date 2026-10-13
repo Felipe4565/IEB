@@ -18,6 +18,10 @@
                 <p class="form-subtitle">L'excellence au service de votre projet</p>
             </div>
 
+            <?php if (!empty($_SESSION['form_error'])): ?>
+                <p style="color:#ff6b6b; text-align:center; margin-bottom:25px;"><?= htmlspecialchars($_SESSION['form_error']) ?></p>
+                <?php unset($_SESSION['form_error']); endif; ?>
+
             <form action="traitement_avis.php" method="POST" enctype="multipart/form-data" class="avis-form" id="avisForm" novalidate>
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
                 <div style="display:none;">
@@ -68,7 +72,7 @@
                         </div>
                         <span class="text" id="file-label-text">Ajoutez une ou plusieurs photos de votre projet</span>
                     </label>
-                    <input type="file" id="photo-chantier" name="photos[]" accept="image/*" multiple style="display:none;">
+                    <input type="file" id="photo-chantier" name="photos[]" accept="image/jpeg,image/png,image/webp" multiple style="display:none;">
                     <div id="thumbnails-container" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; justify-content: center;"></div>
                 </div>
 

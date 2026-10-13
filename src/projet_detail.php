@@ -21,7 +21,7 @@ $next_p = $stmt_next->fetch();
 if (!$next_p) {
     $next_p = $pdo->query("SELECT titre, slug, image_principale FROM projets WHERE statut = 'publie' ORDER BY id ASC LIMIT 1")->fetch();
 }
-$page_title = $projet['titre'] . " - IEB";
+$page_title = htmlspecialchars($projet['titre']) . " - IEB";
 $page_css = "css/projet_detail.css?v=" . time();
 include('includes/header.php');
 ?>
@@ -76,7 +76,7 @@ include('includes/header.php');
         </section>
         <?php endif; ?>
         <section class="next-banner reveal">
-            <a href="projet_detail.php?slug=<?= $next_p['slug'] ?>" class="next-link">
+            <a href="projet_detail.php?slug=<?= htmlspecialchars($next_p['slug']) ?>" class="next-link">
                 <div class="next-bg" style="background-image: url('<?= htmlspecialchars($next_p['image_principale']) ?>');"></div>
                 <div class="next-inner">
                     <span class="next-label">PROJET SUIVANT</span>

@@ -1,107 +1,116 @@
 <?php
 require_once __DIR__ . '/includes/session.php';
-require_once 'includes/db.php'; // Assurez-vous que le chemin est correct
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/upload.php';
+require_once __DIR__ . '/includes/forms.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Erreur de sécurité : Jeton CSRF invalide.");
-    }
-
-    if (!empty($_POST['hp_check_comment'])) {
-        exit("Spam détecté."); 
-    }
-    // 1. Récupération et nettoyage des données
-    $nom = htmlspecialchars(trim($_POST['nom']));
-    $note = isset($_POST['rating']) ? intval($_POST['rating']) : 5;
-    $type_projet = htmlspecialchars($_POST['projet']);
-    $commentaire = htmlspecialchars(trim($_POST['message']));
-    
-    // 2. Génération du Slug unique
-    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $nom), '-'));
-    
-    // Vérification des doublons de slug
-    $checkSlug = $pdo->prepare("SELECT COUNT(*) FROM avis WHERE slug = ?");
-    $checkSlug->execute([$slug]);
-    if ($checkSlug->fetchColumn() > 0) {
-        $slug = $slug . '-' . time();
-    }
-
-    try {
-        // On commence une transaction pour être sûr que tout s'enregistre bien
-        $pdo->beginTransaction();
-
-        // 3. Insertion de l'avis dans la table 'avis'
-        // On met l'image à NULL au début, on la mettra à jour avec la première photo uploadée
-        $sqlAvis = "INSERT INTO avis (nom, commentaire, type_projet, note, statut, slug, date, est_detaille) 
-                    VALUES (:nom, :commentaire, :type_projet, :note, 'attente', :slug, NOW(), 0)";
-        
-        $stmt = $pdo->prepare($sqlAvis);
-        $stmt->execute([
-            'nom'          => $nom,
-            'commentaire'  => $commentaire,
-            'type_projet'  => $type_projet,
-            'note'         => $note,
-            'slug'         => $slug
-        ]);
-
-        $avis_id = $pdo->lastInsertId(); // On récupère l'ID de l'avis qu'on vient de créer
-
-        // 4. Gestion des Uploads Multiples
-        $image_principale = null;
-        $targetDir = "assets/img/avis/";
-
-        // Créer le dossier s'il n'existe pas
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true);
-        }
-
-        // On vérifie si des photos ont été envoyées
-        if (!empty($_FILES['photos']['name'][0])) {
-            $allowTypes = array('jpg', 'png', 'jpeg', 'gif', 'webp');
-            
-            foreach ($_FILES['photos']['name'] as $key => $val) {
-                $fileName = time() . '_' . $key . '_' . basename($_FILES['photos']['name'][$key]);
-                $targetFilePath = $targetDir . $fileName;
-                $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-                if (in_array(strtolower($fileType), $allowTypes)) {
-                    if (move_uploaded_file($_FILES['photos']['tmp_name'][$key], $targetFilePath)) {
-                        
-                        // A. Insertion dans la table images_avis
-                        $sqlImg = "INSERT INTO images_avis (avis_id, image_url) VALUES (?, ?)";
-                        $pdo->prepare($sqlImg)->execute([$avis_id, $targetFilePath]);
-
-                        // B. On garde la première image réussie pour la mettre en image principale de l'avis
-                        if ($image_principale === null) {
-                            $image_principale = $targetFilePath;
-                        }
-                    }
-                }
-            }
-        }
-
-        // 5. Mise à jour de l'image principale dans la table 'avis'
-        if ($image_principale !== null) {
-            $updateAvis = "UPDATE avis SET image = ? WHERE id = ?";
-            $pdo->prepare($updateAvis)->execute([$image_principale, $avis_id]);
-        }
-
-        // On valide la transaction
-        $pdo->commit();
-
-        // Redirection vers la page des avis avec le message de succès
-        header("Location: avis.php?success=1");
-        exit();
-
-    } catch (Exception $e) {
-        // En cas d'erreur, on annule tout ce qui a été fait en base de données
-        $pdo->rollBack();
-        die("Erreur lors de l'enregistrement : " . $e->getMessage());
-    }
-
-} else {
-    // Si on tente d'accéder au fichier sans formulaire
-    header("Location: laisser_avis.php");
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: laisser_avis.php');
     exit();
 }
+
+function avis_fail(string $msg): void {
+    $_SESSION['form_error'] = $msg;
+    header('Location: laisser_avis.php');
+    exit();
+}
+
+// Identifiant d'URL à partir du nom (accents retirés, jamais vide)
+function avis_slug(string $nom): string {
+    $t = preg_replace('~[^\pL\d]+~u', '-', $nom);
+    $t = @iconv('utf-8', 'us-ascii//TRANSLIT', $t) ?: $t;
+    $t = strtolower(trim(preg_replace('~[^-\w]+~', '', $t), '-'));
+    return $t !== '' ? $t : 'avis';
+}
+
+// --- Sécurité ---
+if (!csrf_valid($_POST['csrf_token'] ?? null)) {
+    avis_fail("Votre session a expiré. Merci de renvoyer le formulaire.");
+}
+if (!empty($_POST['hp_check_comment'])) {      // robot
+    header('Location: avis.php');
+    exit();
+}
+if (too_many_submissions($pdo, 'avis', 3, 1440)) {
+    avis_fail("Vous avez déjà envoyé plusieurs avis aujourd'hui. Merci de réessayer demain.");
+}
+if (empty($_POST['rgpd_consent'])) {
+    avis_fail("Merci d'autoriser la publication de votre témoignage pour continuer.");
+}
+
+// --- Données ---
+$nom         = trim($_POST['nom'] ?? '');
+$note        = filter_var($_POST['rating'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 5]]);
+$type_projet = $_POST['projet'] ?? '';
+$commentaire = trim($_POST['message'] ?? '');
+
+$types_ok = ['Terrasse', 'Cuisine', 'Escalier', 'Meuble sur-mesure', 'Plan de travail', 'Intérieur', 'Extérieur'];
+
+if (mb_strlen($nom) < 2 || mb_strlen($nom) > 80)        avis_fail("Merci d'indiquer le nom avec lequel signer votre témoignage.");
+if ($note === false || $note === null)                   avis_fail("Merci de choisir une note.");
+if (!in_array($type_projet, $types_ok, true))            avis_fail("Merci de choisir le type de réalisation.");
+if (mb_strlen($commentaire) < 10 || mb_strlen($commentaire) > 750) avis_fail("Votre témoignage doit faire entre 10 et 750 caractères.");
+
+// --- Photos (JPG, PNG ou WebP ; 10 max, 5 Mo chacune) ---
+$saved = [];
+$dir = __DIR__ . '/assets/img/avis/';
+$cleanup = function () use (&$saved, $dir) {
+    foreach ($saved as $f) { @unlink($dir . $f); }
+};
+
+if (isset($_FILES['photos']) && is_array($_FILES['photos']['name'])) {
+    $real = 0;
+    foreach ($_FILES['photos']['error'] as $err) {
+        if ($err !== UPLOAD_ERR_NO_FILE) $real++;
+    }
+    if ($real > 10) avis_fail("10 photos maximum.");
+
+    foreach ($_FILES['photos']['name'] as $i => $_) {
+        if ($_FILES['photos']['error'][$i] === UPLOAD_ERR_NO_FILE) continue;
+        $name = save_image(file_at($_FILES['photos'], $i), $dir, 'avis-');
+        if ($name === null) {
+            $cleanup();
+            avis_fail("Une photo a été refusée (JPG, PNG ou WebP, 5 Mo maximum).");
+        }
+        $saved[] = $name;
+    }
+}
+
+// --- Enregistrement (avis + photos en une seule transaction) ---
+try {
+    $pdo->beginTransaction();
+
+    $slug = avis_slug($nom);
+    $chk = $pdo->prepare("SELECT COUNT(*) FROM avis WHERE slug = ?");
+    $chk->execute([$slug]);
+    if ($chk->fetchColumn() > 0) {
+        $slug .= '-' . bin2hex(random_bytes(3));
+    }
+
+    $pdo->prepare("INSERT INTO avis (nom, commentaire, type_projet, note, statut, slug, date, est_detaille)
+                   VALUES (?, ?, ?, ?, 'attente', ?, NOW(), 0)")
+        ->execute([$nom, $commentaire, $type_projet, $note, $slug]);
+    $avis_id = (int)$pdo->lastInsertId();
+
+    foreach ($saved as $f) {
+        $pdo->prepare("INSERT INTO images_avis (avis_id, image_url) VALUES (?, ?)")
+            ->execute([$avis_id, 'assets/img/avis/' . $f]);
+    }
+    if ($saved) {
+        $pdo->prepare("UPDATE avis SET image = ? WHERE id = ?")
+            ->execute(['assets/img/avis/' . $saved[0], $avis_id]);
+    }
+
+    $pdo->commit();
+} catch (Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    $cleanup();
+    error_log('traitement_avis.php : ' . $e->getMessage());
+    avis_fail("Une erreur est survenue lors de l'enregistrement de votre avis. Merci de réessayer.");
+}
+
+record_submission($pdo, 'avis');
+record_consent($pdo, 'avis', 'avis:' . $slug);
+
+header('Location: avis.php?success=1');
+exit();

@@ -47,7 +47,7 @@ include('includes/header.php');
             </div>
             <div class="intro-featured-img">
                 <div class="image-frame">
-                    <img src="<?= $img_heritage ?>" alt="Détail technique Héritage">
+                    <img src="<?= htmlspecialchars($img_heritage) ?>" alt="Détail technique Héritage">
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@ include('includes/header.php');
                         <div class="image-box">
                             <img src="<?= htmlspecialchars($membre['photo']) ?>" alt="<?= htmlspecialchars($membre['nom']) ?>">
                             
-                            <a href="personne_page.php?id=<?= $membre['id'] ?>" class="btn-more">En savoir plus</a>
+                            <a href="personne_page.php?id=<?= (int)$membre['id'] ?>" class="btn-more">En savoir plus</a>
                         </div>
                         <h3><?= htmlspecialchars($membre['nom']) ?></h3>
                         <p><?= htmlspecialchars($membre['poste']) ?></p>
