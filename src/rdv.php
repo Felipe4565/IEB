@@ -1,7 +1,19 @@
-<?php include('includes/header.php'); ?>
+<?php
+$page_title = "Prendre rendez-vous | IEB";
+include('includes/header.php');
+
+$L = require __DIR__ . '/includes/legal.php';
+$e = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
+
+// URL Calendly valide uniquement si elle commence par https://calendly.com/
+$calendly = trim($L['calendly_url'] ?? '');
+$calendly_src = '';
+if (preg_match('~^https://calendly\.com/[A-Za-z0-9._/-]+$~', $calendly)) {
+    $calendly_src = $calendly . '?hide_event_type_details=1&background_color=080908&text_color=ffffff&primary_color=c5a67c';
+}
+?>
 
 <link rel="stylesheet" href="css/rdv.css">
-
 
 <main class="rdv-ultra-page">
     <section class="rdv-hero-split">
@@ -48,10 +60,43 @@
             <h2 class="serif-gold">PLANIFIER L'ENTRETIEN</h2>
             <p class="frame-subtitle">Sélectionnez le moment qui vous convient le mieux</p>
         </div>
-        
-        <div class="calendly-container-premium">
-            <iframe src="https://calendly.com/ton-lien?hide_event_type_details=1&hide_gdpr_banner=1&background_color=080908&text_color=ffffff&primary_color=c5a67c" width="100%" height="750" frameborder="0"></iframe>
-        </div>
+
+        <?php if ($calendly_src !== ''): ?>
+            <!-- Le calendrier n'est chargé qu'après un clic : aucun cookie tiers avant -->
+            <div class="calendly-container-premium" id="calendly-box">
+                <div style="padding: 60px 20px; text-align: center;">
+                    <p style="color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 25px; line-height: 1.7; font-size: 0.9rem;">
+                        Ce calendrier est fourni par Calendly, société américaine. En l'affichant, votre adresse IP est transmise à Calendly, qui peut déposer ses propres cookies.
+                        <a href="politique-confidentialite.php" style="color: #c5a67c; text-decoration: underline;">En savoir plus</a>
+                    </p>
+                    <button type="button" id="load-calendly" class="btn-submit-gold-full" style="border: 0; cursor: pointer;">AFFICHER LE CALENDRIER</button>
+                </div>
+            </div>
+            <script>
+                document.getElementById('load-calendly').addEventListener('click', function () {
+                    const box = document.getElementById('calendly-box');
+                    const f = document.createElement('iframe');
+                    f.src = <?= json_encode($calendly_src, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES) ?>;
+                    f.width = '100%';
+                    f.height = '750';
+                    f.style.border = '0';
+                    f.title = 'Prise de rendez-vous';
+                    box.innerHTML = '';
+                    box.appendChild(f);
+                });
+            </script>
+        <?php else: ?>
+            <div class="calendly-container-premium">
+                <div style="padding: 60px 20px; text-align: center;">
+                    <p style="color: rgba(255,255,255,0.75); max-width: 560px; margin: 0 auto 30px; line-height: 1.8;">
+                        Pour fixer un rendez-vous, appelez-nous au
+                        <a href="tel:<?= $e($L['telephone_href']) ?>" style="color: #c5a67c;"><?= $e($L['telephone']) ?></a>
+                        (<?= $e($L['horaires']) ?>) ou envoyez-nous une demande de devis : nous vous répondons sous 48 h.
+                    </p>
+                    <a href="contact.php" class="btn-submit-gold-full">DEMANDER UN DEVIS</a>
+                </div>
+            </div>
+        <?php endif; ?>
     </section>
 
     <section class="rdv-faq-teaser">

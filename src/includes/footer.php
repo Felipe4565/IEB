@@ -3,6 +3,7 @@
 $base_path = (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../' : '';
 
 require_once($base_path . 'includes/db.php');
+$L = require __DIR__ . '/legal.php';
 
 // Récupération de toutes les images liées au meuble interactif
 $query = $pdo->query("SELECT type, image_url FROM images_projets WHERE type LIKE 'home_meuble_%'");
@@ -80,15 +81,11 @@ $img_open3 = $meuble_images['home_meuble_open3'] ?? $base_path . 'assets/img/acc
 
         <div class="footer-legal-bar">
             <div class="contact-details">
-                <a href="tel:0621080622">06 21 08 06 22</a>
+                <a href="tel:<?= htmlspecialchars($L['telephone_href']) ?>"><?= htmlspecialchars($L['telephone']) ?></a>
                 <span class="dot-sep"></span>
-                <a href="mailto:interieurexterieurbois@orange.fr">interieurexterieurbois@orange.fr</a>
+                <a href="mailto:<?= htmlspecialchars($L['email']) ?>"><?= htmlspecialchars($L['email']) ?></a>
             </div>
             
-            <div class="payment-icons">
-                <img src="<?php echo $base_path; ?>assets/img/footer/visa-mastercard.jpg" alt="Paiement sécurisé" class="img-pay">
-            </div>
-
             <p class="copyright">
                 &copy; <?php echo date('Y'); ?> INTÉRIEUR EXTÉRIEUR BOIS | CRÉATION FELIPE ALVARIZA
             </p>
